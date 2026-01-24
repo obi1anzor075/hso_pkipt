@@ -1,15 +1,15 @@
-@* @model HsoPkipt.ViewModels.LoginVM;
+@model HsoPkipt.ViewModels.LoginVM;
 
 @{
   ViewBag.Title = "Вход";
 }
 
-<form asp-action="Login" asp-controller="Account" method="post" class="form_controller">
+<form asp-action="Login" asp-controller="Auth" method="post" class="form_controller">
   @Html.AntiForgeryToken()
 
   <div class="description">
     <h2>Войти</h2>
-    <h3>Нет аккаунта? <a href="@Url.Action("Register", "Account")" login hover data-style="link">Создать
+    <h3>Нет аккаунта? <a href="@Url.Action("Register", "Auth")" login hover data-style="link">Создать
         аккаунт</a></h3>
   </div>
   <div asp-validation-summary="ModelOnly" class="error_message_form"></div>
@@ -32,12 +32,4 @@
     </div>
   </div>
   <button type="submit" data-style="hyper-button" hover>Войти</button>
-  <div class="fogot-block">
-    <span>
-      Не удаётся войти?
-    </span>
-    <a asp-action="ForgotPassword" asp-controller="Account" hover data-style="link-underline">
-      Восстановить аккаунт
-    </a>
-  </div>
-</form> *@
+</form>
