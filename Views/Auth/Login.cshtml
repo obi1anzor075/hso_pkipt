@@ -1,0 +1,43 @@
+@* @model HsoPkipt.ViewModels.LoginVM;
+
+@{
+  ViewBag.Title = "Вход";
+}
+
+<form asp-action="Login" asp-controller="Account" method="post" class="form_controller">
+  @Html.AntiForgeryToken()
+
+  <div class="description">
+    <h2>Войти</h2>
+    <h3>Нет аккаунта? <a href="@Url.Action("Register", "Account")" login hover data-style="link">Создать
+        аккаунт</a></h3>
+  </div>
+  <div asp-validation-summary="ModelOnly" class="error_message_form"></div>
+  <div class="input_block">
+    <div class="email-block">
+      <span asp-validation-for="Email"></span>
+      <label asp-for="Email"></label>
+      <input asp-for="Email" id="email" type="text" required hover>
+    </div>
+    <div class="password-block">
+      <span asp-validation-for="Password"></span>
+      <label asp-for="Password">Пароль</label>
+      <input asp-for="Password" id="password" type="password" required hover>
+    </div>
+    <div class="checkbox_rm-block cb-container">
+      <label asp-for="RememberMe" hover>
+        <input asp-for="RememberMe" type="checkbox">
+        <span>Запомнить меня.</span>
+      </label>
+    </div>
+  </div>
+  <button type="submit" data-style="hyper-button" hover>Войти</button>
+  <div class="fogot-block">
+    <span>
+      Не удаётся войти?
+    </span>
+    <a asp-action="ForgotPassword" asp-controller="Account" hover data-style="link-underline">
+      Восстановить аккаунт
+    </a>
+  </div>
+</form> *@
