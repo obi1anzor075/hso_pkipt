@@ -1,0 +1,48 @@
+﻿@* @using Microsoft.AspNetCore.Identity
+@using HsoPkipt.Models;
+@inject UserManager<AppUser> UserManager
+@{
+    var userName = User?.Identity?.Name;
+    var user = await UserManager.GetUserAsync(User);
+}
+
+@if (User?.Identity?.IsAuthenticated is false)
+{
+    <nav class="__container">
+        <a href="" class="logo"></a>
+        <div class="center">
+            <a href="" class="link">Новости</a>
+            <a href="" class="link">О нас</a>
+            <a href="" class="link">Наши проекты</a>
+            <a href="" class="link">Мерч</a>
+        </div>
+        <a href="" class="profile"></a>
+    </nav>
+}
+else
+{
+    <nav class="__container">
+        <a href="" class="logo"></a>
+        <div class="center">
+            <a href="" class="link">Новости</a>
+            <a href="" class="link">О нас</a>
+            <a href="" class="link">Наши проекты</a>
+            <a href="" class="link">Мерч</a>
+        </div>
+        <a href="" class="profile"></a>
+    </nav>
+} *@
+
+<nav class="__container">
+    <a href="" class="horizontal-logo"></a>
+    <div class="center">
+        <a href="" class="link">Новости</a>
+        <div class="line"></div>
+        <a href="" class="link">О нас</a>
+        <div class="line"></div>
+        <a href="" class="link">Наши проекты</a>
+        <div class="line"></div>
+        <a href="" class="link">Мерч</a>
+    </div>
+    <a href="" class="profile"></a>
+</nav>
