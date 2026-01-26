@@ -1,0 +1,111 @@
+main.home {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .__container {
+    margin-top: 60px;
+    max-width: 1440px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+
+    .banner {
+      max-width: 1400px;
+      margin-inline: auto;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .img {
+        width: 60vw;
+        aspect-ratio: 1/2;
+        max-width: 1025px;
+        min-width: 300px;
+        max-height: 515px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-image: url(../../assets/img/foto_1.png);
+        position: relative;
+
+        &::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: var(--shadow-reco);
+        }
+
+        .title {
+          z-index: 1;
+          font-weight: var(--fz-smbold);
+          font-size: calc(var(--fz-h1) * 0.8);
+          color: var(--theme-color);
+        }
+      }
+
+      button.btn {
+        background-color: var(--second-color);
+        color: var(--theme-color);
+        font-weight: var(--fz-smbold);
+        padding: 15px 30px;
+        display: inline-flex;
+        font-size: var(--fz-h3);
+        transition: var(--t-time);
+
+        &:hover {
+          background-color: var(--second-color-hover);
+        }
+      }
+    }
+
+    .description {
+      margin-top: 50px;
+      font-size: var(--fz-h1);
+      font-weight: var(--fw-medium);
+    }
+
+    .news-block {
+      display: flex;
+      margin-top: 100px;
+      max-width: 1400px;
+      width: 100%;
+      margin-inline: auto;
+      position: relative;
+
+      .arrow-controller {
+        position: absolute;
+        top: 0;
+        display: flex;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-image: url(../../assets/icon/arrow.svg);
+        width: 6px;
+        height: 100%;
+      }
+
+      .wrapper-slide {
+        .card-news {
+          img {
+            width: var(--news-size);
+          }
+
+          .title {
+
+          }
+        }
+      }
+    }
+  }
+}

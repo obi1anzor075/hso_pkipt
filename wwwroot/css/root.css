@@ -27,4 +27,5 @@ html[color] {
   --theme-color: #FFFFFF;
   --accent-color: #41245C;
   --second-color: #F9BB8A;
+  --second-color-hover: #f69c57;
 }

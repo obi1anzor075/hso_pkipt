@@ -21,9 +21,10 @@
 body {
   overflow-x: hidden;
   * {
+    color: var(--accent-color);
     font-family: "Montserrat", sans-serif;
     font-weight: 400;
-    font-size: var(--fz-p);
+    font-size: var(--fz-text);
     cursor: default;
   }
 }

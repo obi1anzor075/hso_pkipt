@@ -77,3 +77,97 @@ header.component {
     }
   }
 }
+
+footer.component {
+  display: flex;
+  width: 100%;
+  background: var(--accent-color);
+  justify-content: center;
+  align-items: center;
+
+  .__container {
+    max-width: 1440px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+
+    .managers {
+      display: flex;
+      flex-direction: column;
+
+      .content {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        p {
+          font-size: var(--fz-text);
+          font-weight: var(--fw-smbold);
+          color: var(--theme-color);
+        }
+        &:last-child {
+          margin-top: 15px;
+        }
+      }
+    }
+    address.about {
+      display: flex;
+      flex-direction: column;
+      height: 162px;
+      justify-content: space-between;
+      .top {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        p {
+          font-size: var(--fz-text);
+          font-weight: var(--fw-smbold);
+          font-style: normal;
+          color: var(--theme-color);
+
+          a {
+            font-size: var(--fz-text);
+            font-weight: var(--fw-smbold);
+            font-style: normal;
+            color: var(--theme-color);
+          }
+        }
+      }
+      .contacts {
+        display: flex;
+        gap: 30px;
+        a {
+          display: inline-block;
+          width: var(--fz-h2);
+          height: var(--fz-h2);
+          mask-position: center;
+          mask-repeat: no-repeat;
+          mask-size: contain;
+          background-color: var(--theme-color);
+        }
+
+        a.vk {
+          mask-image: url(../assets/icon/vk.svg);
+        }
+
+        a.tg {
+          mask-image: url(../assets/icon/tg.svg);
+        }
+      }
+    }
+    .logo {
+      overflow: hidden;
+      display: flex;
+
+      .vertical-logo {
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-image: url(../assets/icon/vertical-logo.png);
+        width: 230px;
+        height: 300px;
+      }
+    }
+  }
+}
