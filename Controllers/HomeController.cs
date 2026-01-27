@@ -1,3 +1,4 @@
+using HsoPkipt.Services.Interfaces;
 using HsoPkipt.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -6,9 +7,17 @@ namespace HsoPkipt.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly INewsService _newsService;
+
+        public HomeController(INewsService   newsService)
         {
-            return View();
+            _newsService = newsService;
+        }
+        public async Task<IActionResult> Index()
+        {
+            var latestNews = await _newsService.GetLatestAsync();
+
+            return View(latestNews);
         }
 
         public IActionResult Privacy()

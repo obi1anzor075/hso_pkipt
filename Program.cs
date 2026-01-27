@@ -1,5 +1,7 @@
 using HsoPkipt.Data;
 using HsoPkipt.Identity;
+using HsoPkipt.Repositories;
+using HsoPkipt.Repositories.Interfaces;
 using HsoPkipt.Services;
 using HsoPkipt.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -40,8 +42,12 @@ builder.Services.AddSession(options =>
     options.Cookie.SameSite = SameSiteMode.Lax;
 });
 
+// Repositories
+builder.Services.AddScoped<INewsRepository, NewsRepository>();
+
 // Add Services
 builder.Services.AddScoped<IIdentityService, IdentityService>();
+builder.Services.AddScoped<INewsService, NewsService>();
 
 var app = builder.Build();
 
