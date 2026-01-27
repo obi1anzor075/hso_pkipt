@@ -15,12 +15,7 @@ builder.Services.AddControllersWithViews();
 // Add db context
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("Sql");
-
-    options.UseMySql(
-        connectionString,
-        ServerVersion.AutoDetect(connectionString)
-    );
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres"));
 });
 
 // Add identity
