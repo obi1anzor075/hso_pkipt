@@ -1,8 +1,32 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Главная страница";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<main class="home">
+    <div class="__container">
+        <div class="banner">
+            <div class="img">
+                <h1 class="title">Вступай в лучшие объединения города!</h1>
+            </div>
+            <button class="btn">
+                Подать заявку!
+            </button>
+        </div>
+        <h2 class="description">
+            Студенчсеские отряды ИТ–колледжа начались с Студенческого педагогического отряда “Созвездие” появившегося 26
+            января 2016 года. Текст…
+        </h2>
+        <div class="news-block">
+            <button class="arrow-controller" data-fn="slide-prev">‹</button>
+            <div class="wrapper-slide">
+                <div class="card-news">
+                    <img src="~/img/foto_2.png" alt="news">
+                    <p class="title">
+
+                    </p>
+                </div>
+            </div>
+            <button class="arrow-controller" data-fn="slide-next">›</button>
+        </div>
+    </div>
+</main>

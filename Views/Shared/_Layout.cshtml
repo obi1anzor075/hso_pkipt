@@ -10,13 +10,11 @@
 </head>
 <body>
     <header>
-        
-    </header>
-    <main>
-        @RenderBody()
-    </main>
-    <footer>
 
+    </header>
+        @RenderBody()
+    <footer class="component">
+        <partial name="_Footer" />
     </footer>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
