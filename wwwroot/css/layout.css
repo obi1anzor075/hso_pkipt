@@ -4,7 +4,7 @@ header.component {
   justify-content: center;
   align-items: center;
   background: var(--accent-color);
-  padding-block: 10px;
+  padding-block: 11px;
 
   .__container {
     display: flex;
@@ -56,14 +56,14 @@ header.component {
         display: inline-block;
         width: 2px;
         border-radius: 15px;
-        height: 40px;
+        height: 30px;
         background-color: var(--theme-color);
       }
     }
 
     .profile {
-      width: 77px;
-      height: 77px;
+      width: 46px;
+      height: 46px;
       background-position: center;
       background-repeat: no-repeat;
       background-size: contain;
