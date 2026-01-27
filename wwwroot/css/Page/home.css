@@ -91,6 +91,7 @@ main.home {
         background-repeat: no-repeat;
         background-size: contain;
         background-image: url(../../assets/icon/arrow.svg);
+        color: transparent;
         width: 6px;
         height: 100%;
       }

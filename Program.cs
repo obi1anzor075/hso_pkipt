@@ -13,12 +13,7 @@ builder.Services.AddControllersWithViews();
 // Add db context
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("Sql");
-
-    options.UseMySql(
-        connectionString,
-        ServerVersion.AutoDetect(connectionString)
-    );
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Sql"));
 });
 
 // Add identity
