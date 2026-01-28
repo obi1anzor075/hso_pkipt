@@ -24,7 +24,7 @@ main.home {
       justify-content: space-between;
 
       .img {
-        width: 60vw;
+        width: 65vw;
         aspect-ratio: 1/2;
         max-width: 1025px;
         min-width: 300px;

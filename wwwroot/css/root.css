@@ -1,13 +1,13 @@
 html[scss] {
-  --fz-text: 20px;
-  --fz-h1: 48px;
+  --fz-text: 16px;
+  --fz-h1: 36px;
   --fz-h2: 36px;
   --fz-h3: 28px;
   --fz-h4: 22px;
 
   --container-size: 1440px;
-  --logo-horizontal-size: 360px;
-  --logo-vertical-size: 120px;
+  --logo-horizontal-size: 231px;
+  --logo-vertical-size: 78px;
 
   --t-time: 0.3s ease;
   --hover: translateY(-3px);
