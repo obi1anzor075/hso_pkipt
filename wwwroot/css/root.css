@@ -18,9 +18,9 @@ html[scss] {
   --fw-bold: 700;
 
   --shadow-reco: #41245c66;
+  --shadow-news: #ffffffe6;
 
   --news-shadow-size: 70%;
-  --news-size: 675px;
 }
 
 html[color] {

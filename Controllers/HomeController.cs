@@ -15,12 +15,12 @@ namespace HsoPkipt.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var latestNews = await _newsService.GetLatestAsync();
+            var latestNews = await _newsService.GetLatestAsync(5);
 
             return View(latestNews);
         }
 
-        public IActionResult Privacy()
+        public IActionResult News()
         {
             return View();
         }

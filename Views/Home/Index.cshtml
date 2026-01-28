@@ -1,4 +1,7 @@
-﻿@{
+﻿@using HsoPkipt.ViewModels.News
+@model IEnumerable<NewsItemVM>
+
+@{
     ViewData["Title"] = "Главная страница";
 }
 
@@ -17,16 +20,40 @@
             января 2016 года. Текст…
         </h2>
         <div class="news-block">
-            <button class="arrow-controller" data-fn="slide-prev">‹</button>
-            <div class="wrapper-slide">
-                <div class="card-news">
-                    <img src="~/img/foto_2.png" alt="news">
-                    <p class="title">
+            <button class="arrow-controller prev" data-fn="slide-prev">‹</button>
 
-                    </p>
+            <div class="wrapper-slide">
+                <div class="track">
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var news in Model)
+                        {
+                            <div class="card-news">
+                                <img src="@(news.ImageUrl ?? Url.Content("~/img/foto_2.png"))" alt="@news.Title">
+                                <p class="title">@news.Title</p>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="card-news">
+                            <img src="~/assets/img/err.best_news_home.png">
+                            <p class="title">Скоро здесь появятся новости</p>
+                        </div>
+
+                        <div class="card-news">
+                            <img src="~/assets/img/err.best_news_home.png">
+                            <p class="title">Следите за обновлениями</p>
+                        </div>
+                    }
                 </div>
             </div>
-            <button class="arrow-controller" data-fn="slide-next">›</button>
+
+            <button class="arrow-controller next" data-fn="slide-next">›</button>
         </div>
     </div>
 </main>
+
+@section Scripts {
+    <script src="@(Url.Content("~/js/slider-function.js"))"></script>
+}

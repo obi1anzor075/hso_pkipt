@@ -13,6 +13,7 @@ header.component {
     max-width: var(--container-size);
     width: 100%;
     justify-content: space-between;
+    padding-inline: 10px;
     align-items: center;
 
     a.horizontal-logo {
@@ -91,6 +92,7 @@ footer.component {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding-inline: 10px;
     overflow: hidden;
 
     .managers {

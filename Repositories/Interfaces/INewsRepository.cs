@@ -4,7 +4,7 @@ namespace HsoPkipt.Repositories.Interfaces;
 
 public interface INewsRepository
 {
-    Task<NewsItem> GetLatestAsync();
+    Task<List<NewsItem>> GetLatestAsync(int count = 1);
     Task<List<NewsItem>> GetRangeAsync(int start, int take);
     Task<NewsItem> GetByIdAsync(Guid id);
     Task UpdateAsync(NewsItem item);

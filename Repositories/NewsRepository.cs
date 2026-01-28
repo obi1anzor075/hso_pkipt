@@ -35,11 +35,12 @@ public class NewsRepository : INewsRepository
         return await _context.News.FirstOrDefaultAsync(n => n.Id == id);
     }
 
-    public async Task<NewsItem> GetLatestAsync()
+    public async Task<List<NewsItem>> GetLatestAsync(int count = 1)
     {
         return await _context.News
             .OrderByDescending(n => n.CreatedAt)
-            .FirstOrDefaultAsync();
+            .Take(count)
+            .ToListAsync();
     }
 
     public async Task<List<NewsItem>> GetRangeAsync(int start, int take)

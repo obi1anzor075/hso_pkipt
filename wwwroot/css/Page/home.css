@@ -8,10 +8,10 @@ main.home {
   .__container {
     margin-top: 60px;
     max-width: 1440px;
+    padding-inline: 10px;
     width: 100%;
     display: flex;
     flex-direction: column;
-
 
     .banner {
       max-width: 1400px;
@@ -19,6 +19,8 @@ main.home {
       width: 100%;
       display: flex;
       align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
       justify-content: space-between;
 
       .img {
@@ -71,41 +73,79 @@ main.home {
 
     .description {
       margin-top: 50px;
-      font-size: var(--fz-h1);
+      font-size: calc(var(--fz-h1) * 0.9);
       font-weight: var(--fw-medium);
     }
 
     .news-block {
-      display: flex;
-      margin-top: 100px;
+      position: relative;
       max-width: 1400px;
-      width: 100%;
-      margin-inline: auto;
+      margin: 100px auto;
+    }
+
+    .wrapper-slide {
+      overflow: hidden;
+    }
+
+    .track {
+      display: flex;
+      gap: 50px;
+      transition: transform 0.5s ease;
+    }
+
+    .card-news {
+      flex: 0 0 calc(50% - 25px);
+      overflow: hidden;
       position: relative;
 
-      .arrow-controller {
+      .title {
+        padding: 10px;
+        font-weight: var(--fw-bold);
         position: absolute;
-        top: 0;
-        display: flex;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
-        background-image: url(../../assets/icon/arrow.svg);
-        color: transparent;
-        width: 6px;
+        width: var(--news-shadow-size);
         height: 100%;
+        top: 0;
+        right: 0;
+        transform: translateX(0%);
+        transition: 0.5s ease;
+        color: var(--accent-color);
+        background-color: var(--shadow-news);
       }
 
-      .wrapper-slide {
-        .card-news {
-          img {
-            width: var(--news-size);
-          }
-
-          .title {
-
-          }
+      &:hover {
+        .title {
+          transform: translateX(100%);
         }
+      }
+    }
+
+    .card-news img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+    }
+
+    .arrow-controller {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 40px;
+      font-size: 48px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 5;
+
+      &.prev {
+        left: -50px;
+      }
+      &.next {
+        right: -50px;
+      }
+
+      &:disabled {
+        opacity: 0.3;
+        cursor: default;
       }
     }
   }

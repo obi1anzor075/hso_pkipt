@@ -13,13 +13,13 @@ public class NewsService : INewsService
     {
         _newsRepository = newsRepository;
     }
-    public async Task<NewsItemVM> GetLatestAsync(int count = 5)
+    public async Task<IReadOnlyList<NewsItemVM>> GetLatestAsync(int count = 5)
     {
         var latestNews = await _newsRepository.GetLatestAsync();
 
         if (latestNews is null)
-            return new NewsItemVM();
+            return new List<NewsItemVM>();
 
-        return latestNews.ToViewModel();
+        return latestNews.Select(ni => ni.ToViewModel()).ToList();
     }
 }

@@ -4,5 +4,5 @@ namespace HsoPkipt.Services.Interfaces;
 
 public interface INewsService
 {
-    Task<NewsItemVM> GetLatestAsync(int count = 5);
+    Task<IReadOnlyList<NewsItemVM>> GetLatestAsync(int count = 5);
 }
