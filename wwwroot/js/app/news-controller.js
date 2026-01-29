@@ -53,14 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const html = await response.text();
 
-      // Создаем временный контейнер для парсинга HTML
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = html;
 
-      // Получаем новые карточки
       const newCards = tempDiv.querySelectorAll('.card-news');
 
-      // Если новых карточек нет, скрываем кнопку
       if (newCards.length === 0) {
         if (loadMoreContainer) {
           loadMoreContainer.classList.add('hidden');
@@ -74,14 +71,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // Добавляем новые карточки в сетку с небольшой анимацией
       newCards.forEach((card, index) => {
         setTimeout(() => {
           card.style.opacity = '0';
           card.style.transform = 'translateY(20px)';
           newsGrid.appendChild(card);
 
-          // Анимация появления
           setTimeout(() => {
             card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
             card.style.opacity = '1';
@@ -90,7 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, index * 50);
       });
 
-      // Если загружено меньше карточек, чем ITEMS_PER_PAGE, значит это последняя страница
       if (newCards.length < ITEMS_PER_PAGE) {
         setTimeout(() => {
           if (loadMoreContainer) {
@@ -99,7 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, newCards.length * 50 + 500);
       }
 
-      // Добавляем обработчики клика на новые карточки
       setTimeout(() => {
         addCardClickHandlers();
       }, newCards.length * 50 + 100);
