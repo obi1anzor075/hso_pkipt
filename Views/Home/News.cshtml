@@ -19,7 +19,6 @@
 
                     var cardClass = "card-news";
 
-                    // Определяем класс карточки
                     if (!hasTitle && !hasDescription)
                     {
                         cardClass += " no-content";
@@ -47,29 +46,21 @@
             }
             else
             {
-                <!-- Заглушки, если новостей нет -->
                 <div class="card-news not-load">
-                    <img src="~/assets/icon/err.no-load.svg" alt="Нет новостей">
-                    <div class="card-text-wrapper">
-                        <p class="card-title">Скоро здесь появятся новости</p>
-                    </div>
-                </div>
-                <div class="card-news not-load">
-                    <img src="~/assets/icon/err.no-load.svg" alt="Следите за обновлениями">
-                    <div class="card-text-wrapper">
-                        <p class="card-title">Следите за обновлениями</p>
-                    </div>
+                    <img src="~/assets/icon/err.no-load.svg" alt="">
+                    <div class="card-text-wrapper"></div>
                 </div>
                 <div class="card-news not-load">
                     <img src="~/assets/icon/err.no-load.svg" alt="">
-                    <div class="card-text-wrapper">
-                        <p class="card-title">В разработке</p>
-                    </div>
+                    <div class="card-text-wrapper"></div>
+                </div>
+                <div class="card-news not-load">
+                    <img src="~/assets/icon/err.no-load.svg" alt="">
+                    <div class="card-text-wrapper"></div>
                 </div>
             }
         </div>
 
-        <!-- Кнопка "Показать еще" -->
         <div class="load-more-container" id="loadMoreContainer">
             <button class="btn-load-more" id="btnLoadMore">
                 Показать еще
