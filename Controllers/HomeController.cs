@@ -61,5 +61,10 @@ namespace HsoPkipt.Controllers
 
             return View(news);
         }
+
+        public IActionResult OurProject()
+        {
+            return View();
+        }
     }
 }

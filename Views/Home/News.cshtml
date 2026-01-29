@@ -12,7 +12,7 @@
         <div class="news-grid" id="newsGrid">
             @if (Model.NewsItems.Any())
             {
-                foreach (var news in Model)
+                foreach (var news in Model.NewsItems)
                 {
                     var hasTitle = !string.IsNullOrWhiteSpace(news.Title);
                     var hasDescription = !string.IsNullOrWhiteSpace(news.ShortDescription);
