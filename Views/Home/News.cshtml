@@ -1,5 +1,5 @@
 ﻿@using HsoPkipt.ViewModels.News
-@model IEnumerable<NewsItemVM>
+@model NewsIndexVM
 
 @{
     ViewData["Title"] = "Новости";
@@ -8,10 +8,11 @@
 <main class="news-page">
     <div class="news-container">
         <h2 class="news-title">Новости</h2>
+
         <div class="news-grid" id="newsGrid">
-            @if (Model != null && Model.Any())
+            @if (Model.NewsItems.Any())
             {
-                foreach (var news in Model)
+                foreach (var news in Model.NewsItems)
                 {
                     var hasTitle = !string.IsNullOrWhiteSpace(news.Title);
                     var hasDescription = !string.IsNullOrWhiteSpace(news.ShortDescription);
@@ -61,15 +62,18 @@
             }
         </div>
 
-        <div class="load-more-container" id="loadMoreContainer">
-            <button class="btn-load-more" id="btnLoadMore">
-                Показать еще
-                <span class="loading-spinner hidden" id="loadingSpinner"></span>
-            </button>
-        </div>
+        @if (Model.HasNextPage)
+        {
+            <div class="load-more-container" id="loadMoreContainer">
+                <button class="btn-load-more" id="btnLoadMore">
+                    Показать еще
+                    <span class="loading-spinner hidden" id="loadingSpinner"></span>
+                </button>
+            </div>
+        }
     </div>
 </main>
 
 @section Scripts {
-    <script src="@(Url.Content("~/js/app/news-controller.js"))"></script>
+    <script src="~/js/app/news-controller.js"></script>
 }
