@@ -12,13 +12,8 @@ public static class NewsMapper
             Id = entity.Id,
             Title = entity.Title,
             ShortDescription = entity.ShortDescription,
-            Content = entity.Content,
             ImageUrl = entity.ImageUrl,
             CreatedAt = entity.CreatedAt,
-            UpdatedAt = entity.UpdatedAt,
-            IsPublished = entity.IsPublished,
-            ViewCount = entity.ViewCount,
-            Tags = entity.Tags.Select(t => t.Name).ToList()
         };
     }
 }

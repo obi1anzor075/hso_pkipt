@@ -51,6 +51,24 @@ public class NewsRepository : INewsRepository
             .ToListAsync();
     }
 
+    public async Task<(List<NewsItem> items, int count)> GetPagedAsync(int pageNumber, int pageSize)
+    {
+        var query = _context.News
+            .AsNoTracking()
+            .Where(n => n.IsPublished);
+
+        int totalCount = query.Count();
+
+        var items = await query
+            .Include(n => n.Tags)
+            .OrderByDescending(n => n.CreatedAt)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (items, totalCount);
+    }
+
     public async Task UpdateAsync(NewsItem item)
     {
         _context.News.Update(item);

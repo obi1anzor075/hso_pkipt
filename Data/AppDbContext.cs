@@ -23,73 +23,64 @@ namespace HsoPkipt.Models
             );
 
             // ---- Сидируем Новости ----
-            var news1Id = Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
-            var news2Id = Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaab");
-            var news3Id = Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaac");
+            var baseDate = new DateTime(2026, 1, 29, 12, 0, 0, DateTimeKind.Utc);
+
+            var newsIds = new[]
+            {
+                Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa1"),
+                Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa2"),
+                Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa3"),
+                Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa4"),
+                Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa5"),
+                Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa6"),
+                Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa7"),
+                Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa8"),
+                Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa9"),
+                Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa0a"),
+                Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa0b"),
+                Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa0c"),
+                Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa0d"),
+                Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa0e"),
+                Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa0f")
+            };
 
             modelBuilder.Entity<NewsItem>().HasData(
-                new
+                newsIds.Select((id, i) => new
                 {
-                    Id = news1Id,
-                    Title = "Новая игра вышла",
+                    Id = id,
+                    Title = $"Новость #{i + 1}",
                     ShortDescription = "Краткое описание",
                     Content = "Полное содержание",
-                    ImageUrl = "/assets/img/foto_1.png",
-                    CreatedAt = new DateTime(2026, 1, 29, 12, 0, 0, DateTimeKind.Utc),
-                    UpdatedAt = new DateTime(2026, 1, 29, 12, 0, 0, DateTimeKind.Utc),
+                    ImageUrl = $"/assets/img/foto_1.png",
+                    CreatedAt = baseDate.AddDays(-i),
+                    UpdatedAt = baseDate.AddDays(-i),
                     IsPublished = true,
                     ViewCount = 0
-                },
-                new
-                {
-                    Id = news2Id,
-                    Title = "Новая игра вышла 2", // Изменил название для различия
-                    ShortDescription = "Краткое описание",
-                    Content = "Полное содержание",
-                    ImageUrl = "/assets/img/foto_2.png",
-                    CreatedAt = new DateTime(2026, 1, 29, 12, 0, 0, DateTimeKind.Utc),
-                    UpdatedAt = new DateTime(2026, 1, 29, 12, 0, 0, DateTimeKind.Utc),
-                    IsPublished = true,
-                    ViewCount = 0
-                },
-                new
-                {
-                    Id = news3Id,
-                    Title = "Ошибка в новости",
-                    ShortDescription = "Краткое описание",
-                    Content = "Полное содержание",
-                    ImageUrl = "/assets/img/err.best_news_home.png",
-                    CreatedAt = new DateTime(2026, 1, 29, 12, 0, 0, DateTimeKind.Utc),
-                    UpdatedAt = new DateTime(2026, 1, 29, 12, 0, 0, DateTimeKind.Utc),
-                    IsPublished = true,
-                    ViewCount = 0
-                }
+                }).ToArray()
             );
 
             // --- Many-to-Many конфигурация и сидинг ---
-            // Поскольку класса NewsItemTag нет, мы настраиваем связь через Fluent API
             modelBuilder.Entity<NewsItem>()
                 .HasMany(n => n.Tags)
                 .WithMany(t => t.News)
                 .UsingEntity<Dictionary<string, object>>(
-                    "NewsItemTag", // Имя скрытой таблицы в БД
-
-                    // Настройка "правой" стороны (Tag)
+                    "NewsItemTag",
                     j => j.HasOne<Tag>().WithMany().HasForeignKey("TagId"),
-
-                    // Настройка "левой" стороны (NewsItem)
                     j => j.HasOne<NewsItem>().WithMany().HasForeignKey("NewsItemId"),
-
-                    // Настройка самой таблицы связи и наполнение данными (Seed)
                     j =>
                     {
-                        j.HasKey("NewsItemId", "TagId"); // Составной ключ
+                        j.HasKey("NewsItemId", "TagId");
 
                         j.HasData(
-                            // Здесь мы используем анонимные объекты.
-                            // Имена свойств должны совпадать с HasForeignKey выше.
-                            new { NewsItemId = news1Id, TagId = tag2Id }, // Связываем 1 новость с тегом "Игры"
-                            new { NewsItemId = news1Id, TagId = tag1Id }  // Связываем 1 новость с тегом "Технологии" (для примера)
+                            // Игры
+                            new { NewsItemId = newsIds[0], TagId = tag2Id },
+                            new { NewsItemId = newsIds[1], TagId = tag2Id },
+                            new { NewsItemId = newsIds[2], TagId = tag2Id },
+
+                            // Технологии
+                            new { NewsItemId = newsIds[3], TagId = tag1Id },
+                            new { NewsItemId = newsIds[4], TagId = tag1Id },
+                            new { NewsItemId = newsIds[5], TagId = tag1Id }
                         );
                     }
                 );

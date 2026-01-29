@@ -1,4 +1,6 @@
-﻿using HsoPkipt.Mappers;
+﻿using HsoPkipt.Common;
+using HsoPkipt.Mappers;
+using HsoPkipt.Models;
 using HsoPkipt.Repositories.Interfaces;
 using HsoPkipt.Services.Interfaces;
 using HsoPkipt.ViewModels.News;
@@ -21,5 +23,16 @@ public class NewsService : INewsService
             return new List<NewsItemVM>();
 
         return latestNews.Select(ni => ni.ToViewModel()).ToList();
+    }
+
+    public async Task<PagedResult<NewsItem>> GetNewsPageAsync(int pageNumber, int pageSize)
+    {
+        // Страница и ее размер не может быть меньше 1
+        if (pageNumber < 1) pageNumber = 1;
+        if (pageSize < 1) pageSize = 10;
+
+        var (items, count) = await _newsRepository.GetPagedAsync(pageNumber, pageSize);
+
+        return new PagedResult<NewsItem>(items, count, pageNumber, pageSize);
     }
 }
