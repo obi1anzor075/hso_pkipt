@@ -1,31 +1,64 @@
+@* @using HsoPkipt.ViewModels.Project
+@model IEnumerable<ProjectItemVM> *@
+
 @{
     ViewData["Title"] = "Наши проекты";
 }
 
-<main class="project-page">
-  <div class="project-container">
-    <h2 class="project-title">Новости</h2>
-
-    <div class="project-grid">
-            @for (int i = 1; i <= 2; i++)
+<main class="news-page">
+    <div class="news-container">
+        <h2 class="news-title">Наши проекты</h2>
+        <div class="news-grid" id="newsGrid">
+            @if (Model != null && Model.Any())
             {
-        <div class="card-project">
-                    <img src="~/assets/img/foto_2.png" alt="Новость @i">
-                    <p class="card-title">Заголовок новости @i</p>
+                foreach (var project in Model)
+                {
+                    var hasTitle = !string.IsNullOrWhiteSpace(project.Title);
+                    var hasDescription = !string.IsNullOrWhiteSpace(project.ShortDescription);
+                    var hasImage = !string.IsNullOrWhiteSpace(project.ImageUrl);
+
+                    var cardClass = "card-project";
+
+                    if (!hasTitle && !hasDescription)
+                    {
+                        cardClass += " no-content";
+                    }
+                    else if (!hasImage)
+                    {
+                        cardClass += " no-image";
+                    }
+
+                    <div class="@cardClass" data-project-id="@project.Id">
+                        <img src="@(hasImage? project.ImageUrl: Url.Content("~/assets/icon/err.no-image.svg"))"
+                            alt="@(hasTitle? project.Title: "Новость")">
+                        <div class="card-text-wrapper">
+                            @if (hasTitle)
+                            {
+                                <p class="card-title">@project.Title</p>
+                            }
+                            @if (hasDescription)
+                            {
+                                <p class="card-description">@project.ShortDescription</p>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="card-news not-load">
+                    <img src="~/assets/icon/err.no-load.svg" alt="">
+                    <div class="card-text-wrapper"></div>
+                </div>
+                <div class="card-news not-load">
+                    <img src="~/assets/icon/err.no-load.svg" alt="">
+                    <div class="card-text-wrapper"></div>
+                </div>
+                <div class="card-news not-load">
+                    <img src="~/assets/icon/err.no-load.svg" alt="">
+                    <div class="card-text-wrapper"></div>
                 </div>
             }
-      <div class="card-project no-title">
-                <img src="~/assets/img/foto_2.png" alt="Новость">
-                <p class="card-title">Заголовок новости</p>
-            </div>
-      <div class="card-project no-image">
-                <img src="~/assets/icon/err.no-image.svg" alt="Новость">
-                <p class="card-title">Заголовок новости</p>
-            </div>
-            <div class="card-news no-load">
-                <img src="~/assets/icon/err.no-load.svg" alt="">
-                <p class="card-title">Заголовок новости</p>
-            </div>
         </div>
     </div>
 </main>
