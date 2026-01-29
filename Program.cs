@@ -36,10 +36,12 @@ builder.Services.AddSession(options =>
 
 // Repositories
 builder.Services.AddScoped<INewsRepository, NewsRepository>();
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 
 // Add Services
 builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddScoped<INewsService, NewsService>();
+builder.Services.AddScoped<IProjectService, ProjectService>();
 
 var app = builder.Build();
 

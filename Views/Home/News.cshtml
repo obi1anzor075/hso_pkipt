@@ -1,5 +1,5 @@
 ﻿@using HsoPkipt.ViewModels.News
-@model NewsIndexVM
+@model NewsVM
 
 @{
     ViewData["Title"] = "Новости";
@@ -31,7 +31,8 @@
 
                     <div class="@cardClass" data-news-id="@news.Id">
                         <img src="@(hasImage? news.ImageUrl: Url.Content("~/assets/icon/err.no-image.svg"))"
-                            alt="@(hasTitle? news.Title: "Новость")">
+                             alt="@(hasTitle? news.Title: "Новость")" />
+
                         <div class="card-text-wrapper">
                             @if (hasTitle)
                             {
@@ -47,33 +48,34 @@
             }
             else
             {
-                <div class="card-news not-load">
-                    <img src="~/assets/icon/err.no-load.svg" alt="">
-                    <div class="card-text-wrapper"></div>
-                </div>
-                <div class="card-news not-load">
-                    <img src="~/assets/icon/err.no-load.svg" alt="">
-                    <div class="card-text-wrapper"></div>
-                </div>
-                <div class="card-news not-load">
-                    <img src="~/assets/icon/err.no-load.svg" alt="">
-                    <div class="card-text-wrapper"></div>
-                </div>
+                @* Заглушки *@
+                for (int i = 0; i < 3; i++)
+                {
+                    <div class="card-news not-load">
+                        <img src="~/assets/icon/err.no-load.svg" alt="">
+                        <div class="card-text-wrapper"></div>
+                    </div>
+                }
             }
         </div>
 
-        @if (Model.HasNextPage)
-        {
-            <div class="load-more-container" id="loadMoreContainer">
-                <button class="btn-load-more" id="btnLoadMore">
-                    Показать еще
-                    <span class="loading-spinner hidden" id="loadingSpinner"></span>
-                </button>
-            </div>
-        }
+        <div class="load-more-container" id="loadMoreContainer">
+            <button class="btn-load-more" id="btnLoadMore" type="button">
+                Показать еще
+                <span class="loading-spinner hidden" id="loadingSpinner"></span>
+            </button>
+        </div>
     </div>
 </main>
 
-@section Scripts {
+@section Scripts
+{
+    <script>
+        // передача текущий в js
+        window.newsPage = {
+            currentPage: @Model.PageNumber
+        };
+    </script>
+
     <script src="~/js/app/news-controller.js"></script>
 }

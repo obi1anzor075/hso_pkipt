@@ -1,0 +1,80 @@
+﻿@using HsoPkipt.ViewModels.Projects
+@model ProjectsVM
+
+@{
+    ViewData["Title"] = "Новости";
+}
+
+<main class="project-page">
+    <div class="project-container">
+        <h2 class="project-title">Наши проекты</h2>
+
+        <div class="project-grid" id="projectsGrid">
+            @if (Model.ProjectItems.Any())
+            {
+                foreach (var projects in Model.ProjectItems)
+                {
+                    var hasTitle = !string.IsNullOrWhiteSpace(projects.Title);
+                    var hasDescription = !string.IsNullOrWhiteSpace(projects.ShortDescription);
+                    var hasImage = !string.IsNullOrWhiteSpace(projects.ImageUrl);
+
+                    var cardClass = "card-project";
+
+                    if (!hasTitle && !hasDescription)
+                    {
+                        cardClass += " no-content";
+                    }
+                    else if (!hasImage)
+                    {
+                        cardClass += " no-image";
+                    }
+
+                    <div class="@cardClass" data-project-id="@projects.Id">
+                        <img src="@(hasImage? projects.ImageUrl: Url.Content("~/assets/icon/err.no-image.svg"))"
+                             alt="@(hasTitle? projects.Title: "Проект")">
+                        <div class="card-text-wrapper">
+                            @if (hasTitle)
+                            {
+                                <p class="card-title">@projects.Title</p>
+                            }
+                            @if (hasDescription)
+                            {
+                                <p class="card-description">@projects.ShortDescription</p>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="card-project not-load">
+                    <img src="~/assets/icon/err.no-load.svg" alt="">
+                    <div class="card-text-wrapper"></div>
+                </div>
+                <div class="card-project not-load">
+                    <img src="~/assets/icon/err.no-load.svg" alt="">
+                    <div class="card-text-wrapper"></div>
+                </div>
+            }
+        </div>
+
+        <div class="load-more-container" id="loadMoreContainer">
+            <button class="btn-load-more" id="btnLoadMore" type="button">
+                Показать еще
+                <span class="loading-spinner hidden" id="loadingSpinner"></span>
+            </button>
+        </div>
+    </div>
+</main>
+
+@section Scripts
+{
+    <script>
+        // передача текущий в js
+        window.projectsPage = {
+            currentPage: @Model.PageNumber
+        };
+    </script>
+
+    <script src="~/js/app/projects-controller.js"></script>
+}

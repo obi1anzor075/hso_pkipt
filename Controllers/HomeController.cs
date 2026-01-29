@@ -1,9 +1,6 @@
-using HsoPkipt.Mappers;
-using HsoPkipt.Models;
 using HsoPkipt.Services.Interfaces;
 using HsoPkipt.ViewModels.News;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace HsoPkipt.Controllers
 {
@@ -22,15 +19,12 @@ namespace HsoPkipt.Controllers
         {
             var result = await _newsService.GetNewsPageAsync(1, PageSize);
 
-            var viewModel = new NewsIndexVM
+            return View(new NewsVM
             {
-                NewsItems = MapToVm(result.Items),
-
+                NewsItems = result.Items,
                 PageNumber = result.CurrentPage,
                 TotalPages = result.TotalPages
-            };
-
-            return View(viewModel);
+            });
         }
 
         [HttpGet]
@@ -38,21 +32,7 @@ namespace HsoPkipt.Controllers
         {
             var result = await _newsService.GetNewsPageAsync(page, pageSize);
 
-            var itemsVm = result.Items.Select(n => n.ToViewModel());
-
-            return PartialView("_NewsCardsPartial", itemsVm);
-        }
-
-        private IEnumerable<NewsItemVM> MapToVm(IEnumerable<NewsItem> items)
-        {
-            return items.Select(n => new NewsItemVM
-            {
-                Id = n.Id,
-                Title = n.Title,
-                ShortDescription = n.ShortDescription,
-                ImageUrl = n.ImageUrl,
-                CreatedAt = n.CreatedAt
-            });
+            return PartialView("_NewsCardsPartial", result.Items);
         }
 
         public async Task<IActionResult> Index()
@@ -60,16 +40,6 @@ namespace HsoPkipt.Controllers
             var news = await _newsService.GetLatestAsync(5);
 
             return View(news);
-        }
-
-        public IActionResult OurProject()
-        {
-            return View();
-        }
-
-        public IActionResult About()
-        {
-            return View();
         }
     }
 }
