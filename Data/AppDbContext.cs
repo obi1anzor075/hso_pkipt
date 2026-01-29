@@ -6,27 +6,12 @@ namespace HsoPkipt.Models
     {
         public DbSet<NewsItem> News { get; set; }
         public DbSet<Tag> Tags { get; set; }
-        public DbSet<NewsItemTag> NewsItemTags { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            // --- Many-to-Many: NewsItem <-> Tag через NewsItemTag ---
-            modelBuilder.Entity<NewsItemTag>()
-                .HasKey(nt => new { nt.NewsItemId, nt.TagId });
-
-            modelBuilder.Entity<NewsItemTag>()
-                .HasOne(nt => nt.NewsItem)
-                .WithMany(n => n.TagsLink)
-                .HasForeignKey(nt => nt.NewsItemId);
-
-            modelBuilder.Entity<NewsItemTag>()
-                .HasOne(nt => nt.Tag)
-                .WithMany(t => t.NewsLink)
-                .HasForeignKey(nt => nt.TagId);
 
             // ---- Сидируем Теги ----
             var tag1Id = Guid.Parse("11111111-1111-1111-1111-111111111111");
@@ -58,7 +43,7 @@ namespace HsoPkipt.Models
                 new
                 {
                     Id = news2Id,
-                    Title = "Новая игра вышла",
+                    Title = "Новая игра вышла 2", // Изменил название для различия
                     ShortDescription = "Краткое описание",
                     Content = "Полное содержание",
                     ImageUrl = "/assets/img/foto_2.png",
@@ -70,7 +55,7 @@ namespace HsoPkipt.Models
                 new
                 {
                     Id = news3Id,
-                    Title = "Новая игра вышла",
+                    Title = "Ошибка в новости",
                     ShortDescription = "Краткое описание",
                     Content = "Полное содержание",
                     ImageUrl = "/assets/img/err.best_news_home.png",
@@ -81,13 +66,33 @@ namespace HsoPkipt.Models
                 }
             );
 
-            modelBuilder.Entity<NewsItemTag>().HasData(
-                new
-                {
-                    NewsItemId = news1Id,
-                    TagId = tag2Id
-                }
-            );
+            // --- Many-to-Many конфигурация и сидинг ---
+            // Поскольку класса NewsItemTag нет, мы настраиваем связь через Fluent API
+            modelBuilder.Entity<NewsItem>()
+                .HasMany(n => n.Tags)
+                .WithMany(t => t.News)
+                .UsingEntity<Dictionary<string, object>>(
+                    "NewsItemTag", // Имя скрытой таблицы в БД
+
+                    // Настройка "правой" стороны (Tag)
+                    j => j.HasOne<Tag>().WithMany().HasForeignKey("TagId"),
+
+                    // Настройка "левой" стороны (NewsItem)
+                    j => j.HasOne<NewsItem>().WithMany().HasForeignKey("NewsItemId"),
+
+                    // Настройка самой таблицы связи и наполнение данными (Seed)
+                    j =>
+                    {
+                        j.HasKey("NewsItemId", "TagId"); // Составной ключ
+
+                        j.HasData(
+                            // Здесь мы используем анонимные объекты.
+                            // Имена свойств должны совпадать с HasForeignKey выше.
+                            new { NewsItemId = news1Id, TagId = tag2Id }, // Связываем 1 новость с тегом "Игры"
+                            new { NewsItemId = news1Id, TagId = tag1Id }  // Связываем 1 новость с тегом "Технологии" (для примера)
+                        );
+                    }
+                );
         }
     }
 }

@@ -548,3 +548,4 @@ FodyWeavers.xsd
 appsettings.json
 /Extention
 Extention/AddDbConnection.cs
+Extensions/AddDbConnection.cs

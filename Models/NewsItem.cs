@@ -4,81 +4,61 @@ namespace HsoPkipt.Models;
 
 public class NewsItem
 {
-    public Guid Id { get; set; }
-
-    [Required(ErrorMessage = "Заголовок обязателен")]
-    [MaxLength(200, ErrorMessage = "Заголовок не должен превышать 200 символов")]
-    public string Title { get; set; }
-
-    [MaxLength(500)]
-    public string ShortDescription { get; set; }
+    public Guid Id { get; private set; }
 
     [Required]
-    public string Content { get; set; }
+    [MaxLength(200)]
+    public string Title { get; private set; }
 
-    public string? ImageUrl { get; set; }
+    [MaxLength(500)]
+    public string ShortDescription { get; private set; } = string.Empty;
 
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
+    [Required]
+    public string Content { get; private set; }
 
-    public bool IsPublished { get; set; }
+    public string? ImageUrl { get; private set; }
+    public DateTime CreatedAt { get; private set; }
+    public DateTime UpdatedAt { get; private set; }
+    public bool IsPublished { get; private set; }
+    public int ViewCount { get; private set; }
 
-    public int ViewCount { get; set; }
+    // Связь многие-ко-многим
+    public virtual ICollection<Tag> Tags { get; private set; } = new List<Tag>();
 
-    public ICollection<Tag> Tags { get; set; } = new List<Tag>();
-
-    public ICollection<NewsItemTag> TagsLink { get; set; } = new List<NewsItemTag>();
-
-
-    public NewsItem()
-    {
-        Id = Guid.NewGuid();
-        Title = string.Empty;
-        ShortDescription = string.Empty;
-        Content = string.Empty;
-        CreatedAt = DateTime.UtcNow;
-        UpdatedAt = DateTime.UtcNow;
-        IsPublished = false;
-        ViewCount = 0;
-    }
+    protected NewsItem() { }
 
     public NewsItem(string title, string shortDescription, string content, string? imageUrl)
     {
-        if (string.IsNullOrWhiteSpace(title))
-            throw new ArgumentException("Заголовок не может быть пустым", nameof(title));
-
-        if (string.IsNullOrWhiteSpace(content))
-            throw new ArgumentException("Контент не может быть пустым", nameof(content));
-
         Id = Guid.NewGuid();
-        Title = title;
-        ShortDescription = shortDescription ?? string.Empty;
-        Content = content;
-        ImageUrl = imageUrl;
-
         CreatedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
-
-        IsPublished = false;
         ViewCount = 0;
+        IsPublished = false;
 
-        Tags = new List<Tag>();
+        Update(title, shortDescription, content, imageUrl);
     }
 
     public void Update(string title, string shortDescription, string content, string? imageUrl)
     {
-        if (string.IsNullOrWhiteSpace(title))
-            throw new ArgumentException("Заголовок не может быть пустым", nameof(title));
-
-        if (string.IsNullOrWhiteSpace(content))
-            throw new ArgumentException("Контент не может быть пустым", nameof(content));
+        if (string.IsNullOrWhiteSpace(title)) throw new ArgumentException("Заголовок обязателен", nameof(title));
+        if (string.IsNullOrWhiteSpace(content)) throw new ArgumentException("Содержимоле обязательно", nameof(content));
 
         Title = title;
         ShortDescription = shortDescription ?? string.Empty;
         Content = content;
         ImageUrl = imageUrl;
-
         UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void AddTag(Tag tag)
+    {
+        if (tag == null) return;
+        if (!Tags.Contains(tag)) Tags.Add(tag);
+    }
+
+    public void RemoveTag(Tag tag)
+    {
+        if (Tags.Contains(tag)) Tags.Remove(tag);
     }
 
     public void SetPublish(bool isPublished)
@@ -87,8 +67,5 @@ public class NewsItem
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public void IncrementViewCount()
-    {
-        ViewCount++;
-    }
+    public void IncrementViewCount() => ViewCount++;
 }

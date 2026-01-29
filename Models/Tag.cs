@@ -1,40 +1,27 @@
-﻿namespace HsoPkipt.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace HsoPkipt.Models;
 
 public class Tag
 {
-    public Guid Id { get; set; }
-    public string Name { get; set; }
+    public Guid Id { get; private set; }
 
-    private readonly List<NewsItem> _news = new();
-    public ICollection<NewsItem> News => _news.AsReadOnly();
+    [Required]
+    public string Name { get; private set; }
 
-    public ICollection<NewsItemTag> NewsLink { get; set; } = new List<NewsItemTag>();
+    public virtual ICollection<NewsItem> News { get; private set; } = new List<NewsItem>();
 
-    public Tag()
-    {
-        Id = Guid.NewGuid();
-        Name = string.Empty;
-    }
+    protected Tag() { }
 
     public Tag(string name)
     {
         Id = Guid.NewGuid();
-        Name = name ?? throw new ArgumentNullException(nameof(name));
+        UpdateTag(name);
     }
 
     public void UpdateTag(string name)
     {
-        if (string.IsNullOrEmpty(name))
-            throw new ArgumentNullException(nameof(name));
-
+        if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
         Name = name;
-    }
-
-    public void AddNewsItem(NewsItem newsItem)
-    {
-        if (newsItem == null)
-            throw new ArgumentNullException(nameof(newsItem));
-
-        _news.Add(newsItem);
     }
 }
