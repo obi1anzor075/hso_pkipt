@@ -1,0 +1,8 @@
+<svg width="240" height="240" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="90" cy="90" r="20" stroke="#F9BB8A" stroke-width="3"/>
+<path d="M130 150C130 161.046 130 170 90 170C50 170 50 161.046 50 150C50 138.954 67.9086 130 90 130C112.091 130 130 138.954 130 150Z" stroke="#F9BB8A" stroke-width="3"/>
+<path d="M20 120C20 82.2876 20 63.4315 31.7157 51.7157C43.4315 40 62.2876 40 100 40H140C177.712 40 196.569 40 208.284 51.7157C220 63.4315 220 82.2876 220 120C220 157.712 220 176.569 208.284 188.284C196.569 200 177.712 200 140 200H100C62.2876 200 43.4315 200 31.7157 188.284C20 176.569 20 157.712 20 120Z" stroke="#F9BB8A" stroke-width="3"/>
+<path d="M190 120H150" stroke="#F9BB8A" stroke-width="3" stroke-linecap="round"/>
+<path d="M190 90H140" stroke="#F9BB8A" stroke-width="3" stroke-linecap="round"/>
+<path d="M190 150H160" stroke="#F9BB8A" stroke-width="3" stroke-linecap="round"/>
+</svg>

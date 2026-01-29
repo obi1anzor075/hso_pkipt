@@ -27,6 +27,7 @@ html[scss] {
 html[color] {
   --theme-color: #FFFFFF;
   --accent-color: #41245C;
+  --role-color: #AB81E5;
   --second-color: #F9BB8A;
   --mute-color: #B4C3C8;
   --second-color-hover: #f69c57;

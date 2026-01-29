@@ -1,59 +1,133 @@
-@using HsoPkipt.ViewModels.News
-@model NewsIndexVM
+@* @using HsoPkipt.ViewModels.News
+@model NewsIndexVM *@
 
 @{
-  ViewData["Title"] = "О нас ";
+  ViewData["Title"] = "О нас";
 }
 
-<main class="project-page">
-  <div class="project-container">
-    <h2 class="project-title">Наши проекты</h2>
+<main class="about-page">
+  <div class="about-container">
+    <h2 class="about-title">Люди, знающие свое дело!</h2>
 
-    <div class="project-grid" id="projectGrid">
+    <div class="about-grid">
       @* @if (Model.NewsItems.Any())
-            {
-                foreach (var news in Model.NewsItems)
-                {
-                    var hasTitle = !string.IsNullOrWhiteSpace(news.Title);
-                    var hasDescription = !string.IsNullOrWhiteSpace(news.ShortDescription);
-                    var hasImage = !string.IsNullOrWhiteSpace(news.ImageUrl);
+      {
+        foreach (var about in Model.NewsItems)
+        {
+          var hasTitle = !string.IsNullOrWhiteSpace(about.Title);
+          var hasDescription = !string.IsNullOrWhiteSpace(about.ShortDescription);
+          var hasRole = !string.IsNullOrWhiteSpace(about.Role);
+          var hasImage = !string.IsNullOrWhiteSpace(about.ImageUrl);
+          var hasVkLink = !string.IsNullOrWhiteSpace(about.VkLink);
+          var hasTgLink = !string.IsNullOrWhiteSpace(about.TgLink);
 
-                    var cardClass = "card-project";
+          var cardClass = "card-about";
 
-                    if (!hasTitle && !hasDescription)
-                    {
-                        cardClass += " no-content";
-                    }
-                    else if (!hasImage)
-                    {
-                        cardClass += " no-image";
-                    }
+          if (!hasTitle && !hasDescription && !hasRole)
+          {
+            cardClass += " no-content";
+          }
+          else if (!hasImage)
+          {
+            cardClass += " no-image";
+          }
 
-                    <div class="@cardClass" data-project-id="@news.Id">
-                        <img src="@(hasImage? news.ImageUrl: Url.Content("~/assets/icon/err.no-image.svg"))"
-                            alt="@(hasTitle? news.Title: "Проект")">
-                        <div class="card-text-wrapper">
-                            @if (hasTitle)
-                            {
-                                <p class="card-title">@news.Title</p>
-                            }
-                            @if (hasDescription)
-                            {
-                                <p class="card-description">@news.ShortDescription</p>
-                            }
-                        </div>
-                    </div>
-                }
-            }
-            else *@
+          <div class="@cardClass">
+            <img src="@(hasImage? about.ImageUrl: Url.Content("~/assets/icon/err.no-image.svg"))"
+              alt="@(hasTitle? about.Title: "О нас")">
+            <div class="card-text-wrapper">
+              @if (hasTitle)
+              {
+                <p class="card-title">@about.Title</p>
+              }
+              @if (hasRole) {
+                <p class="card-role">@about.Role</p>
+              }
+              @if (hasDescription)
+              {
+                <p class="card-description">@about.ShortDescription</p>
+              }
+              <div class="link-block">
+              @if (hasVkLink)
+              {
+                <a class="card-link vk" href="@about.hasVkLink"></a>
+              }
+              @if (hasTgLink)
+              {
+                <a class="card-link tg" href="@about.hasTgLink"></a>
+              }
+              </div>
+            </div>
+          </div>
+        }
+      }
+      else
+      {
+        <div class="card-about not-load">
+          <img src="~/assets/icon/err.no-load.svg" alt="">
+          <div class="card-text-wrapper"></div>
+        </div>
+        <div class="card-about not-load">
+          <img src="~/assets/icon/err.no-load.svg" alt="">
+          <div class="card-text-wrapper"></div>
+        </div>
+      } *@
 
-      <div class="card-project not-load">
-        <img src="~/assets/icon/err.no-load.svg" alt="">
+      <div class="card-about not-load">
+        <img src="~/assets/icon/err.no-load-about.svg" alt="">
         <div class="card-text-wrapper"></div>
       </div>
-      <div class="card-project not-load">
-        <img src="~/assets/icon/err.no-load.svg" alt="">
+      <div class="card-about no-image">
+        <img src="~/assets/icon/err.no-image-about.svg" alt="">
+        <div class="card-text-wrapper">
+          <p class="card-title">Text text</p>
+          <p class="card-role">Text text</p>
+          <p class="card-description">Text text</p>
+          <div class="link-block">
+            <a href="#" class="card-link vk"></a>
+            <a href="#" class="card-link tg"></a>
+          </div>
+        </div>
+      </div>
+      <div class="card-about no-content">
+        <img src="~/assets/img/foto_3.png" alt="">
         <div class="card-text-wrapper"></div>
+      </div>
+      <div class="card-about">
+        <img src="~/assets/img/foto_3.png" alt="">
+        <div class="card-text-wrapper">
+          <p class="card-title">Text text</p>
+          <p class="card-role">Text text</p>
+          <p class="card-description">Text text</p>
+          <div class="link-block">
+            <a href="#" class="card-link vk"></a>
+            <a href="#" class="card-link tg"></a>
+          </div>
+        </div>
+      </div>
+      <div class="card-about">
+        <img src="~/assets/img/foto_3.png" alt="">
+        <div class="card-text-wrapper">
+          <p class="card-title">Text text</p>
+          <p class="card-role">Text text</p>
+          <p class="card-description">Text text</p>
+          <div class="link-block">
+            <a href="#" class="card-link vk"></a>
+            <a href="#" class="card-link tg"></a>
+          </div>
+        </div>
+      </div>
+      <div class="card-about">
+        <img src="~/assets/img/foto_3.png" alt="">
+        <div class="card-text-wrapper">
+          <p class="card-title">Text text</p>
+          <p class="card-role">Text text</p>
+          <p class="card-description">Text text</p>
+          <div class="link-block">
+            <a href="#" class="card-link vk"></a>
+            <a href="#" class="card-link tg"></a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
