@@ -20,10 +20,17 @@
             января 2016 года. Текст…
         </h2>
         <div class="news-block">
+            <!-- Лоадер -->
+            <div class="news-loader" id="newsLoader">
+                <div class="spinner"></div>
+                <p>Загрузка новостей…</p>
+            </div>
+
             <button class="arrow-controller prev" data-fn="slide-prev">‹</button>
 
-            <div class="wrapper-slide">
+            <div class="wrapper-slide hidden" id="newsSlider">
                 <div class="track">
+
                     @if (Model != null && Model.Any())
                     {
                         foreach (var news in Model)
@@ -36,16 +43,17 @@
                     }
                     else
                     {
-                        <div class="card-news">
-                            <img src="~/assets/img/err.best_news_home.png">
+                        <div class="card-news err">
+                            <img src="~/assets/icon/err.no-load.svg" alt="Нет новостей">
                             <p class="title">Скоро здесь появятся новости</p>
                         </div>
 
-                        <div class="card-news">
-                            <img src="~/assets/img/err.best_news_home.png">
+                        <div class="card-news err">
+                            <img src="~/assets/icon/err.no-load.svg" alt="Следите за обновлениями">
                             <p class="title">Следите за обновлениями</p>
                         </div>
                     }
+
                 </div>
             </div>
 

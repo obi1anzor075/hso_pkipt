@@ -1,42 +1,73 @@
 document.addEventListener('DOMContentLoaded', () => {
   const track = document.querySelector('.track');
   const slides = document.querySelectorAll('.card-news');
+  const images = document.querySelectorAll('.card-news img');
+
   const prevBtn = document.querySelector('[data-fn="slide-prev"]');
   const nextBtn = document.querySelector('[data-fn="slide-next"]');
+
+  const loader = document.getElementById('newsLoader');
+  const slider = document.getElementById('newsSlider');
 
   const visibleSlides = 2;
   const gap = 50;
 
-  if (slides.length <= visibleSlides) {
-    prevBtn.disabled = true;
-    nextBtn.disabled = true;
+  let loadedImages = 0;
+
+  // Если вообще нет карточек (на всякий случай)
+  if (!slides.length) {
+    loader.style.display = 'none';
     return;
   }
 
-  let index = 0;
-  const slideWidth = slides[0].offsetWidth + gap;
-  const maxIndex = slides.length - visibleSlides;
+  function initSlider() {
+    loader.style.display = 'none';
+    slider.classList.remove('hidden');
 
-  function update() {
-    track.style.transform = `translateX(-${index * slideWidth}px)`;
+    let index = 0;
+    const slideWidth = slides[0].offsetWidth + gap;
+    const maxIndex = Math.max(0, slides.length - visibleSlides);
 
-    prevBtn.disabled = index === 0;
-    nextBtn.disabled = index === maxIndex;
+    function update() {
+      track.style.transform = `translateX(-${index * slideWidth}px)`;
+      prevBtn.disabled = index === 0;
+      nextBtn.disabled = index === maxIndex;
+    }
+
+    nextBtn.onclick = () => {
+      if (index < maxIndex) {
+        index++;
+        update();
+      }
+    };
+
+    prevBtn.onclick = () => {
+      if (index > 0) {
+        index--;
+        update();
+      }
+    };
+
+    update();
   }
 
-  nextBtn.addEventListener('click', () => {
-    if (index < maxIndex) {
-      index++;
-      update();
+  images.forEach(img => {
+    if (img.complete) {
+      loadedImages++;
+    } else {
+      img.addEventListener('load', checkLoaded);
+      img.addEventListener('error', checkLoaded);
     }
   });
 
-  prevBtn.addEventListener('click', () => {
-    if (index > 0) {
-      index--;
-      update();
+  function checkLoaded() {
+    loadedImages++;
+    if (loadedImages === images.length) {
+      initSlider();
     }
-  });
+  }
 
-  update();
+  if (loadedImages === images.length) {
+    initSlider();
+  }
 });

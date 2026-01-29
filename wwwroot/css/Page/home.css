@@ -93,6 +93,29 @@ main.home {
       transition: transform 0.5s ease;
     }
 
+    .news-loader {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 360px;
+      gap: 15px;
+      color: var(--accent-color);
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(255, 255, 255, 0.2);
+      border-top-color: var(--accent-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    .hidden {
+      display: none;
+    }
+
     .card-news {
       flex: 0 0 calc(50% - 25px);
       overflow: hidden;
@@ -110,6 +133,25 @@ main.home {
         transition: 0.5s ease;
         color: var(--accent-color);
         background-color: var(--shadow-news);
+      }
+
+      &.err {
+        img {
+          width: 100%;
+          object-fit: contain;
+          padding: 20px;
+        }
+
+        .title {
+          color: transparent;
+          background: none;
+        }
+
+        &:hover {
+          .title {
+            transform: translate(0%);
+          }
+        }
       }
 
       &:hover {
@@ -148,5 +190,11 @@ main.home {
         cursor: default;
       }
     }
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }

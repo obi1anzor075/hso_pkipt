@@ -2,11 +2,30 @@
     ViewData["Title"] = "Новости";
 }
 
-<main class="news">
-    <div class="__container">
-        <h2>Новости</h2>
-        <div class="wrapper">
+<main class="news-page">
+    <div class="news-container">
+        <h2 class="news-title">Новости</h2>
 
+        <div class="news-grid">
+            @for (int i = 1; i <= 6; i++)
+            {
+                <div class="card-news">
+                    <img src="~/assets/img/foto_2.png" alt="Новость @i">
+                    <p class="card-title">Заголовок новости @i</p>
+                </div>
+            }
+            <div class="card-news no-title">
+                <img src="~/assets/img/foto_2.png" alt="Новость">
+                <p class="card-title">Заголовок новости</p>
+            </div>
+            <div class="card-news no-image">
+                <img src="~/assets/icon/err.no-image.svg" alt="Новость">
+                <p class="card-title">Заголовок новости</p>
+            </div>
+            <div class="card-news no-load">
+                <img src="~/assets/icon/err.no-load.svg" alt="">
+                <p class="card-title">Заголовок новости</p>
+            </div>
         </div>
     </div>
 </main>

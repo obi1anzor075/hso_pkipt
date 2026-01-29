@@ -19,6 +19,7 @@ html[scss] {
 
   --shadow-reco: #41245c66;
   --shadow-news: #ffffffe6;
+  --shadow-news-err: #ffffff9e;
 
   --news-shadow-size: 70%;
 }
@@ -27,5 +28,6 @@ html[color] {
   --theme-color: #FFFFFF;
   --accent-color: #41245C;
   --second-color: #F9BB8A;
+  --mute-color: #B4C3C8;
   --second-color-hover: #f69c57;
 }
