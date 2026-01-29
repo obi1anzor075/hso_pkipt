@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const loadingSpinner = document.getElementById('loadingSpinner');
 
   const ITEMS_PER_PAGE = 9;
-  let currentPage = 1;
+  let currentPage = window.newsPage?.currentPage ?? 1;
   let isLoading = false;
 
   // Инициализация
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       // Отправляем запрос на сервер (путь к HomeController)
-      const response = await fetch(`/Home/LoadMoreNews?page=${currentPage}&pageSize=${ITEMS_PER_PAGE}`, {
+      const response = await fetch(`/Home/LoadMoreNews?page=${currentPage}`, {
         method: 'GET',
         headers: {
           'X-Requested-With': 'XMLHttpRequest'

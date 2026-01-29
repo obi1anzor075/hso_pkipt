@@ -1,4 +1,5 @@
 ﻿using HsoPkipt.Services.Interfaces;
+using HsoPkipt.ViewModels.Projects;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HsoPkipt.Controllers;
@@ -12,12 +13,18 @@ public class ProjectsController : Controller
     {
         _projectService = projectService;
     }
+
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        var projects = await _projectService.GetProjectPageAsync(1, PageSize);
+        var result = await _projectService.GetProjectPageAsync(1, PageSize);
 
-        return View(projects);
+        return View(new ProjectsVM
+        {
+            ProjectItems = result.Items,
+            PageNumber = result.CurrentPage,
+            TotalPages = result.TotalPages
+        });
     }
 
     [HttpGet]
@@ -25,6 +32,6 @@ public class ProjectsController : Controller
     {
         var result = await _projectService.GetProjectPageAsync(page, pageSize);
 
-        return View(result);
+        return PartialView("_ProjectsCardsPartial", result.Items);
     }
 }

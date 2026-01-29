@@ -1,4 +1,5 @@
-﻿@* @using Microsoft.AspNetCore.Identity
+﻿@* @using HsoPkipt.Identity
+@using Microsoft.AspNetCore.Identity
 @using HsoPkipt.Models;
 @inject UserManager<AppUser> UserManager
 @{
@@ -40,7 +41,7 @@ else
         <div class="line"></div>
         <a href="" class="link">О нас</a>
         <div class="line"></div>
-        <a href="@Url.Action("OurProject", "Home")" class="link">Наши проекты</a>
+        <a href="@Url.Action("Index", "Projects")" class="link">Наши проекты</a>
         <div class="line"></div>
         <a href="" class="link">Мерч</a>
     </div>

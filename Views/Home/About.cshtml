@@ -1,4 +1,4 @@
-@using HsoPkipt.ViewModels.News
+@* @using HsoPkipt.ViewModels.News
 @model NewsIndexVM
 
 @{
@@ -10,7 +10,7 @@
     <h2 class="project-title">Наши проекты</h2>
 
     <div class="project-grid" id="projectGrid">
-      @* @if (Model.NewsItems.Any())
+      @if (Model.NewsItems.Any())
             {
                 foreach (var news in Model.NewsItems)
                 {
@@ -45,16 +45,17 @@
                     </div>
                 }
             }
-            else *@
-
-      <div class="card-project not-load">
-        <img src="~/assets/icon/err.no-load.svg" alt="">
-        <div class="card-text-wrapper"></div>
-      </div>
-      <div class="card-project not-load">
-        <img src="~/assets/icon/err.no-load.svg" alt="">
-        <div class="card-text-wrapper"></div>
-      </div>
+            else
+            {
+                <div class="card-project not-load">
+                  <img src="~/assets/icon/err.no-load.svg" alt="">
+                  <div class="card-text-wrapper"></div>
+                </div>
+                <div class="card-project not-load">
+                  <img src="~/assets/icon/err.no-load.svg" alt="">
+                  <div class="card-text-wrapper"></div>
+                </div>
+            }
     </div>
   </div>
-</main>
+</main> *@

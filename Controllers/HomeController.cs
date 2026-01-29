@@ -1,4 +1,5 @@
 using HsoPkipt.Services.Interfaces;
+using HsoPkipt.ViewModels.News;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HsoPkipt.Controllers
@@ -18,7 +19,12 @@ namespace HsoPkipt.Controllers
         {
             var result = await _newsService.GetNewsPageAsync(1, PageSize);
 
-            return View(result);
+            return View(new NewsVM
+            {
+                NewsItems = result.Items,
+                PageNumber = result.CurrentPage,
+                TotalPages = result.TotalPages
+            });
         }
 
         [HttpGet]

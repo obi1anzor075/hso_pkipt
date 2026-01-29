@@ -1,0 +1,37 @@
+﻿@using HsoPkipt.ViewModels.Projects
+@model IEnumerable<ProjectItemVm>
+
+@foreach (var news in Model)
+{
+    var hasTitle = !string.IsNullOrWhiteSpace(news.Title);
+    var hasDescription = !string.IsNullOrWhiteSpace(news.ShortDescription);
+    var hasImage = !string.IsNullOrWhiteSpace(news.ImageUrl);
+
+    var cardClass = "card-project";
+
+    // Определяем класс карточки
+    if (!hasTitle && !hasDescription)
+    {
+        cardClass += " no-content";
+    }
+    else if (!hasImage)
+    {
+        cardClass += " no-image";
+    }
+
+    <div class="@cardClass" data-project-id="@news.Id">
+        <img src="@(hasImage? news.ImageUrl: Url.Content("~/assets/icon/err.no-image.svg"))"
+             alt="@(hasTitle? news.Title: "Новость")" loading="lazy">
+
+        <div class="card-text-wrapper">
+            @if (hasTitle)
+            {
+                <p class="card-title">@news.Title</p>
+            }
+            @if (hasDescription)
+            {
+                <p class="card-description">@news.ShortDescription</p>
+            }
+        </div>
+    </div>
+}
