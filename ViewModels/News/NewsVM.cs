@@ -1,6 +1,6 @@
 ﻿namespace HsoPkipt.ViewModels.News;
 
-public class NewsIndexVM
+public class NewsVM
 {
     public IEnumerable<NewsItemVM> NewsItems { get; set; } = Enumerable.Empty<NewsItemVM>();
 
