@@ -1,31 +1,84 @@
-﻿@{
+﻿@using HsoPkipt.ViewModels.News
+@model IEnumerable<NewsItemVM>
+
+@{
     ViewData["Title"] = "Новости";
 }
 
 <main class="news-page">
     <div class="news-container">
         <h2 class="news-title">Новости</h2>
-
-        <div class="news-grid">
-            @for (int i = 1; i <= 6; i++)
+        <div class="news-grid" id="newsGrid">
+            @if (Model != null && Model.Any())
             {
-                <div class="card-news">
-                    <img src="~/assets/img/foto_2.png" alt="Новость @i">
-                    <p class="card-title">Заголовок новости @i</p>
+                foreach (var news in Model)
+                {
+                    var hasTitle = !string.IsNullOrWhiteSpace(news.Title);
+                    var hasDescription = !string.IsNullOrWhiteSpace(news.ShortDescription);
+                    var hasImage = !string.IsNullOrWhiteSpace(news.ImageUrl);
+
+                    var cardClass = "card-news";
+
+                    // Определяем класс карточки
+                    if (!hasTitle && !hasDescription)
+                    {
+                        cardClass += " no-content";
+                    }
+                    else if (!hasImage)
+                    {
+                        cardClass += " no-image";
+                    }
+
+                    <div class="@cardClass" data-news-id="@news.Id">
+                        <img src="@(hasImage? news.ImageUrl: Url.Content("~/assets/icon/err.no-image.svg"))"
+                            alt="@(hasTitle? news.Title: "Новость")">
+                        <div class="card-text-wrapper">
+                            @if (hasTitle)
+                            {
+                                <p class="card-title">@news.Title</p>
+                            }
+                            @if (hasDescription)
+                            {
+                                <p class="card-description">@news.ShortDescription</p>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <!-- Заглушки, если новостей нет -->
+                <div class="card-news not-load">
+                    <img src="~/assets/icon/err.no-load.svg" alt="Нет новостей">
+                    <div class="card-text-wrapper">
+                        <p class="card-title">Скоро здесь появятся новости</p>
+                    </div>
+                </div>
+                <div class="card-news not-load">
+                    <img src="~/assets/icon/err.no-load.svg" alt="Следите за обновлениями">
+                    <div class="card-text-wrapper">
+                        <p class="card-title">Следите за обновлениями</p>
+                    </div>
+                </div>
+                <div class="card-news not-load">
+                    <img src="~/assets/icon/err.no-load.svg" alt="">
+                    <div class="card-text-wrapper">
+                        <p class="card-title">В разработке</p>
+                    </div>
                 </div>
             }
-            <div class="card-news no-title">
-                <img src="~/assets/img/foto_2.png" alt="Новость">
-                <p class="card-title">Заголовок новости</p>
-            </div>
-            <div class="card-news no-image">
-                <img src="~/assets/icon/err.no-image.svg" alt="Новость">
-                <p class="card-title">Заголовок новости</p>
-            </div>
-            <div class="card-news no-load">
-                <img src="~/assets/icon/err.no-load.svg" alt="">
-                <p class="card-title">Заголовок новости</p>
-            </div>
+        </div>
+
+        <!-- Кнопка "Показать еще" -->
+        <div class="load-more-container" id="loadMoreContainer">
+            <button class="btn-load-more" id="btnLoadMore">
+                Показать еще
+                <span class="loading-spinner hidden" id="loadingSpinner"></span>
+            </button>
         </div>
     </div>
 </main>
+
+@section Scripts {
+    <script src="@(Url.Content("~/js/app/news-controller.js"))"></script>
+}

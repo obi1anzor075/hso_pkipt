@@ -1,0 +1,31 @@
+@{
+    ViewData["Title"] = "Наши проекты";
+}
+
+<main class="project-page">
+  <div class="project-container">
+    <h2 class="project-title">Новости</h2>
+
+    <div class="project-grid">
+            @for (int i = 1; i <= 2; i++)
+            {
+        <div class="card-project">
+                    <img src="~/assets/img/foto_2.png" alt="Новость @i">
+                    <p class="card-title">Заголовок новости @i</p>
+                </div>
+            }
+      <div class="card-project no-title">
+                <img src="~/assets/img/foto_2.png" alt="Новость">
+                <p class="card-title">Заголовок новости</p>
+            </div>
+      <div class="card-project no-image">
+                <img src="~/assets/icon/err.no-image.svg" alt="Новость">
+                <p class="card-title">Заголовок новости</p>
+            </div>
+            <div class="card-news no-load">
+                <img src="~/assets/icon/err.no-load.svg" alt="">
+                <p class="card-title">Заголовок новости</p>
+            </div>
+        </div>
+    </div>
+</main>
