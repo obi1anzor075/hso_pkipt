@@ -2,15 +2,15 @@
 @model NewsIndexVM
 
 @{
-    ViewData["Title"] = "Новости";
+  ViewData["Title"] = "О нас ";
 }
 
 <main class="project-page">
-    <div class="project-container">
-        <h2 class="project-title">Наши проекты</h2>
+  <div class="project-container">
+    <h2 class="project-title">Наши проекты</h2>
 
-        <div class="project-grid" id="projectGrid">
-            @* @if (Model.NewsItems.Any())
+    <div class="project-grid" id="projectGrid">
+      @* @if (Model.NewsItems.Any())
             {
                 foreach (var news in Model.NewsItems)
                 {
@@ -47,14 +47,14 @@
             }
             else *@
 
-                <div class="card-project not-load">
-                    <img src="~/assets/icon/err.no-load.svg" alt="">
-                    <div class="card-text-wrapper"></div>
-                </div>
-                <div class="card-project not-load">
-                    <img src="~/assets/icon/err.no-load.svg" alt="">
-                    <div class="card-text-wrapper"></div>
-                </div>
-        </div>
+      <div class="card-project not-load">
+        <img src="~/assets/icon/err.no-load.svg" alt="">
+        <div class="card-text-wrapper"></div>
+      </div>
+      <div class="card-project not-load">
+        <img src="~/assets/icon/err.no-load.svg" alt="">
+        <div class="card-text-wrapper"></div>
+      </div>
     </div>
+  </div>
 </main>

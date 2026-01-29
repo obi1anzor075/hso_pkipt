@@ -33,7 +33,7 @@
     aspect-ratio: 3/1.5;
     overflow: hidden;
     position: relative;
-    border-radius: 8px;
+    /* border-radius: 8px; */
     background-color: var(--mute-color);
     transition: transform 0.3s ease;
 
