@@ -8,7 +8,7 @@ public static class AddDbConnection
         services.AddDbContext<AppDbContext>(
             options =>
             {
-                options.UseNpgsql(configuration.GetConnectionString("Sql"));
+                options.UseNpgsql(configuration.GetConnectionString("Postgres"));
             }
             );
         return services;
