@@ -6,7 +6,7 @@ public interface INewsRepository
 {
     Task<List<NewsItem>> GetLatestAsync(int count = 1);
     Task<List<NewsItem>> GetRangeAsync(int start, int take);
-    Task<NewsItem> GetByIdAsync(Guid id);
+    Task<NewsItem?> GetByIdAsync(Guid id);
     Task UpdateAsync(NewsItem item);
     Task CreateAsync(NewsItem item);
     Task DeleteAsync(NewsItem item);

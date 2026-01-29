@@ -1,5 +1,5 @@
-using HsoPkipt.Data;
 using HsoPkipt.Identity;
+using HsoPkipt.Models;
 using HsoPkipt.Repositories;
 using HsoPkipt.Repositories.Interfaces;
 using HsoPkipt.Services;
@@ -13,10 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // Add db context
-builder.Services.AddDbContext<AppDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Sql"));
-});
+builder.Services.AddDb(builder.Configuration);
 
 // Add identity
 builder.Services.AddIdentity<AppUser, AppRole>(options =>

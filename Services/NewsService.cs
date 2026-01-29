@@ -15,7 +15,7 @@ public class NewsService : INewsService
     }
     public async Task<IReadOnlyList<NewsItemVM>> GetLatestAsync(int count = 5)
     {
-        var latestNews = await _newsRepository.GetLatestAsync();
+        var latestNews = await _newsRepository.GetLatestAsync(count);
 
         if (latestNews is null)
             return new List<NewsItemVM>();

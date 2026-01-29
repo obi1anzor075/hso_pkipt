@@ -1,5 +1,4 @@
-﻿using HsoPkipt.Data;
-using HsoPkipt.Models;
+﻿using HsoPkipt.Models;
 using HsoPkipt.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,7 +29,7 @@ public class NewsRepository : INewsRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<NewsItem> GetByIdAsync(Guid id)
+    public async Task<NewsItem?> GetByIdAsync(Guid id)
     {
         return await _context.News.FirstOrDefaultAsync(n => n.Id == id);
     }

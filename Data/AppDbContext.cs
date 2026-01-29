@@ -1,81 +1,93 @@
-﻿using HsoPkipt.Identity;
-using HsoPkipt.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace HsoPkipt.Data;
-
-public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
+namespace HsoPkipt.Models
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options)
-    : base(options)
+    public class AppDbContext : DbContext
     {
-    }
+        public DbSet<NewsItem> News { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<NewsItemTag> NewsItemTags { get; set; }
 
-    public DbSet<NewsItem> News => Set<NewsItem>();
-    public DbSet<Tag> Tags => Set<Tag>();
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        base.OnModelCreating(modelBuilder);
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
 
-        // Конфигурация сущностей
-        modelBuilder.Entity<Tag>().HasMany(t => t.News).WithMany(n => n.Tags);
+            // --- Many-to-Many: NewsItem <-> Tag через NewsItemTag ---
+            modelBuilder.Entity<NewsItemTag>()
+                .HasKey(nt => new { nt.NewsItemId, nt.TagId });
 
-        // Seed Tags
-        var tag1 = new Tag("Technology");
-        var tag2 = new Tag("Education");
-        var tag3 = new Tag("Gaming");
+            modelBuilder.Entity<NewsItemTag>()
+                .HasOne(nt => nt.NewsItem)
+                .WithMany(n => n.TagsLink)
+                .HasForeignKey(nt => nt.NewsItemId);
 
-        modelBuilder.Entity<Tag>().HasData(tag1, tag2, tag3);
+            modelBuilder.Entity<NewsItemTag>()
+                .HasOne(nt => nt.Tag)
+                .WithMany(t => t.NewsLink)
+                .HasForeignKey(nt => nt.TagId);
 
-        // Seed NewsItems
-        var news1 = new NewsItem(
-            "Новость 1",
-            "Краткое описание новости 1",
-            "Полный контент новости 1",
-            null
-        );
+            // ---- Сидируем Теги ----
+            var tag1Id = Guid.Parse("11111111-1111-1111-1111-111111111111");
+            var tag2Id = Guid.Parse("22222222-2222-2222-2222-222222222222");
 
-        var news2 = new NewsItem(
-            "Новость 2",
-            "Краткое описание новости 2",
-            "Полный контент новости 2",
-            null
-        );
+            modelBuilder.Entity<Tag>().HasData(
+                new { Id = tag1Id, Name = "Технологии" },
+                new { Id = tag2Id, Name = "Игры" }
+            );
 
-        modelBuilder.Entity<NewsItem>().HasData(
-            new
-            {
-                news1.Id,
-                news1.Title,
-                news1.ShortDescription,
-                news1.Content,
-                news1.ImageUrl,
-                news1.CreatedAt,
-                news1.UpdatedAt,
-                news1.IsPublished,
-                news1.ViewCount
-            },
-            new
-            {
-                news2.Id,
-                news2.Title,
-                news2.ShortDescription,
-                news2.Content,
-                news2.ImageUrl,
-                news2.CreatedAt,
-                news2.UpdatedAt,
-                news2.IsPublished,
-                news2.ViewCount
-            }
-        );
+            // ---- Сидируем Новости ----
+            var news1Id = Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
+            var news2Id = Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaab");
+            var news3Id = Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaac");
 
-        // Связь Many-to-Many (NewsItem <-> Tag)
-        modelBuilder.Entity("NewsItemTag").HasData(
-            new { NewsItemsId = news1.Id, TagsId = tag1.Id },
-            new { NewsItemsId = news1.Id, TagsId = tag2.Id },
-            new { NewsItemsId = news2.Id, TagsId = tag3.Id }
-        );
+            modelBuilder.Entity<NewsItem>().HasData(
+                new
+                {
+                    Id = news1Id,
+                    Title = "Новая игра вышла",
+                    ShortDescription = "Краткое описание",
+                    Content = "Полное содержание",
+                    ImageUrl = "https://avatars.mds.yandex.net/i?id=41ecc6043febf8025ca91b18fcbebbb0fe9b8acf-9727996-images-thumbs&n=13",
+                    CreatedAt = new DateTime(2026, 1, 29, 12, 0, 0, DateTimeKind.Utc),
+                    UpdatedAt = new DateTime(2026, 1, 29, 12, 0, 0, DateTimeKind.Utc),
+                    IsPublished = true,
+                    ViewCount = 0
+                },
+                new
+                {
+                    Id = news2Id,
+                    Title = "Новая игра вышла",
+                    ShortDescription = "Краткое описание",
+                    Content = "Полное содержание",
+                    ImageUrl = "https://avatars.mds.yandex.net/i?id=d34f7d68ae7b6c7d95eae16f55162e10dadd305c-8210460-images-thumbs&n=13",
+                    CreatedAt = new DateTime(2026, 1, 29, 12, 0, 0, DateTimeKind.Utc),
+                    UpdatedAt = new DateTime(2026, 1, 29, 12, 0, 0, DateTimeKind.Utc),
+                    IsPublished = true,
+                    ViewCount = 0
+                },
+                new
+                {
+                    Id = news3Id,
+                    Title = "Новая игра вышла",
+                    ShortDescription = "Краткое описание",
+                    Content = "Полное содержание",
+                    ImageUrl = "https://avatars.mds.yandex.net/i?id=925e20746d4f2b6868a1dfcf80314034960aa172-16186736-images-thumbs&n=13",
+                    CreatedAt = new DateTime(2026, 1, 29, 12, 0, 0, DateTimeKind.Utc),
+                    UpdatedAt = new DateTime(2026, 1, 29, 12, 0, 0, DateTimeKind.Utc),
+                    IsPublished = true,
+                    ViewCount = 0
+                }
+            );
+
+            modelBuilder.Entity<NewsItemTag>().HasData(
+                new
+                {
+                    NewsItemId = news1Id,
+                    TagId = tag2Id
+                }
+            );
+        }
     }
 }

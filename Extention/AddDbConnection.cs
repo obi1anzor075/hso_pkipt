@@ -1,4 +1,4 @@
-using HsoPkipt.Data;
+using HsoPkipt.Models;
 using Microsoft.EntityFrameworkCore;
 
 public static class AddDbConnection
