@@ -33,7 +33,7 @@
     aspect-ratio: 3/1.5;
     overflow: hidden;
     position: relative;
-    border-radius: 8px;
+    /* border-radius: 8px; */
     background-color: var(--mute-color);
     transition: transform 0.3s ease;
 
@@ -237,92 +237,91 @@
 /* ===== RESPONSIVE ===== */
 /* Планшеты (2 колонки) */
 @media (max-width: 1024px) {
-  .news-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    padding: 15px;
-  }
-
-  .news-title {
-    font-size: 36px;
-    margin-bottom: 30px;
-  }
-
-  .card-news {
-    .card-title {
-      font-size: 16px;
-    }
-
-    .card-description {
-      font-size: 13px;
-    }
-
-    .card-text-wrapper {
-      padding: 15px;
-    }
-  }
-
   .news-page {
     margin-top: 60px;
     margin-bottom: 60px;
     padding: 0 15px;
-  }
-}
 
-/* Мобильные устройства (1 колонка) */
-@media (max-width: 640px) {
-  .news-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-    padding: 10px;
-  }
-
-  .news-title {
-    font-size: 30px;
-    margin-bottom: 20px;
-  }
-
-  .card-news {
-    aspect-ratio: 1/1.3;
-
-    .card-title {
-      font-size: 16px;
-      -webkit-line-clamp: 3;
-    }
-
-    .card-description {
-      font-size: 13px;
-      -webkit-line-clamp: 4;
-    }
-
-    .card-text-wrapper {
+    .news-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
       padding: 15px;
     }
 
-    &.no-content .card-text-wrapper::after {
-      width: 150px;
-      height: 150px;
+    .news-title {
+      font-size: 36px;
+      margin-bottom: 30px;
+    }
+
+    .card-news {
+      .card-title {
+        font-size: 16px;
+      }
+
+      .card-description {
+        font-size: 13px;
+      }
+
+      .card-text-wrapper {
+        padding: 15px;
+      }
     }
   }
+}
 
+@media (max-width: 640px) {
   .news-page {
     margin-top: 40px;
     margin-bottom: 40px;
     padding: 0 10px;
-  }
 
-  .news-container {
-    padding: 10px;
-  }
+    .news-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+      padding: 10px;
+    }
 
-  .btn-load-more {
-    width: 100%;
-    max-width: 300px;
-  }
+    .news-title {
+      font-size: 30px;
+      margin-bottom: 20px;
+    }
 
-  .load-more-container {
-    margin-top: 30px;
-    padding: 10px;
+    .card-news {
+      aspect-ratio: 1/1.3;
+
+      .card-title {
+        font-size: 16px;
+        -webkit-line-clamp: 3;
+      }
+
+      .card-description {
+        font-size: 13px;
+        -webkit-line-clamp: 4;
+      }
+
+      .card-text-wrapper {
+        padding: 15px;
+      }
+
+      &.no-content .card-text-wrapper::after {
+        width: 150px;
+        height: 150px;
+      }
+    }
+
+    .news-container {
+      padding: 10px;
+    }
+
+    .btn-load-more {
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .load-more-container {
+      margin-top: 30px;
+      padding: 10px;
+    }
   }
 }
 
