@@ -16,7 +16,6 @@ html[scss] {
   --fw-medium: 500;
   --fw-smbold: 600;
   --fw-bold: 700;
-  --fw-black: 900;
 
   --shadow-reco: #41245c66;
   --shadow-news: #ffffffe6;
@@ -30,7 +29,6 @@ html[color] {
   --accent-color: #41245C;
   --role-color: #AB81E5;
   --second-color: #F9BB8A;
-  --error-color: #ff4d4f;
   --mute-color: #B4C3C8;
   --second-color-hover: #f69c57;
 }
