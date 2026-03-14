@@ -4,30 +4,65 @@
     ViewData["Title"] = Model.Title;
 }
 
-<main>
-    <section>
-        <h1>@Model.Title</h1>
+<main class="news-details">
+    <div class="news-details__container">
 
-        <p>@Model.CreatedAt.ToString("dd.MM.yyyy")</p>
+        <!-- Назад -->
+        <a asp-action="News" class="news-details__back">
+            <span class="news-details__back-arrow">&#8592;</span>
+            Назад к новостям
+        </a>
 
-        @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
-        {
-            <div>
-                <img src="@Model.ImageUrl" alt="@Model.Title" />
+        <article class="news-details__article">
+
+            <!-- Шапка -->
+            <header class="news-details__header">
+                <p class="news-details__date">@Model.CreatedAt.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("ru-RU"))</p>
+                <h1 class="news-details__title">@Model.Title</h1>
+
+                @if (!string.IsNullOrWhiteSpace(Model.ShortDescription))
+                {
+                    <p class="news-details__lead">@Model.ShortDescription</p>
+                }
+            </header>
+
+            <!-- Изображение -->
+            @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+            {
+                <div class="news-details__image-wrap" data-zoom>
+                    <img src="@Model.ImageUrl"
+                         alt="@Model.Title"
+                         class="news-details__image" />
+                    <span class="news-details__zoom-hint">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                            <line x1="11" y1="8" x2="11" y2="14" />
+                            <line x1="8" y1="11" x2="14" y2="11" />
+                        </svg>
+                    </span>
+                </div>
+            }
+
+            <!-- Текст -->
+            <div class="news-details__content">
+                @Html.Raw(Model.Content)
             </div>
-        }
 
-        @if (!string.IsNullOrWhiteSpace(Model.ShortDescription))
-        {
-            <p>@Model.ShortDescription</p>
-        }
-
-        <div>
-            <p>@Model.Content</p>
-        </div>
-
-        <div>
-            <a asp-action="News">Назад к новостям</a>
-        </div>
-    </section>
+        </article>
+    </div>
 </main>
+
+<!-- Лайтбокс -->
+<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true">
+    <button class="lightbox__close" id="lightboxClose" aria-label="Закрыть">&#10005;</button>
+    <div class="lightbox__backdrop" id="lightboxBackdrop"></div>
+    <div class="lightbox__inner">
+        <img src="" alt="" class="lightbox__img" id="lightboxImg" />
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/app/home.news-details.js"></script>
+}
