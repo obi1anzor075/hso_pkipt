@@ -1,3 +1,4 @@
+/* home.css */
 main.home {
   display: flex;
   width: 100%;
@@ -50,7 +51,7 @@ main.home {
 
         .title {
           z-index: 1;
-          font-weight: var(--fz-smbold);
+          font-weight: var(--fw-smbold);
           font-size: calc(var(--fz-h1) * 0.8);
           color: var(--theme-color);
           text-align: center;
@@ -61,14 +62,14 @@ main.home {
       button.btn {
         background-color: var(--second-color);
         color: var(--theme-color);
-        font-weight: var(--fz-smbold);
+        font-weight: var(--fw-smbold);
         padding: 15px 30px;
         display: inline-flex;
         font-size: var(--fz-h3);
         transition: var(--t-time);
         border: none;
         cursor: pointer;
-        border-radius: 4px;
+        border-radius: 8px;
 
         &:hover {
           background-color: var(--second-color-hover);
@@ -81,6 +82,8 @@ main.home {
       font-size: calc(var(--fz-h1) * 0.9);
       font-weight: var(--fw-medium);
     }
+
+    /* ─── Слайдер новостей ─── */
 
     .news-block {
       position: relative;
@@ -149,6 +152,7 @@ main.home {
         align-items: center;
         justify-content: center;
         text-align: center;
+        cursor: pointer;
       }
 
       &.err {
@@ -193,6 +197,7 @@ main.home {
       height: 320px;
       object-fit: cover;
       display: block;
+      cursor: pointer;
     }
 
     .arrow-controller {
@@ -215,6 +220,7 @@ main.home {
       &.prev {
         left: -50px;
       }
+
       &.next {
         right: -50px;
       }
@@ -228,10 +234,155 @@ main.home {
         opacity: 0.7;
       }
     }
+
+    /* ─── Направления ─── */
+
+    .directions {
+      margin-top: 0px;
+      margin-bottom: 20px;
+
+      .section-title {
+        font-size: var(--fz-h2);
+        font-weight: var(--fw-bold);
+        margin-bottom: 40px;
+      }
+
+      .directions-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+      }
+
+      .direction-card {
+        background-color: var(--mute-color);
+        border: 2px solid var(--accent-color);
+        border-radius: 8px;
+        padding: 30px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        transition: var(--t-time);
+        transform: var(--default);
+
+        &:hover {
+          transform: var(--hover);
+          background-color: var(--accent-color);
+
+          .direction-name {
+            color: var(--theme-color);
+          }
+
+          .direction-desc {
+            color: var(--role-color);
+          }
+        }
+
+        .direction-name {
+          font-size: var(--fz-h4);
+          font-weight: var(--fw-bold);
+          color: var(--accent-color);
+          transition: var(--t-time);
+        }
+
+        .direction-desc {
+          font-size: var(--fz-text);
+          font-weight: var(--fw-medium);
+          color: var(--black-color);
+          line-height: 1.5;
+          transition: var(--t-time);
+        }
+      }
+    }
+
+    /* ─── Вступить в отряд ─── */
+
+    .join-section {
+      margin-block: 80px;
+      background-color: rgba(65, 36, 92, 0.1);
+      border: 2px solid var(--accent-color);
+      border-radius: 8px;
+      padding: 60px 50px;
+
+      .join-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 40px;
+        flex-wrap: wrap;
+      }
+
+      .join-text {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        max-width: 550px;
+
+        .join-title {
+          font-size: var(--fz-h2);
+          font-weight: var(--fw-bold);
+          color: var(--accent-color);
+        }
+
+        .join-desc {
+          font-size: var(--fz-text);
+          font-weight: var(--fw-medium);
+          color: var(--accent-color);
+          line-height: 1.6;
+          opacity: 0.7;
+        }
+
+        .join-btn {
+          display: inline-flex;
+          align-self: flex-start;
+          background-color: var(--second-color);
+          color: var(--theme-color);
+          font-weight: var(--fw-smbold);
+          font-size: var(--fz-text);
+          padding: 14px 32px;
+          border-radius: 8px;
+          transition: var(--t-time);
+          transform: var(--default);
+          cursor: pointer;
+
+          &:hover {
+            background-color: var(--second-color-hover);
+            transform: var(--hover);
+          }
+        }
+      }
+
+      .join-stats {
+        display: flex;
+        gap: 40px;
+        flex-wrap: wrap;
+
+        .stat {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 6px;
+
+          .stat-number {
+            font-size: var(--fz-h1);
+            font-weight: var(--fw-black);
+            color: var(--accent-color);
+          }
+
+          .stat-label {
+            font-size: var(--fz-text);
+            font-weight: var(--fw-medium);
+            color: var(--accent-color);
+            text-align: center;
+            opacity: 0.6;
+          }
+        }
+      }
+    }
   }
 }
 
-/* Адаптивность для планшетов */
+/* ─── Адаптив: планшет ─── */
+
 @media screen and (max-width: 1024px) {
   main.home .__container {
     .news-block {
@@ -243,6 +394,7 @@ main.home {
       &.prev {
         left: -30px;
       }
+
       &.next {
         right: -30px;
       }
@@ -255,10 +407,23 @@ main.home {
     .card-news {
       flex: 0 0 calc(50% - 15px);
     }
+
+    .directions .directions-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .join-section {
+      padding: 40px 30px;
+
+      .join-stats {
+        gap: 25px;
+      }
+    }
   }
 }
 
-/* Адаптивность для мобильных устройств */
+/* ─── Адаптив: мобильные ─── */
+
 @media screen and (max-width: 768px) {
   main.home .__container {
     .banner {
@@ -318,6 +483,7 @@ main.home {
       &.prev {
         left: 0;
       }
+
       &.next {
         right: 0;
       }
@@ -326,10 +492,36 @@ main.home {
     .news-loader {
       height: 250px;
     }
+
+    .directions {
+      margin-top: 50px;
+
+      .directions-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .join-section {
+      padding: 30px 20px;
+
+      .join-content {
+        flex-direction: column;
+      }
+
+      .join-text {
+        max-width: 100%;
+      }
+
+      .join-stats {
+        width: 100%;
+        justify-content: space-around;
+      }
+    }
   }
 }
 
-/* Адаптивность для маленьких телефонов */
+/* ─── Адаптив: маленькие телефоны ─── */
+
 @media screen and (max-width: 480px) {
   main.home .__container {
     padding-inline: 5px;
@@ -373,6 +565,18 @@ main.home {
     .arrow-controller {
       font-size: 30px;
       width: 30px;
+    }
+
+    .directions .directions-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .join-section .join-stats {
+      gap: 20px;
+
+      .stat .stat-number {
+        font-size: var(--fz-h2);
+      }
     }
   }
 }

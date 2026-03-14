@@ -1,3 +1,4 @@
+// effect\home.index.js
 document.addEventListener('DOMContentLoaded', () => {
   const track = document.querySelector('.track');
   const slides = document.querySelectorAll('.card-news');

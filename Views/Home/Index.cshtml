@@ -7,6 +7,8 @@
 
 <main class="home">
     <div class="__container">
+
+        <!-- Баннер -->
         <div class="banner">
             <div class="img">
                 <h1 class="title">Вступай в лучшие объединения города!</h1>
@@ -15,12 +17,15 @@
                 Подать заявку!
             </button>
         </div>
+
+        <!-- Описание -->
         <h2 class="description">
-            Студенчсеские отряды ИТ–колледжа начались с Студенческого педагогического отряда “Созвездие” появившегося 26
-            января 2016 года. Текст…
+            Студенческие отряды ИТ–колледжа начались с педагогического отряда «Созвездие», появившегося 26 января 2016 года.
+            За это время через движение прошли сотни студентов — каждый нашёл здесь команду, опыт и первую настоящую работу.
         </h2>
+
+        <!-- Слайдер новостей -->
         <div class="news-block">
-            <!-- Лоадер -->
             <div class="news-loader" id="newsLoader">
                 <div class="spinner"></div>
                 <p>Загрузка новостей…</p>
@@ -30,15 +35,14 @@
 
             <div class="wrapper-slide hidden" id="newsSlider">
                 <div class="track">
-
                     @if (Model != null && Model.Any())
                     {
                         foreach (var news in Model)
                         {
-                            <div class="card-news">
-                                <img src="@(news.ImageUrl ?? Url.Content("~/img/foto_2.png"))" alt="@news.Title">
+                            <a href="@Url.Action("NewsDetails", "Home", new { id = news.Id })" class="card-news">
+                                <img src="@(news.ImageUrl ?? Url.Content("~/assets/img/foto_2.png"))" alt="@news.Title">
                                 <p class="title">@news.Title</p>
-                            </div>
+                            </a>
                         }
                     }
                     else
@@ -47,21 +51,72 @@
                             <img src="~/assets/icon/err.no-load.svg" alt="Нет новостей">
                             <p class="title">Скоро здесь появятся новости</p>
                         </div>
-
                         <div class="card-news err">
                             <img src="~/assets/icon/err.no-load.svg" alt="Следите за обновлениями">
                             <p class="title">Следите за обновлениями</p>
                         </div>
                     }
-
                 </div>
             </div>
 
             <button class="arrow-controller next" data-fn="slide-next">›</button>
         </div>
+
+        <!-- Секция: Направления -->
+        <section class="directions">
+            <h2 class="section-title">Наши направления</h2>
+            <div class="directions-grid">
+                <div class="direction-card">
+                    <h3 class="direction-name">Педагогический</h3>
+                    <p class="direction-desc">Работа в детских лагерях и образовательных учреждениях. Первый опыт наставничества.</p>
+                </div>
+                <div class="direction-card">
+                    <h3 class="direction-name">IT-отряд</h3>
+                    <p class="direction-desc">Разработка, поддержка и цифровизация — применяем знания на реальных проектах.</p>
+                </div>
+                <div class="direction-card">
+                    <h3 class="direction-name">Сервисный</h3>
+                    <p class="direction-desc">Волонтёрство, организация мероприятий и работа с населением города.</p>
+                </div>
+                <div class="direction-card">
+                    <h3 class="direction-name">Строительный</h3>
+                    <p class="direction-desc">Участие в благоустройстве и строительных проектах на территории региона.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Секция: Стать частью -->
+        <section class="join-section">
+            <div class="join-content">
+                <div class="join-text">
+                    <h2 class="join-title">Стань частью команды</h2>
+                    <p class="join-desc">
+                        Студенческий отряд — это не просто подработка. Это первый трудовой опыт,
+                        настоящие друзья и возможность изменить жизнь вокруг себя.
+                        Присоединяйся — двери открыты для каждого студента колледжа.
+                    </p>
+                    <a href="@Url.Action("Login", "Auth")" class="join-btn">Вступить в отряд</a>
+                </div>
+                <div class="join-stats">
+                    <div class="stat">
+                        <span class="stat-number">2016</span>
+                        <span class="stat-label">Год основания</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">4</span>
+                        <span class="stat-label">Направления</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">200+</span>
+                        <span class="stat-label">Бойцов за всё время</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </div>
 </main>
 
 @section Scripts {
-    <script src="@(Url.Content("~/js/slider-function.js"))"></script>
+    <script src="@(Url.Content("~/js/effect/home.index.js"))"></script>
 }
