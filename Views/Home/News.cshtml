@@ -9,7 +9,7 @@
     <div class="news-container">
         <h2 class="news-title">Новости</h2>
 
-        <a class="news-grid" id="newsGrid">
+        <div class="news-grid" id="newsGrid">
             @if (Model.NewsItems.Any())
             {
                 foreach (var news in Model.NewsItems)
@@ -29,9 +29,12 @@
                         cardClass += " no-image";
                     }
 
-                    <a asp-action="NewsDetails" asp-route-id="@news.Id" class="@cardClass">                        <img src="@(hasImage? news.ImageUrl: Url.Content("~/assets/icon/err.no-image.svg"))"
-                             alt="@(hasTitle? news.Title: "Новость")" />
-
+                    <a asp-action="NewsDetails"
+                       asp-route-id="@news.Id"
+                       class="@cardClass"
+                       data-news-id="@news.Id">
+                        <img src="@(hasImage ? news.ImageUrl : Url.Content("~/assets/icon/err.no-image.svg"))"
+                             alt="@(hasTitle ? news.Title : "Новость")" />
                         <div class="card-text-wrapper">
                             @if (hasTitle)
                             {
@@ -47,7 +50,6 @@
             }
             else
             {
-                @* Заглушки *@
                 for (int i = 0; i < 3; i++)
                 {
                     <div class="card-news not-load">
@@ -60,21 +62,19 @@
 
         <div class="load-more-container" id="loadMoreContainer">
             <button class="btn-load-more" id="btnLoadMore" type="button">
-                Показать еще
+                Показать ещё
                 <span class="loading-spinner hidden" id="loadingSpinner"></span>
             </button>
         </div>
     </div>
 </main>
 
-@section Scripts
-{
+@section Scripts {
     <script>
-        // передача текущий в js
         window.newsPage = {
-            currentPage: @Model.PageNumber
+            currentPage: @Model.PageNumber,
+            totalPages: @Model.TotalPages
         };
     </script>
-
-    <script src="~/js/app/news-controller.js"></script>
+    <script src="~/js/app/home.news.js"></script>
 }
