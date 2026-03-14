@@ -1,3 +1,4 @@
+/* root.css */
 html[scss] {
   --fz-text: 16px;
   --fz-h1: 36px;
@@ -33,4 +34,5 @@ html[color] {
   --error-color: #ff4d4f;
   --mute-color: #B4C3C8;
   --second-color-hover: #f69c57;
+  --black-color: #000000;
 }

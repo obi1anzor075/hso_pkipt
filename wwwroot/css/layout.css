@@ -1,3 +1,4 @@
+/* layout.css */
 header.component {
   display: flex;
   width: 100%;
@@ -5,10 +6,11 @@ header.component {
   align-items: center;
   background: var(--accent-color);
   padding-block: 11px;
+  position: relative;
 
   .__container {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 15px;
     max-width: var(--container-size);
     width: 100%;
@@ -19,6 +21,7 @@ header.component {
     a.horizontal-logo {
       width: var(--logo-horizontal-size);
       height: var(--logo-vertical-size);
+      flex-shrink: 0;
       background-position: center;
       background-repeat: no-repeat;
       background-size: contain;
@@ -62,13 +65,14 @@ header.component {
       }
     }
 
-    .profile {
+    .profile,
+    .login {
       width: 46px;
       height: 46px;
+      flex-shrink: 0;
       background-position: center;
       background-repeat: no-repeat;
       background-size: contain;
-      background-image: url(../assets/icon/profile.svg);
       transition: var(--t-time);
       transform: var(--default);
 
@@ -76,8 +80,118 @@ header.component {
         transform: var(--hover);
       }
     }
+
+    .profile {
+      background-image: url(../assets/icon/profile.svg);
+    }
+
+    .login {
+      background-image: url(../assets/icon/login.svg);
+    }
+
+    /* ─── Бургер ─── */
+
+    .burger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      width: 36px;
+      height: 36px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      flex-shrink: 0;
+
+      span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background-color: var(--theme-color);
+        border-radius: 2px;
+        transition: var(--t-time);
+        transform-origin: center;
+      }
+
+      &.open {
+        span:nth-child(1) {
+          transform: translateY(7px) rotate(45deg);
+        }
+
+        span:nth-child(2) {
+          opacity: 0;
+          transform: scaleX(0);
+        }
+
+        span:nth-child(3) {
+          transform: translateY(-7px) rotate(-45deg);
+        }
+      }
+    }
   }
 }
+
+/* ─── Адаптив хедера ─── */
+
+@media screen and (max-width: 900px) {
+  header.component {
+    .__container {
+      flex-wrap: wrap;
+      row-gap: 0;
+
+      a.horizontal-logo {
+        order: 1;
+      }
+
+      .burger {
+        display: flex;
+        order: 2;
+      }
+
+      .profile,
+      .login {
+        order: 3;
+      }
+
+      .center {
+        order: 4;
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s ease, padding 0.35s ease;
+        padding-block: 0;
+
+        .line {
+          display: none;
+        }
+
+        .link {
+          width: 100%;
+          padding-block: 12px;
+          padding-inline: 4px;
+          justify-content: flex-start;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+
+          &:last-child {
+            border-bottom: none;
+          }
+        }
+
+        &.open {
+          max-height: 400px;
+          padding-block: 10px;
+        }
+      }
+    }
+  }
+}
+
+/* ─── Футер ─── */
 
 footer.component {
   display: flex;
@@ -103,25 +217,30 @@ footer.component {
         display: flex;
         flex-direction: column;
         gap: 2px;
+
         p {
           font-size: var(--fz-text);
           font-weight: var(--fw-smbold);
           color: var(--theme-color);
         }
+
         &:last-child {
           margin-top: 15px;
         }
       }
     }
+
     address.about {
       display: flex;
       flex-direction: column;
       height: 162px;
       justify-content: space-between;
+
       .top {
         display: flex;
         flex-direction: column;
         gap: 2px;
+
         p {
           font-size: var(--fz-text);
           font-weight: var(--fw-smbold);
@@ -136,9 +255,11 @@ footer.component {
           }
         }
       }
+
       .contacts {
         display: flex;
         gap: 30px;
+
         a {
           display: inline-block;
           width: var(--fz-h2);
@@ -158,6 +279,7 @@ footer.component {
         }
       }
     }
+
     .logo {
       overflow: hidden;
       display: flex;
@@ -170,6 +292,65 @@ footer.component {
         width: 230px;
         height: 300px;
       }
+    }
+  }
+}
+
+/* ─── Адаптив футера ─── */
+
+@media screen and (max-width: 900px) {
+  footer.component .__container {
+    flex-direction: column;
+    align-items: center;
+    padding-block: 30px;
+    gap: 30px;
+
+    .logo {
+      order: 1;
+
+      .vertical-logo {
+        width: 160px;
+        height: 210px;
+      }
+    }
+
+    .managers {
+      order: 2;
+      width: 100%;
+      padding-inline: 10px;
+
+      .content p {
+        text-align: center;
+      }
+    }
+
+    address.about {
+      order: 3;
+      width: 100%;
+      height: auto;
+      padding-inline: 10px;
+      gap: 16px;
+
+      .top p {
+        text-align: center;
+
+        a {
+          word-break: break-all;
+        }
+      }
+
+      .contacts {
+        justify-content: center;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  footer.component .__container {
+    .logo .vertical-logo {
+      width: 120px;
+      height: 160px;
     }
   }
 }
