@@ -9,7 +9,6 @@
 
     var cardClass = "card-news";
 
-    // Определяем класс карточки
     if (!hasTitle && !hasDescription)
     {
         cardClass += " no-content";
@@ -19,9 +18,10 @@
         cardClass += " no-image";
     }
 
-    <div class="@cardClass" data-news-id="@news.Id">
+    <a asp-action="NewsDetails" asp-controller="Home" asp-route-id="@news.Id" class="@cardClass" data-news-id="@news.Id">
         <img src="@(hasImage? news.ImageUrl: Url.Content("~/assets/icon/err.no-image.svg"))"
-             alt="@(hasTitle? news.Title: "Новость")" loading="lazy">
+             alt="@(hasTitle? news.Title: "Новость")"
+             loading="lazy">
 
         <div class="card-text-wrapper">
             @if (hasTitle)
@@ -33,5 +33,5 @@
                 <p class="card-description">@news.ShortDescription</p>
             }
         </div>
-    </div>
+    </a>
 }

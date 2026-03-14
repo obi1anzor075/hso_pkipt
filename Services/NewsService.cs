@@ -36,4 +36,24 @@ public class NewsService : INewsService
 
         return new PagedResult<NewsItemVM>(itemsVM, count, pageNumber, pageSize);
     }
+
+    public async Task<NewsDetailsVM?> GetByIdAsync(Guid id)
+    {
+        var news = await _newsRepository.GetByIdAsync(id);
+
+        if (news is null)
+            return null;
+
+        var dto = new NewsDetailsVM
+        {
+            Id = news.Id,
+            Title = news.Title,
+            Content = news.Content,
+            ShortDescription = news.ShortDescription,
+            ImageUrl = news.ImageUrl,
+            CreatedAt = news.CreatedAt
+        };
+
+        return dto;
+    }
 }

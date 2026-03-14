@@ -7,4 +7,5 @@ public interface INewsService
 {
     Task<IReadOnlyList<NewsItemVM>> GetLatestAsync(int count = 5);
     Task<PagedResult<NewsItemVM>> GetNewsPageAsync(int pageNumber, int pageSize);
+    Task<NewsDetailsVM?> GetByIdAsync(Guid id);
 }

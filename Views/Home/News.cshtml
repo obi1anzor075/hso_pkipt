@@ -9,7 +9,7 @@
     <div class="news-container">
         <h2 class="news-title">Новости</h2>
 
-        <div class="news-grid" id="newsGrid">
+        <a class="news-grid" id="newsGrid">
             @if (Model.NewsItems.Any())
             {
                 foreach (var news in Model.NewsItems)
@@ -29,8 +29,7 @@
                         cardClass += " no-image";
                     }
 
-                    <div class="@cardClass" data-news-id="@news.Id">
-                        <img src="@(hasImage? news.ImageUrl: Url.Content("~/assets/icon/err.no-image.svg"))"
+                    <a asp-action="NewsDetails" asp-route-id="@news.Id" class="@cardClass">                        <img src="@(hasImage? news.ImageUrl: Url.Content("~/assets/icon/err.no-image.svg"))"
                              alt="@(hasTitle? news.Title: "Новость")" />
 
                         <div class="card-text-wrapper">
@@ -43,7 +42,7 @@
                                 <p class="card-description">@news.ShortDescription</p>
                             }
                         </div>
-                    </div>
+                    </a>
                 }
             }
             else

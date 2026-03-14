@@ -73,4 +73,11 @@ public class AuthController : Controller
 
         return RedirectToAction("Login");
     }
+
+    [HttpPost]
+    public async Task<IActionResult> Logout()
+    {
+        await _identityService.SignOutAsync();
+        return RedirectToAction("Index", "Home");
+    }
 }

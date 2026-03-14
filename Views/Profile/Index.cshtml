@@ -1,0 +1,129 @@
+﻿@model HsoPkipt.ViewModels.Profile.ProfileVM
+
+@{
+    ViewData["Title"] = "Профиль";
+}
+
+<h1>Профиль</h1>
+
+<section>
+    <h2>Фото профиля</h2>
+
+    @if (!string.IsNullOrEmpty(Model.ProfilePhoto.CurrentPhotoUrl))
+    {
+        <img src="@Model.ProfilePhoto.CurrentPhotoUrl" alt="Фото профиля" width="150" />
+    }
+    else
+    {
+        <p>Фото не загружено</p>
+    }
+
+    <form asp-action="UploadPhoto" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+
+        <div>
+            <label asp-for="ProfilePhoto.Photo"></label>
+            <input asp-for="ProfilePhoto.Photo" type="file" />
+            <span asp-validation-for="ProfilePhoto.Photo"></span>
+        </div>
+
+        <button type="submit">Загрузить фото</button>
+    </form>
+</section>
+
+<hr />
+
+<section>
+    <h2>Основная информация</h2>
+
+    <form asp-action="UpdateInfo" method="post">
+        @Html.AntiForgeryToken()
+
+        <div>
+            <label asp-for="ProfileInfo.FirstName"></label>
+            <input asp-for="ProfileInfo.FirstName" readonly />
+        </div>
+
+        <div>
+            <label asp-for="ProfileInfo.LastName"></label>
+            <input asp-for="ProfileInfo.LastName" readonly />
+        </div>
+
+        <div>
+            <label asp-for="ProfileInfo.Email"></label>
+            <input asp-for="ProfileInfo.Email" />
+            <span asp-validation-for="ProfileInfo.Email"></span>
+        </div>
+
+        <div>
+            <label asp-for="ProfileInfo.PhoneNumber"></label>
+            <input asp-for="ProfileInfo.PhoneNumber" />
+            <span asp-validation-for="ProfileInfo.PhoneNumber"></span>
+        </div>
+
+        <div>
+            <label asp-for="ProfileInfo.Position"></label>
+            <input asp-for="ProfileInfo.Position" />
+            <span asp-validation-for="ProfileInfo.Position"></span>
+        </div>
+
+        <button type="submit">Сохранить изменения</button>
+    </form>
+</section>
+
+<hr />
+
+<section>
+    <h2>Смена пароля</h2>
+
+    <form asp-action="ChangePassword" method="post">
+        @Html.AntiForgeryToken()
+
+        <div>
+            <label asp-for="ChangePassword.CurrentPassword"></label>
+            <input asp-for="ChangePassword.CurrentPassword" type="password" />
+            <span asp-validation-for="ChangePassword.CurrentPassword"></span>
+        </div>
+
+        <div>
+            <label asp-for="ChangePassword.NewPassword"></label>
+            <input asp-for="ChangePassword.NewPassword" type="password" />
+            <span asp-validation-for="ChangePassword.NewPassword"></span>
+        </div>
+
+        <div>
+            <label asp-for="ChangePassword.ConfirmPassword"></label>
+            <input asp-for="ChangePassword.ConfirmPassword" type="password" />
+            <span asp-validation-for="ChangePassword.ConfirmPassword"></span>
+        </div>
+
+        <button type="submit">Сменить пароль</button>
+    </form>
+</section>
+
+<hr />
+
+<section>
+    <h2>Предстоящие события</h2>
+
+    @if (Model.UpcomingEvents != null && Model.UpcomingEvents.Any())
+    {
+        foreach (var item in Model.UpcomingEvents)
+        {
+            <article>
+                <h3>@item.Title</h3>
+                <p>@item.Date.ToString("dd.MM.yyyy HH:mm")</p>
+                <p>@item.Description</p>
+            </article>
+        }
+    }
+    else
+    {
+        <p>Предстоящих событий нет</p>
+    }
+</section>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

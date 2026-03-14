@@ -45,5 +45,12 @@ else
         <div class="line"></div>
         <a href="@Url.Action("Store", "Store")" class="link">Мерч</a>
     </div>
-    <a href="@Url.Action("Login", "Auth")" class="profile"></a>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <a href="@Url.Action("Index", "Profile")" class="profile"></a>
+    }
+    else
+    {
+        <a href="@Url.Action("Login", "Auth")" class="profile"></a>
+    }
 </nav>

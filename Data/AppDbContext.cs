@@ -1,12 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using HsoPkipt.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace HsoPkipt.Models
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
     {
         public DbSet<NewsItem> News { get; set; }
         public DbSet<ProjectItem> Projects { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<Event> Events { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -94,6 +97,33 @@ namespace HsoPkipt.Models
                     UpdatedAt = projectBaseDate.AddDays(-i),
                     IsPublished = true
                 }).ToArray()
+            );
+
+            // ---- Сидируем События ----
+            var eventBaseDate = new DateTime(2026, 3, 20, 10, 0, 0, DateTimeKind.Utc);
+
+            modelBuilder.Entity<Event>().HasData(
+                new
+                {
+                    Id = Guid.Parse("cccccccc-cccc-cccc-cccc-ccccccccccc1"),
+                    Title = "Открытие весенней смены",
+                    Description = "Торжественное открытие весенней смены с участием всех отрядов.",
+                    EventDate = eventBaseDate
+                },
+                new
+                {
+                    Id = Guid.Parse("cccccccc-cccc-cccc-cccc-ccccccccccc2"),
+                    Title = "Турнир по настольным играм",
+                    Description = "Командное соревнование по настольным играм среди участников лагеря.",
+                    EventDate = eventBaseDate.AddDays(2)
+                },
+                new
+                {
+                    Id = Guid.Parse("cccccccc-cccc-cccc-cccc-ccccccccccc3"),
+                    Title = "Вечер талантов",
+                    Description = "Творческий вечер с выступлениями участников и вожатых.",
+                    EventDate = eventBaseDate.AddDays(5)
+                }
             );
 
             // --- Many-to-Many конфигурация и сидинг ---

@@ -37,11 +37,13 @@ builder.Services.AddSession(options =>
 // Repositories
 builder.Services.AddScoped<INewsRepository, NewsRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<IEventRepository, EventRepository>();
 
 // Add Services
 builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddScoped<INewsService, NewsService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
 
 var app = builder.Build();
 
@@ -64,6 +66,62 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var dbContext = services.GetRequiredService<AppDbContext>();
+    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+    var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
+
+    // Проверка существования БД и применение миграций
+    if (!await dbContext.Database.CanConnectAsync())
+    {
+        await dbContext.Database.MigrateAsync();
+    }
+    else
+    {
+        var pendingMigrations = await dbContext.Database.GetPendingMigrationsAsync();
+        if (pendingMigrations.Any())
+        {
+            await dbContext.Database.MigrateAsync();
+        }
+    }
+
+    // Название роли
+    string roleName = "Admin";
+
+    // Проверяем существует ли роль
+    if (!await roleManager.RoleExistsAsync(roleName))
+    {
+        await roleManager.CreateAsync(new AppRole { Name = roleName });
+    }
+
+    // Email администратора
+    string adminEmail = "admin@mail.ru";
+    string adminPassword = "Admin123!";
+
+    // Проверяем существует ли пользователь
+    var adminUser = await userManager.FindByEmailAsync(adminEmail);
+
+    if (adminUser == null)
+    {
+        var user = new AppUser
+        {
+            UserName = adminEmail,
+            Email = adminEmail,
+            EmailConfirmed = true
+        };
+
+        var result = await userManager.CreateAsync(user, adminPassword);
+
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(user, roleName);
+        }
+    }
+}
 
 
 app.Run();

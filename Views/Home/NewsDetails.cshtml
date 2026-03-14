@@ -1,0 +1,33 @@
+﻿@model HsoPkipt.ViewModels.News.NewsDetailsVM
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<main>
+    <section>
+        <h1>@Model.Title</h1>
+
+        <p>@Model.CreatedAt.ToString("dd.MM.yyyy")</p>
+
+        @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+        {
+            <div>
+                <img src="@Model.ImageUrl" alt="@Model.Title" />
+            </div>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(Model.ShortDescription))
+        {
+            <p>@Model.ShortDescription</p>
+        }
+
+        <div>
+            <p>@Model.Content</p>
+        </div>
+
+        <div>
+            <a asp-action="News">Назад к новостям</a>
+        </div>
+    </section>
+</main>
