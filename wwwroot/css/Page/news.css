@@ -33,13 +33,8 @@
     aspect-ratio: 3/1.5;
     overflow: hidden;
     position: relative;
-    /* border-radius: 8px; */
     background-color: var(--mute-color);
     transition: transform 0.3s ease;
-
-    * {
-      cursor: zoom-in;
-    }
 
     &:hover {
       transform: translateY(-5px);
@@ -49,12 +44,11 @@
       img {
         object-fit: contain;
         padding: 10px;
-      }
-      * {
         cursor: zoom-in;
       }
 
       .card-text-wrapper {
+
         &::after {
           content: "";
           position: absolute;
@@ -78,29 +72,27 @@
     }
 
     &.no-image {
-      * {
-        cursor: pointer;
-      }
-
       background-color: var(--mute-color);
 
       img {
         object-fit: contain;
         padding: 10px;
         opacity: 1;
+        cursor: pointer;
       }
 
       .card-text-wrapper {
         background-color: var(--shadow-news-err);
+        pointer-events: none; /* Текстовый блок не реагирует на hover */
       }
     }
 
     &.not-load {
+      background-color: var(--mute-color);
+
       * {
         cursor: not-allowed;
       }
-
-      background-color: var(--mute-color);
 
       img {
         object-fit: contain;
@@ -111,9 +103,10 @@
       .card-text-wrapper {
         background-color: transparent;
         color: transparent;
+        pointer-events: none;
       }
 
-      &:hover .card-text-wrapper {
+      img:hover ~ .card-text-wrapper {
         transform: translateX(0);
       }
     }
@@ -123,6 +116,7 @@
       height: 100%;
       object-fit: cover;
       display: block;
+      cursor: zoom-in;
     }
 
     .card-text-wrapper {
@@ -141,9 +135,10 @@
       flex-direction: column;
       justify-content: flex-start;
       gap: 10px;
+      cursor: pointer;
     }
 
-    &:hover .card-text-wrapper {
+    img:hover ~ .card-text-wrapper {
       transform: translateX(100%);
     }
 
@@ -234,8 +229,6 @@
   }
 }
 
-/* ===== RESPONSIVE ===== */
-/* Планшеты (2 колонки) */
 @media (max-width: 1024px) {
   .news-page {
     margin-top: 60px;
