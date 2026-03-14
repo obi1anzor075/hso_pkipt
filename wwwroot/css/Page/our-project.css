@@ -1,4 +1,4 @@
-/* ===== PROJECTS PAGE ===== */
+/* our-project.css */
 .project-page {
   margin-top: 85px;
   margin-bottom: 85px;
@@ -34,10 +34,12 @@
     overflow: hidden;
     position: relative;
     background-color: var(--mute-color);
-    transition: transform 0.3s ease;
+    border-radius: 8px;
+    transition: var(--t-time);
+    transform: var(--default);
 
     &:hover {
-      transform: translateY(-5px);
+      transform: var(--hover);
     }
 
     &.no-content {
@@ -84,7 +86,7 @@
 
       .card-text-wrapper {
         background-color: var(--shadow-news-err);
-        pointer-events: none; /* Текстовый блок не реагирует на hover */
+        pointer-events: none;
       }
     }
 
@@ -137,6 +139,7 @@
       justify-content: flex-start;
       gap: 10px;
       cursor: pointer;
+      overflow: hidden;
     }
 
     img:hover ~ .card-text-wrapper {
@@ -147,7 +150,7 @@
       font-size: calc(var(--fz-text) + 1px);
       font-weight: var(--fw-bold);
       color: var(--accent-color);
-      line-height: 1.1;
+      line-height: 1.3;
       margin: 0;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -158,15 +161,15 @@
 
     .card-description {
       font-size: calc(var(--fz-text) - 2px);
-      color: #000000;
+      color: var(--black-color);
       font-weight: var(--fw-medium);
-      line-height: 1.1;
+      line-height: 1.3;
       margin: 0;
       opacity: 0.9;
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
-      -webkit-line-clamp: 3;
+      -webkit-line-clamp: 4;
       -webkit-box-orient: vertical;
     }
   }
@@ -183,22 +186,21 @@
     background-color: var(--second-color);
     color: var(--theme-color);
     font-weight: var(--fw-bold);
-    font-size: 16px;
+    font-size: var(--fz-text);
     padding: 15px 40px;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: var(--t-time);
+    transform: var(--default);
 
     &:hover {
       background-color: var(--second-color-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transform: var(--hover);
     }
 
     &:active {
-      transform: translateY(0);
+      transform: var(--default);
     }
 
     &:disabled {
@@ -221,8 +223,11 @@
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
     margin-left: 10px;
+    vertical-align: middle;
   }
 }
+
+/* ─── Адаптив: планшет ─── */
 
 @media (max-width: 1024px) {
   .project-page {
@@ -231,7 +236,6 @@
     padding: 0 15px;
 
     .project-grid {
-      grid-template-columns: repeat(2, 1fr);
       gap: 20px;
       padding: 15px;
     }
@@ -243,11 +247,11 @@
 
     .card-project {
       .card-title {
-        font-size: 16px;
+        font-size: var(--fz-text);
       }
 
       .card-description {
-        font-size: 13px;
+        font-size: calc(var(--fz-text) - 3px);
       }
 
       .card-text-wrapper {
@@ -256,6 +260,8 @@
     }
   }
 }
+
+/* ─── Адаптив: мобильные ─── */
 
 @media (max-width: 640px) {
   .project-page {
@@ -275,14 +281,16 @@
     }
 
     .card-project {
+      aspect-ratio: auto;
+
       .card-title {
-        font-size: 16px;
+        font-size: var(--fz-text);
         -webkit-line-clamp: 3;
       }
 
       .card-description {
-        font-size: 13px;
-        -webkit-line-clamp: 4;
+        font-size: calc(var(--fz-text) - 3px);
+        -webkit-line-clamp: 5;
       }
 
       .card-text-wrapper {
@@ -298,21 +306,46 @@
     .project-container {
       padding: 10px;
     }
+
+    .btn-load-more {
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .load-more-container {
+      margin-top: 30px;
+      padding: 10px;
+    }
   }
 }
 
+/* ─── Адаптив: маленькие телефоны ─── */
+
 @media (max-width: 480px) {
-  .project-title {
-    font-size: 24px;
+  .project-page {
+    .project-title {
+      font-size: 24px;
+    }
+
+    .card-project {
+      .card-title {
+        font-size: calc(var(--fz-text) - 2px);
+      }
+
+      .card-description {
+        font-size: calc(var(--fz-text) - 4px);
+      }
+    }
+
+    .btn-load-more {
+      font-size: calc(var(--fz-text) - 2px);
+      padding: 12px 30px;
+    }
   }
+}
 
-  .card-project {
-    .card-title {
-      font-size: 14px;
-    }
-
-    .card-description {
-      font-size: 12px;
-    }
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }

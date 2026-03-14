@@ -7,7 +7,7 @@ namespace HsoPkipt.Controllers;
 public class ProjectsController : Controller
 {
     private readonly IProjectService _projectService;
-    private const int PageSize = 9;
+    private const int PageSize = 8;
 
     public ProjectsController(IProjectService projectService)
     {
