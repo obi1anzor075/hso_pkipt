@@ -1,0 +1,1591 @@
+/* profile.css */
+
+/* ─── Страница ─── */
+
+.profile-page {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 50px 20px 80px;
+
+  .profile-page__inner {
+    max-width: 1200px;
+    width: 100%;
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+  }
+}
+
+/* ─── Сайдбар ─── */
+
+.profile-sidebar {
+  width: 260px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  position: sticky;
+  top: 30px;
+
+  .profile-sidebar__avatar-wrap {
+    position: relative;
+    width: 110px;
+    height: 110px;
+    flex-shrink: 0;
+  }
+
+  .profile-sidebar__avatar {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--accent-color);
+    display: block;
+  }
+
+  .profile-sidebar__avatar-edit {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    width: 30px;
+    height: 30px;
+    background-color: var(--accent-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--t-time);
+    transform: var(--default);
+
+    &:hover {
+      transform: var(--hover);
+    }
+
+    svg {
+      stroke: var(--theme-color);
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  .profile-sidebar__info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-align: center;
+  }
+
+  .profile-sidebar__name {
+    font-size: var(--fz-h4);
+    font-weight: var(--fw-bold);
+    color: var(--accent-color);
+  }
+
+  .profile-sidebar__position {
+    font-size: calc(var(--fz-text) - 2px);
+    font-weight: var(--fw-medium);
+    color: var(--accent-color);
+    opacity: 0.55;
+  }
+}
+
+/* ─── Навигация по вкладкам ─── */
+
+.profile-nav {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .profile-nav__item {
+    width: 100%;
+    padding: 12px 16px;
+    text-align: left;
+    font-size: var(--fz-text);
+    font-weight: var(--fw-medium);
+    color: var(--accent-color);
+    background: none;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--t-time);
+
+    &:hover {
+      background-color: rgba(65, 36, 92, 0.07);
+    }
+
+    &.active {
+      background-color: var(--accent-color);
+      color: var(--theme-color);
+      font-weight: var(--fw-smbold);
+    }
+  }
+}
+
+/* ─── Кнопка выхода ─── */
+
+.profile-sidebar__logout-form {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.profile-sidebar__logout {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  font-size: var(--fz-text);
+  font-weight: var(--fw-medium);
+  color: var(--error-color);
+  background: none;
+  border: 2px solid var(--error-color);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--t-time);
+  transform: var(--default);
+
+  &:hover {
+    background-color: var(--error-color);
+    color: var(--theme-color);
+    transform: var(--hover);
+
+    .profile-sidebar__logout-icon {
+      background-color: var(--theme-color);
+    }
+  }
+
+  .profile-sidebar__logout-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    mask-image: url(../../assets/icon/logout.svg);
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    background-color: var(--error-color);
+    flex-shrink: 0;
+    transition: var(--t-time);
+  }
+}
+
+/* ─── Контент ─── */
+
+.profile-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ─── Алерты ─── */
+
+.profile-alert {
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-size: var(--fz-text);
+  font-weight: var(--fw-medium);
+
+  &.profile-alert--success {
+    background-color: rgba(65, 36, 92, 0.07);
+    border-left: 3px solid var(--accent-color);
+    color: var(--accent-color);
+  }
+
+  &.profile-alert--error {
+    background-color: rgba(255, 77, 79, 0.08);
+    border-left: 3px solid var(--error-color);
+    color: var(--error-color);
+  }
+}
+
+/* ─── Секция ─── */
+
+.profile-section {
+  display: none;
+  flex-direction: column;
+  gap: 24px;
+  background-color: var(--theme-color);
+  border: 2px solid rgba(65, 36, 92, 0.12);
+  border-radius: 8px;
+  padding: 32px;
+
+  &.active {
+    display: flex;
+  }
+
+  .profile-section__title {
+    font-size: var(--fz-h3);
+    font-weight: var(--fw-bold);
+    color: var(--accent-color);
+  }
+
+  .profile-section__subtitle {
+    font-size: var(--fz-text);
+    font-weight: var(--fw-medium);
+    color: var(--accent-color);
+    opacity: 0.6;
+    margin-top: -16px;
+  }
+}
+
+/* ─── Превью фото ─── */
+
+.profile-photo__input {
+  display: none;
+}
+
+.profile-photo__preview-wrap {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px;
+  background-color: rgba(65, 36, 92, 0.04);
+  border-radius: 8px;
+  border: 2px dashed rgba(65, 36, 92, 0.2);
+  flex-wrap: wrap;
+
+  &.hidden {
+    display: none;
+  }
+
+  .profile-photo__preview-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--accent-color);
+    flex-shrink: 0;
+  }
+
+  .profile-photo__preview-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .profile-photo__preview-error {
+    width: 100%;
+    font-size: calc(var(--fz-text) - 2px);
+    color: var(--error-color);
+    font-weight: var(--fw-medium);
+
+    &.hidden {
+      display: none;
+    }
+  }
+}
+
+/* ─── Форма ─── */
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.profile-form__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+
+  &.profile-form__grid--single {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+  }
+}
+
+.profile-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+
+  &.profile-form__field--full {
+    grid-column: 1 / -1;
+  }
+
+  &.profile-form__field--readonly {
+    .profile-form__input {
+      background-color: rgba(65, 36, 92, 0.04);
+      color: rgba(65, 36, 92, 0.5);
+      cursor: not-allowed;
+    }
+  }
+}
+
+.profile-form__label {
+  font-size: calc(var(--fz-text) - 1px);
+  font-weight: var(--fw-smbold);
+  color: var(--accent-color);
+  cursor: default;
+}
+
+.profile-form__input {
+  padding: 12px 14px;
+  border: 2px solid rgba(65, 36, 92, 0.2);
+  border-radius: 8px;
+  font-size: var(--fz-text);
+  font-weight: 400;
+  color: var(--accent-color);
+  background-color: var(--theme-color);
+  transition: border-color var(--t-time);
+  width: 100%;
+
+  &:focus {
+    border-color: var(--accent-color);
+    outline: none;
+  }
+
+  &.input-error {
+    border-color: var(--error-color);
+  }
+}
+
+.profile-form__input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .profile-form__input {
+    padding-right: 44px;
+  }
+}
+
+.profile-form__eye {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: var(--accent-color);
+  opacity: 0.4;
+  padding: 0;
+  transition: opacity var(--t-time);
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  svg {
+    stroke: var(--accent-color);
+  }
+}
+
+.profile-form__readonly-hint {
+  font-size: calc(var(--fz-text) - 3px);
+  color: var(--mute-color);
+  font-weight: var(--fw-medium);
+}
+
+.profile-form__error {
+  font-size: calc(var(--fz-text) - 2px);
+  color: var(--error-color);
+  font-weight: var(--fw-medium);
+  min-height: 18px;
+}
+
+.profile-form__match-hint {
+  font-size: calc(var(--fz-text) - 2px);
+  font-weight: var(--fw-medium);
+  min-height: 18px;
+
+  &.match {
+    color: #52c41a;
+  }
+
+  &.no-match {
+    color: var(--error-color);
+  }
+}
+
+.profile-form__actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* ─── Кнопки ─── */
+
+.profile-btn {
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-size: var(--fz-text);
+  font-weight: var(--fw-smbold);
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: var(--t-time);
+  transform: var(--default);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  &:hover {
+    transform: var(--hover);
+  }
+
+  &.profile-btn--primary {
+    background-color: var(--accent-color);
+    color: var(--theme-color);
+
+    &:hover {
+      background-color: var(--role-color);
+    }
+  }
+
+  &.profile-btn--ghost {
+    background: none;
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+
+    &:hover {
+      background-color: rgba(65, 36, 92, 0.07);
+    }
+  }
+}
+
+/* ─── Сила пароля ─── */
+
+.password-strength {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+
+  .password-strength__bar {
+    flex: 1;
+    height: 4px;
+    background-color: rgba(65, 36, 92, 0.12);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .password-strength__fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 4px;
+    transition: width 0.3s ease, background-color 0.3s ease;
+  }
+
+  .password-strength__label {
+    font-size: calc(var(--fz-text) - 3px);
+    font-weight: var(--fw-smbold);
+    min-width: 70px;
+    text-align: right;
+  }
+}
+
+.password-rules {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+
+  .password-rules__item {
+    font-size: calc(var(--fz-text) - 3px);
+    font-weight: var(--fw-medium);
+    color: var(--mute-color);
+    padding-left: 18px;
+    position: relative;
+    cursor: default;
+    transition: color 0.2s ease;
+
+    &::before {
+      content: "✕";
+      position: absolute;
+      left: 0;
+      font-size: 10px;
+      color: var(--mute-color);
+      transition: color 0.2s ease;
+    }
+
+    &.valid {
+      color: #52c41a;
+
+      &::before {
+        content: "✓";
+        color: #52c41a;
+      }
+    }
+  }
+}
+
+/* ─── Календарь ─── */
+
+/* Высота одного часа — CSS-переменная, JS читает её тоже */
+:root {
+  --cal-hour-height: 60px;
+}
+
+.calendar {
+  display: flex;
+  border: 2px solid rgba(65, 36, 92, 0.12);
+  border-radius: 8px;
+  overflow: hidden;
+
+  /* ── Левый сайдбар ── */
+
+  .calendar__sidebar {
+    width: 190px;
+    flex-shrink: 0;
+    border-right: 2px solid rgba(65, 36, 92, 0.1);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .calendar__mini {
+    padding: 16px 12px;
+    border-bottom: 2px solid rgba(65, 36, 92, 0.1);
+
+    .cal-mini__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+
+      .cal-mini__month {
+        font-size: calc(var(--fz-text) - 1px);
+        font-weight: var(--fw-bold);
+        color: var(--accent-color);
+        cursor: default;
+      }
+
+      .cal-mini__nav {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        color: var(--accent-color);
+        opacity: 0.45;
+        padding: 2px 5px;
+        border-radius: 4px;
+        line-height: 1;
+        transition: var(--t-time);
+
+        &:hover {
+          opacity: 1;
+          background-color: rgba(65, 36, 92, 0.08);
+        }
+      }
+    }
+
+    .cal-mini__grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 1px;
+      text-align: center;
+    }
+
+    .cal-mini__dow {
+      font-size: 10px;
+      font-weight: var(--fw-bold);
+      color: var(--accent-color);
+      opacity: 0.35;
+      padding-block: 3px;
+      cursor: default;
+    }
+
+    .cal-mini__day {
+      font-size: 11px;
+      font-weight: var(--fw-medium);
+      color: var(--accent-color);
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin: auto;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+      position: relative;
+
+      &:hover {
+        background-color: rgba(65, 36, 92, 0.09);
+      }
+
+      &.other-month {
+        opacity: 0.22;
+      }
+
+      &.today {
+        background-color: var(--second-color);
+        color: var(--theme-color);
+        font-weight: var(--fw-bold);
+      }
+
+      &.selected {
+        background-color: var(--accent-color);
+        color: var(--theme-color);
+        font-weight: var(--fw-bold);
+      }
+
+      &.has-event-week::after {
+        content: "";
+        position: absolute;
+        bottom: 1px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 4px;
+        height: 4px;
+        background-color: var(--second-color-hover);
+        border-radius: 50%;
+      }
+
+      &.has-event-month::after {
+        content: "";
+        position: absolute;
+        bottom: 1px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 4px;
+        height: 4px;
+        background-color: var(--second-color);
+        border-radius: 50%;
+        opacity: 0.6;
+      }
+
+      &.today.has-event-week::after,
+      &.today.has-event-month::after,
+      &.selected.has-event-week::after,
+      &.selected.has-event-month::after {
+        background-color: var(--theme-color);
+        opacity: 0.7;
+      }
+    }
+  }
+
+  .calendar__upcoming {
+    padding: 14px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow-y: auto;
+    flex: 1;
+
+    .cal-upcoming__label {
+      font-size: 10px;
+      font-weight: var(--fw-bold);
+      color: var(--accent-color);
+      opacity: 0.45;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      cursor: default;
+      margin-top: 4px;
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+
+    .cal-upcoming__event {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+
+      .cal-upcoming__dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        margin-top: 4px;
+      }
+
+      .cal-upcoming__text {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+        min-width: 0;
+      }
+
+      .cal-upcoming__row {
+        display: flex;
+        align-items: baseline;
+        gap: 5px;
+        flex-wrap: nowrap;
+        min-width: 0;
+      }
+
+      .cal-upcoming__title {
+        font-size: calc(var(--fz-text) - 2px);
+        font-weight: var(--fw-smbold);
+        color: var(--accent-color);
+        line-height: 1.3;
+        cursor: default;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        min-width: 0;
+        flex: 1;
+      }
+
+      .cal-upcoming__sep {
+        font-size: calc(var(--fz-text) - 4px);
+        color: var(--accent-color);
+        opacity: 0.25;
+        flex-shrink: 0;
+        cursor: default;
+      }
+
+      .cal-upcoming__time {
+        font-size: 10px;
+        color: var(--accent-color);
+        opacity: 0.45;
+        font-weight: var(--fw-medium);
+        cursor: default;
+        flex-shrink: 0;
+        white-space: nowrap;
+      }
+    }
+
+    .cal-upcoming__empty {
+      font-size: calc(var(--fz-text) - 3px);
+      color: var(--mute-color);
+      font-weight: var(--fw-medium);
+      cursor: default;
+    }
+  }
+
+  /* ── Основная область ── */
+
+  .calendar__main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  /* Тулбар */
+  .calendar__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 18px;
+    border-bottom: 2px solid rgba(65, 36, 92, 0.1);
+    gap: 12px;
+    flex-shrink: 0;
+
+    .calendar__nav-btn {
+      width: 30px;
+      height: 30px;
+      background: none;
+      border: 2px solid rgba(65, 36, 92, 0.14);
+      border-radius: 6px;
+      font-size: 20px;
+      color: var(--accent-color);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--t-time);
+      flex-shrink: 0;
+      line-height: 1;
+
+      &:hover {
+        border-color: var(--accent-color);
+        background-color: rgba(65, 36, 92, 0.06);
+      }
+    }
+
+    .calendar__toolbar-center {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+      flex: 1;
+    }
+
+    .calendar__range {
+      font-size: var(--fz-h4);
+      font-weight: var(--fw-bold);
+      color: var(--accent-color);
+      white-space: nowrap;
+      cursor: default;
+    }
+
+    .calendar__view-switch {
+      display: flex;
+      border: 2px solid rgba(65, 36, 92, 0.14);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .calendar__view-btn {
+      padding: 5px 14px;
+      font-size: calc(var(--fz-text) - 2px);
+      font-weight: var(--fw-smbold);
+      color: var(--accent-color);
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: var(--t-time);
+
+      &:hover {
+        background-color: rgba(65, 36, 92, 0.06);
+      }
+
+      &.active {
+        background-color: var(--accent-color);
+        color: var(--theme-color);
+      }
+    }
+  }
+
+  /* Обёртка скролла */
+  .calendar__grid-wrap {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: auto;
+    min-height: 400px;
+  }
+
+  /* Вся сетка = заголовки + тело */
+  .calendar__grid {
+    min-width: 420px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Строка заголовков дней ── */
+  .cal-head {
+    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background-color: var(--theme-color);
+    border-bottom: 2px solid rgba(65, 36, 92, 0.12);
+
+    .cal-head__spacer {
+      width: 52px;
+      flex-shrink: 0;
+      border-right: 1px solid rgba(65, 36, 92, 0.08);
+    }
+
+    .cal-head__day {
+      flex: 1;
+      padding: 10px 6px 8px;
+      text-align: center;
+      border-left: 1px solid rgba(65, 36, 92, 0.08);
+      cursor: default;
+
+      .cal-head__day-name {
+        font-size: 10px;
+        font-weight: var(--fw-bold);
+        color: var(--accent-color);
+        opacity: 0.45;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .cal-head__day-num {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 4px auto 0;
+        font-size: calc(var(--fz-h4) - 2px);
+        font-weight: var(--fw-bold);
+        color: var(--accent-color);
+        transition: background-color 0.15s ease;
+
+        &.today {
+          background-color: var(--accent-color);
+          color: var(--theme-color);
+        }
+      }
+    }
+  }
+
+  /* ── Тело сетки ── */
+  .cal-body {
+    display: flex;
+    flex: 1;
+
+    /* Колонка времени */
+    .cal-body__times {
+      width: 52px;
+      flex-shrink: 0;
+      border-right: 1px solid rgba(65, 36, 92, 0.08);
+      position: relative;
+    }
+
+    .cal-body__time-label {
+      position: absolute;
+      right: 8px;
+      font-size: 10px;
+      font-weight: var(--fw-medium);
+      color: var(--accent-color);
+      opacity: 0.4;
+      /* сдвиг: метка выровнена по верхней границе часа */
+      transform: translateY(-50%);
+      white-space: nowrap;
+      cursor: default;
+      line-height: 1;
+    }
+
+    /* Колонка одного дня */
+    .cal-body__day-col {
+      flex: 1;
+      border-left: 1px solid rgba(65, 36, 92, 0.08);
+      position: relative;
+
+      &.today-col {
+        background-color: rgba(65, 36, 92, 0.018);
+      }
+    }
+
+    /* Горизонтальная разделительная линия часа */
+    .cal-body__hour-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background-color: rgba(65, 36, 92, 0.08);
+      pointer-events: none;
+    }
+
+    /* Полчаса — более тонкая линия */
+    .cal-body__half-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background-color: rgba(65, 36, 92, 0.04);
+      pointer-events: none;
+    }
+  }
+
+  /* ── Событие ── */
+  .cal-event {
+    position: absolute;
+    left: 3px;
+    right: 3px;
+    min-height: 22px;
+    background-color: var(--accent-color);
+    border-left: 3px solid var(--role-color);
+    border-radius: 4px;
+    padding: 4px 6px;
+    z-index: 2;
+    cursor: default;
+    overflow: hidden;
+    transition: opacity var(--t-time);
+
+    &:hover {
+      opacity: 0.85;
+    }
+
+    .cal-event__title {
+      font-size: 11px;
+      font-weight: var(--fw-smbold);
+      color: var(--theme-color);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      line-height: 1.3;
+    }
+
+    .cal-event__time {
+      font-size: 10px;
+      color: var(--role-color);
+      font-weight: var(--fw-medium);
+      line-height: 1.3;
+    }
+  }
+
+  /* Линия текущего времени */
+  .cal-now-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--second-color);
+    z-index: 3;
+    pointer-events: none;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: -4px;
+      top: -4px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: var(--second-color);
+    }
+  }
+}
+
+/* ─── Плавающий баннер превью фото ─── */
+
+.photo-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 500;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  transform: translateY(-110%);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  &.visible {
+    transform: translateY(0);
+    pointer-events: all;
+  }
+
+  .photo-banner__inner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background-color: var(--accent-color);
+    padding: 12px 20px;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 8px 30px rgba(65, 36, 92, 0.35);
+    flex-wrap: wrap;
+    max-width: 680px;
+    width: 100%;
+  }
+
+  .photo-banner__img {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    flex-shrink: 0;
+  }
+
+  .photo-banner__text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 120px;
+  }
+
+  .photo-banner__title {
+    font-size: var(--fz-text);
+    font-weight: var(--fw-bold);
+    color: var(--theme-color);
+    cursor: default;
+  }
+
+  .photo-banner__hint {
+    font-size: calc(var(--fz-text) - 2px);
+    font-weight: var(--fw-medium);
+    color: var(--role-color);
+    cursor: default;
+
+    &.error {
+      color: #ff9999;
+    }
+  }
+
+  .photo-banner__actions {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+
+    /* Переопределяем кнопку ghost под тёмный фон */
+    .photo-banner__cancel {
+      border-color: rgba(255, 255, 255, 0.35);
+      color: var(--theme-color);
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.6);
+      }
+    }
+  }
+}
+
+/* ─── Адаптив ─── */
+
+/* ══════════════════════════════════════
+   ≤ 900px  — планшет / небольшой экран
+   Сайдбар раскладывается горизонтально
+   ══════════════════════════════════════ */
+@media (max-width: 900px) {
+
+  .profile-page {
+    padding: 24px 16px 60px;
+
+    .profile-page__inner {
+      flex-direction: column;
+      gap: 16px;
+    }
+  }
+
+  /* ── Сайдбар → горизонтальная шапка ── */
+  .profile-sidebar {
+    width: 100%;
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 20px;
+    background-color: var(--theme-color);
+    border: 2px solid rgba(65, 36, 92, 0.12);
+    border-radius: 8px;
+
+    /* Аватар */
+    .profile-sidebar__avatar-wrap {
+      width: 68px;
+      height: 68px;
+      flex-shrink: 0;
+    }
+
+    .profile-sidebar__avatar {
+      width: 68px;
+      height: 68px;
+    }
+
+    .profile-sidebar__avatar-edit {
+      width: 24px;
+      height: 24px;
+      bottom: 2px;
+      right: 2px;
+
+      svg {
+        width: 12px;
+        height: 12px;
+      }
+    }
+
+    /* Имя/должность — слева, прижато к аватару */
+    .profile-sidebar__info {
+      align-items: flex-start;
+      text-align: left;
+      flex: 1;
+      min-width: 100px;
+      gap: 2px;
+    }
+
+    .profile-sidebar__name {
+      font-size: calc(var(--fz-h4) - 2px);
+    }
+
+    .profile-sidebar__position {
+      font-size: calc(var(--fz-text) - 2px);
+    }
+  }
+
+  /* ── Навигация → строка кнопок ── */
+  .profile-nav {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+
+    .profile-nav__item {
+      width: auto;
+      flex: 1;
+      min-width: 100px;
+      text-align: center;
+      padding: 9px 12px;
+      font-size: calc(var(--fz-text) - 1px);
+    }
+  }
+
+  /* ── Кнопка выхода ── */
+  .profile-sidebar__logout-form {
+    width: auto;
+    margin-top: 0;
+  }
+
+  .profile-sidebar__logout {
+    width: auto;
+    padding: 9px 16px;
+    font-size: calc(var(--fz-text) - 1px);
+  }
+
+  /* ── Секция ── */
+  .profile-section {
+    padding: 24px 20px;
+  }
+
+  /* ── Баннер ── */
+  .photo-banner .photo-banner__inner {
+    padding: 10px 16px;
+    gap: 12px;
+  }
+}
+
+/* ══════════════════════════════════════
+   ≤ 640px  — мобильный
+   Всё в одну колонку
+   ══════════════════════════════════════ */
+@media (max-width: 640px) {
+
+  .profile-page {
+    padding: 14px 10px 70px;
+
+    .profile-page__inner {
+      gap: 12px;
+    }
+  }
+
+  /* ── Сайдбар компактнее ── */
+  .profile-sidebar {
+    padding: 14px;
+    gap: 10px;
+
+    .profile-sidebar__avatar-wrap {
+      width: 54px;
+      height: 54px;
+    }
+
+    .profile-sidebar__avatar {
+      width: 54px;
+      height: 54px;
+    }
+
+    .profile-sidebar__avatar-edit {
+      width: 22px;
+      height: 22px;
+      bottom: 1px;
+      right: 1px;
+
+      svg {
+        width: 11px;
+        height: 11px;
+      }
+    }
+
+    .profile-sidebar__name {
+      font-size: var(--fz-text);
+    }
+
+    .profile-sidebar__position {
+      font-size: calc(var(--fz-text) - 3px);
+    }
+  }
+
+  /* ── Навигация — равные кнопки ── */
+  .profile-nav {
+    gap: 4px;
+
+    .profile-nav__item {
+      min-width: 80px;
+      padding: 8px 8px;
+      font-size: calc(var(--fz-text) - 2px);
+      border-radius: 6px;
+    }
+  }
+
+  .profile-sidebar__logout {
+    padding: 8px 12px;
+    font-size: calc(var(--fz-text) - 2px);
+
+    .profile-sidebar__logout-icon {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  /* ── Секция ── */
+  .profile-section {
+    padding: 16px 12px;
+    gap: 16px;
+    border-radius: 8px;
+
+    .profile-section__title {
+      font-size: var(--fz-h4);
+    }
+
+    .profile-section__subtitle {
+      font-size: calc(var(--fz-text) - 2px);
+      margin-top: -8px;
+    }
+  }
+
+  /* ── Форма ── */
+  .profile-form {
+    gap: 16px;
+  }
+
+  .profile-form__grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+
+    &.profile-form__grid--single {
+      max-width: 100%;
+    }
+  }
+
+  .profile-form__input {
+    padding: 10px 12px;
+    font-size: calc(var(--fz-text) - 1px);
+  }
+
+  /* Кнопки действий — во всю ширину */
+  .profile-form__actions {
+    flex-direction: column;
+
+    .profile-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  /* ── Кнопки ── */
+  .profile-btn {
+    padding: 11px 20px;
+    font-size: calc(var(--fz-text) - 1px);
+  }
+
+  /* ── Алерты ── */
+  .profile-alert {
+    padding: 10px 12px;
+    font-size: calc(var(--fz-text) - 1px);
+  }
+
+  /* ── Баннер фото — вертикально ── */
+  .photo-banner .photo-banner__inner {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 12px 14px;
+    gap: 10px;
+    border-radius: 0 0 10px 10px;
+  }
+
+  .photo-banner .photo-banner__text {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .photo-banner .photo-banner__actions {
+    width: 100%;
+    gap: 8px;
+
+    .profile-btn {
+      flex: 1;
+      justify-content: center;
+      padding: 9px 14px;
+    }
+  }
+
+  /* ── Календарь — вертикальный стек ── */
+  .calendar {
+    flex-direction: column;
+
+    /* Сайдбар сверху — мини + upcoming рядом */
+    .calendar__sidebar {
+      width: 100%;
+      border-right: none;
+      border-bottom: 2px solid rgba(65, 36, 92, 0.1);
+      flex-direction: row;
+      align-items: flex-start;
+    }
+
+    .calendar__mini {
+      flex: 1;
+      min-width: 160px;
+      border-bottom: none;
+      border-right: 1px solid rgba(65, 36, 92, 0.1);
+      padding: 14px 10px;
+    }
+
+    .calendar__upcoming {
+      flex: 1;
+      min-width: 110px;
+      max-height: 230px;
+      padding: 14px 10px;
+    }
+
+    /* Тулбар компактнее */
+    .calendar__toolbar {
+      padding: 10px 10px;
+      gap: 6px;
+
+      .calendar__nav-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 18px;
+      }
+
+      .calendar__range {
+        font-size: var(--fz-text);
+        white-space: normal;
+        text-align: center;
+      }
+
+      .calendar__view-btn {
+        padding: 4px 10px;
+        font-size: calc(var(--fz-text) - 3px);
+      }
+    }
+
+    .calendar__grid-wrap {
+      min-height: 340px;
+    }
+
+    /* Заголовки дней чуть меньше */
+    .cal-head .cal-head__day {
+      padding: 8px 2px 6px;
+
+      .cal-head__day-name {
+        font-size: 9px;
+      }
+
+      .cal-head__day-num {
+        width: 26px;
+        height: 26px;
+        font-size: calc(var(--fz-text) - 1px);
+        margin-top: 2px;
+      }
+    }
+
+    /* Колонка времени уже */
+    .cal-body__times {
+      width: 38px;
+    }
+
+    .cal-body__time-label {
+      right: 4px;
+      font-size: 9px;
+    }
+
+    .cal-head__spacer {
+      width: 38px;
+    }
+  }
+}
+
+/* ══════════════════════════════════════
+   ≤ 480px  — маленький телефон
+   ══════════════════════════════════════ */
+@media (max-width: 480px) {
+  .profile-content {
+    width: 100%;
+  }
+
+  .profile-page {
+    padding: 10px 8px 64px;
+  }
+
+  .profile-sidebar {
+    padding: 12px;
+    gap: 10px;
+
+    /* Аватар + имя в одну строку, кнопки — ниже */
+    .profile-sidebar__avatar-wrap {
+      width: 48px;
+      height: 48px;
+    }
+
+    .profile-sidebar__avatar {
+      width: 48px;
+      height: 48px;
+    }
+  }
+
+  .profile-nav .profile-nav__item {
+    font-size: calc(var(--fz-text) - 3px);
+    padding: 7px 6px;
+  }
+
+  .profile-sidebar__logout {
+    font-size: calc(var(--fz-text) - 3px);
+    padding: 7px 10px;
+  }
+
+  .profile-section {
+    padding: 14px 10px;
+
+    .profile-section__title {
+      font-size: calc(var(--fz-h4) - 2px);
+    }
+  }
+
+  .profile-form__input {
+    font-size: calc(var(--fz-text) - 2px);
+    padding: 9px 10px;
+  }
+
+  .profile-form__label {
+    font-size: calc(var(--fz-text) - 2px);
+  }
+
+  .profile-btn {
+    padding: 10px 16px;
+    font-size: calc(var(--fz-text) - 2px);
+  }
+
+  /* Календарь — мини и upcoming складываются */
+  .calendar {
+
+    .calendar__sidebar {
+      flex-direction: column;
+    }
+
+    .calendar__mini {
+      border-right: none;
+      border-bottom: 1px solid rgba(65, 36, 92, 0.1);
+      min-width: unset;
+      width: 100%;
+    }
+
+    .calendar__upcoming {
+      min-width: unset;
+      width: 100%;
+      max-height: 160px;
+    }
+
+    .calendar__toolbar {
+      flex-wrap: wrap;
+      row-gap: 8px;
+      padding: 8px;
+
+      .calendar__toolbar-center {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .calendar__range {
+        font-size: calc(var(--fz-text) - 1px);
+      }
+    }
+
+    .cal-body__times {
+      width: 32px;
+    }
+
+    .cal-body__time-label {
+      font-size: 8px;
+      right: 2px;
+    }
+
+    .cal-head__spacer {
+      width: 32px;
+    }
+  }
+
+  .photo-banner .photo-banner__img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .photo-banner .photo-banner__title {
+    font-size: calc(var(--fz-text) - 1px);
+  }
+
+  .photo-banner .photo-banner__hint {
+    font-size: calc(var(--fz-text) - 3px);
+  }
+}
