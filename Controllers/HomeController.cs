@@ -42,15 +42,9 @@ namespace HsoPkipt.Controllers
             return View(news);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> NewsDetails(Guid id)
+       public IActionResult About()
         {
-            var newsItem = await _newsService.GetByIdAsync(id);
-
-            if (newsItem is null)
-                return NotFound();
-
-            return View(newsItem);
+            return View();
         }
     }
 }
