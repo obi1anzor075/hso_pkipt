@@ -1,0 +1,135 @@
+body.modal-open {
+  overflow: hidden;
+}
+
+.join-us-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(15, 10, 25, 0);
+  backdrop-filter: blur(0px);
+  transition: background 0.25s ease, backdrop-filter 0.25s ease;
+}
+
+.join-us-modal-overlay.is-active {
+  background: rgba(15, 10, 25, 0.45);
+  backdrop-filter: blur(6px);
+}
+
+.join-us-modal {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  border-radius: 16px;
+  border: 2px solid var(--accent-color);
+  background: #fff;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
+  padding: 32px 28px;
+  opacity: 0;
+  transform: translateY(30px) scale(0.96);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.join-us-modal-overlay.is-active .join-us-modal {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.join-us-modal-overlay.is-closing .join-us-modal {
+  opacity: 0;
+  transform: translateY(20px) scale(0.96);
+}
+
+.join-us-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  font-size: 32px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--accent-color);
+  transition: 0.2s ease;
+}
+
+.join-us-close:hover {
+  opacity: 0.7;
+}
+
+.join-us-content {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.join-us-badge {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(65, 36, 92, 0.08);
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+.join-us-title {
+  margin: 0;
+  font-size: clamp(28px, 3vw, 36px);
+  color: var(--accent-color);
+  font-weight: 800;
+}
+
+.join-us-text {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.65;
+  color: rgba(65, 36, 92, 0.9);
+}
+
+.join-us-vk-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  align-self: flex-start;
+  margin-top: 8px;
+  padding: 14px 20px;
+  border-radius: 10px;
+  background: var(--second-color);
+  color: var(--theme-color);
+  font-weight: 700;
+  text-decoration: none;
+  transition: 0.25s ease;
+}
+
+.join-us-vk-btn:hover {
+  background: var(--second-color-hover);
+  transform: translateY(-2px);
+}
+
+.join-us-vk-btn img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+@media screen and (max-width: 480px) {
+  .join-us-modal {
+    padding: 26px 18px;
+  }
+
+  .join-us-title {
+    font-size: 24px;
+  }
+
+  .join-us-vk-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
