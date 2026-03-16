@@ -14,13 +14,43 @@ main.home {
     display: flex;
     flex-direction: column;
 
+    /* ─── Общие заголовки секций ─── */
+
+    .section-title {
+      font-size: var(--fz-h2);
+      font-weight: var(--fw-bold);
+      margin-bottom: 28px;
+      color: var(--accent-color);
+    }
+
+    /* ─── Анимация появления ─── */
+
+    [data-animate] {
+      opacity: 0;
+      transform: translateY(35px);
+      transition:
+        opacity 0.8s ease,
+        transform 0.8s ease;
+    }
+
+    [data-animate].is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── Верхняя секция ─── */
+
+    .hero {
+      margin-bottom: 50px;
+    }
+
     .banner {
       max-width: 1400px;
       margin-inline: auto;
       width: 100%;
       display: flex;
-      align-items: center;
-      gap: 15px;
+      align-items: stretch;
+      gap: 20px;
       flex-wrap: wrap;
       justify-content: space-between;
 
@@ -31,32 +61,71 @@ main.home {
         min-width: 300px;
         max-height: 515px;
         display: flex;
+        flex-direction: column;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
         background-image: url(../../assets/img/foto_1.png);
         position: relative;
+        border-radius: 12px;
+        overflow: hidden;
+        padding: 40px;
 
         &::after {
           content: "";
           position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background-color: var(--shadow-reco);
+          inset: 0;
+          background: linear-gradient(90deg, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.2));
+        }
+
+        .hero-badge,
+        .title,
+        .hero-subtitle {
+          position: relative;
+          z-index: 1;
+        }
+
+        .hero-badge {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          padding: 8px 16px;
+          margin-bottom: 18px;
+          border-radius: 999px;
+          background-color: rgba(255, 255, 255, 0.14);
+          color: var(--theme-color);
+          backdrop-filter: blur(8px);
+          font-size: var(--fz-text);
+          font-weight: var(--fw-smbold);
         }
 
         .title {
-          z-index: 1;
           font-weight: var(--fw-smbold);
           font-size: calc(var(--fz-h1) * 0.8);
           color: var(--theme-color);
-          text-align: center;
-          padding: 20px;
+          text-align: left;
+          max-width: 700px;
+          padding: 0;
         }
+
+        .hero-subtitle {
+          margin-top: 18px;
+          max-width: 560px;
+          color: rgba(255, 255, 255, 0.9);
+          font-size: var(--fz-text);
+          line-height: 1.6;
+        }
+      }
+
+      .hero-side {
+        flex: 1 1 260px;
+        min-width: 260px;
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: space-between;
+        gap: 20px;
       }
 
       button.btn {
@@ -65,6 +134,8 @@ main.home {
         font-weight: var(--fw-smbold);
         padding: 15px 30px;
         display: inline-flex;
+        justify-content: center;
+        align-items: center;
         font-size: var(--fz-h3);
         transition: var(--t-time);
         border: none;
@@ -75,20 +146,67 @@ main.home {
           background-color: var(--second-color-hover);
         }
       }
+
+      .hero-mini-stats {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .mini-stat {
+        border: 2px solid var(--accent-color);
+        background-color: rgba(65, 36, 92, 0.06);
+        border-radius: 10px;
+        padding: 18px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        .value {
+          font-size: var(--fz-h3);
+          font-weight: var(--fw-black);
+          color: var(--accent-color);
+        }
+
+        .label {
+          font-size: var(--fz-text);
+          color: var(--accent-color);
+          opacity: 0.75;
+        }
+      }
+    }
+
+    /* ─── Описание ─── */
+
+    .intro-section {
+      margin-bottom: 40px;
+    }
+
+    .description-card {
+      border: 2px solid var(--accent-color);
+      background-color: rgba(65, 36, 92, 0.06);
+      border-radius: 12px;
+      padding: 30px;
     }
 
     .description {
-      margin-top: 50px;
-      font-size: calc(var(--fz-h1) * 0.9);
+      margin-top: 0;
+      font-size: calc(var(--fz-h1) * 0.58);
       font-weight: var(--fw-medium);
+      line-height: 1.5;
+      color: var(--accent-color);
     }
 
-    /* ─── Слайдер новостей ─── */
+    /* ─── Секции со слайдерами ─── */
+
+    .slider-section {
+      margin-top: 40px;
+    }
 
     .news-block {
       position: relative;
       max-width: 1400px;
-      margin: 100px auto;
+      margin: 0 auto 60px auto;
       display: flex;
       width: calc(100% - 100px);
     }
@@ -238,14 +356,8 @@ main.home {
     /* ─── Направления ─── */
 
     .directions {
-      margin-top: 0px;
+      margin-top: 0;
       margin-bottom: 20px;
-
-      .section-title {
-        font-size: var(--fz-h2);
-        font-weight: var(--fw-bold);
-        margin-bottom: 40px;
-      }
 
       .directions-grid {
         display: grid;
@@ -334,6 +446,8 @@ main.home {
         .join-btn {
           display: inline-flex;
           align-self: flex-start;
+          align-items: center;
+          justify-content: center;
           background-color: var(--second-color);
           color: var(--theme-color);
           font-weight: var(--fw-smbold);
@@ -343,6 +457,7 @@ main.home {
           transition: var(--t-time);
           transform: var(--default);
           cursor: pointer;
+          border: none;
 
           &:hover {
             background-color: var(--second-color-hover);
@@ -387,7 +502,7 @@ main.home {
   main.home .__container {
     .news-block {
       width: calc(100% - 60px);
-      margin: 80px auto;
+      margin: 0 auto 50px auto;
     }
 
     .arrow-controller {
@@ -435,10 +550,19 @@ main.home {
         min-width: 100%;
         aspect-ratio: 16/9;
         max-height: 400px;
+        padding: 24px;
 
         .title {
           font-size: calc(var(--fz-h1) * 0.6);
         }
+
+        .hero-subtitle {
+          font-size: calc(var(--fz-text) * 0.95);
+        }
+      }
+
+      .hero-side {
+        width: 100%;
       }
 
       button.btn {
@@ -448,14 +572,18 @@ main.home {
       }
     }
 
+    .description-card {
+      padding: 22px;
+    }
+
     .description {
-      font-size: calc(var(--fz-h1) * 0.7);
-      margin-top: 30px;
+      font-size: calc(var(--fz-h1) * 0.48);
+      margin-top: 0;
     }
 
     .news-block {
       width: 100%;
-      margin: 60px 0;
+      margin: 0 0 40px 0;
     }
 
     .track {
@@ -494,7 +622,7 @@ main.home {
     }
 
     .directions {
-      margin-top: 50px;
+      margin-top: 30px;
 
       .directions-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -530,10 +658,16 @@ main.home {
     .banner {
       .img {
         min-width: 280px;
+        padding: 18px;
 
         .title {
           font-size: calc(var(--fz-h1) * 0.5);
-          padding: 15px;
+          padding: 0;
+        }
+
+        .hero-subtitle {
+          margin-top: 12px;
+          font-size: 14px;
         }
       }
 
@@ -544,12 +678,11 @@ main.home {
     }
 
     .description {
-      font-size: calc(var(--fz-h1) * 0.6);
-      margin-top: 20px;
+      font-size: calc(var(--fz-h1) * 0.42);
     }
 
     .news-block {
-      margin: 40px 0;
+      margin: 0 0 30px 0;
     }
 
     .card-news {

@@ -1,5 +1,5 @@
-﻿@using HsoPkipt.ViewModels.News
-@model IEnumerable<NewsItemVM>
+﻿@using HsoPkipt.ViewModels.Home
+@model HomeIndexVM
 
 @{
     ViewData["Title"] = "Главная страница";
@@ -9,61 +9,96 @@
     <div class="__container">
 
         <!-- Баннер -->
-        <div class="banner">
-            <div class="img">
-                <h1 class="title">Вступай в лучшие объединения города!</h1>
-            </div>
-            <button class="btn">
-                Подать заявку!
-            </button>
-        </div>
+        <section class="hero" data-animate>
+            <div class="banner">
+                <div class="img">
+                    <div class="hero-badge">ШСО ПКИПТ</div>
+                    <h1 class="title">Вступай в лучшие объединения города!</h1>
+                    <p class="hero-subtitle">
+                        Команда, опыт, реальные проекты и студенческая жизнь,
+                        в которой хочется участвовать.
+                    </p>
+                </div>
 
-        <!-- Описание -->
-        <h2 class="description">
-            Студенческие отряды ИТ–колледжа начались с педагогического отряда «Созвездие», появившегося 26 января 2016 года.
-            За это время через движение прошли сотни студентов — каждый нашёл здесь команду, опыт и первую настоящую работу.
-        </h2>
+                <div class="hero-side">
+                    <button class="btn" type="button" data-fn="modal__join-us">
+                        Подать заявку
+                    </button>
 
-        <!-- Слайдер новостей -->
-        <div class="news-block">
-            <div class="news-loader" id="newsLoader">
-                <div class="spinner"></div>
-                <p>Загрузка новостей…</p>
-            </div>
-
-            <button class="arrow-controller prev" data-fn="slide-prev">‹</button>
-
-            <div class="wrapper-slide hidden" id="newsSlider">
-                <div class="track">
-                    @if (Model != null && Model.Any())
-                    {
-                        foreach (var news in Model)
-                        {
-                            <a href="@Url.Action("NewsDetails", "Home", new { id = news.Id })" class="card-news">
-                                <img src="@(news.ImageUrl ?? Url.Content("~/assets/img/foto_2.png"))" alt="@news.Title">
-                                <p class="title">@news.Title</p>
-                            </a>
-                        }
-                    }
-                    else
-                    {
-                        <div class="card-news err">
-                            <img src="~/assets/icon/err.no-load.svg" alt="Нет новостей">
-                            <p class="title">Скоро здесь появятся новости</p>
+                    <div class="hero-mini-stats">
+                        <div class="mini-stat">
+                            <span class="value">2016</span>
+                            <span class="label">год основания</span>
                         </div>
-                        <div class="card-news err">
-                            <img src="~/assets/icon/err.no-load.svg" alt="Следите за обновлениями">
-                            <p class="title">Следите за обновлениями</p>
+                        <div class="mini-stat">
+                            <span class="value">4</span>
+                            <span class="label">направления</span>
                         </div>
-                    }
+                        <div class="mini-stat">
+                            <span class="value">200+</span>
+                            <span class="label">участников</span>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <button class="arrow-controller next" data-fn="slide-next">›</button>
-        </div>
+        <!-- Описание -->
+        <section class="intro-section" data-animate>
+            <h2 class="section-title">О движении</h2>
+            <div class="description-card">
+                <p class="description">
+                    Студенческие отряды ИТ–колледжа начались с педагогического отряда «Созвездие»,
+                    появившегося 26 января 2016 года. За это время через движение прошли сотни
+                    студентов — каждый нашёл здесь команду, опыт и первую настоящую работу.
+                </p>
+            </div>
+        </section>
+
+        <!-- Слайдер новостей -->
+        <section class="slider-section" data-animate>
+            <h2 class="section-title">Последние новости</h2>
+
+            <div class="news-block slider-block" data-slider>
+                <div class="news-loader" data-slider-loader>
+                    <div class="spinner"></div>
+                    <p>Загрузка новостей…</p>
+                </div>
+
+                <button class="arrow-controller prev" type="button" data-slider-prev>‹</button>
+
+                <div class="wrapper-slide hidden" data-slider-wrapper>
+                    <div class="track" data-slider-track>
+                        @if (Model?.LatestNews != null && Model.LatestNews.Any())
+                        {
+                            foreach (var news in Model.LatestNews)
+                            {
+                                <a href="@Url.Action("NewsDetails", "Home", new { id = news.Id })" class="card-news">
+                                    <img src="@(news.ImageUrl ?? Url.Content("~/assets/img/foto_2.png"))" alt="@news.Title">
+                                    <p class="title">@news.Title</p>
+                                </a>
+                            }
+                        }
+                        else
+                        {
+                            <div class="card-news err">
+                                <img src="~/assets/icon/err.no-load.svg" alt="Нет новостей">
+                                <p class="title">Скоро здесь появятся новости</p>
+                            </div>
+                            <div class="card-news err">
+                                <img src="~/assets/icon/err.no-load.svg" alt="Следите за обновлениями">
+                                <p class="title">Следите за обновлениями</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <button class="arrow-controller next" type="button" data-slider-next>›</button>
+            </div>
+        </section>
 
         <!-- Секция: Направления -->
-        <section class="directions">
+        <section class="directions" data-animate>
             <h2 class="section-title">Наши направления</h2>
             <div class="directions-grid">
                 <div class="direction-card">
@@ -85,18 +120,63 @@
             </div>
         </section>
 
+        <!-- Слайдер проектов -->
+        <section class="slider-section" data-animate>
+            <h2 class="section-title">Последние проекты</h2>
+
+            <div class="news-block slider-block" data-slider>
+                <div class="news-loader" data-slider-loader>
+                    <div class="spinner"></div>
+                    <p>Загрузка проектов…</p>
+                </div>
+
+                <button class="arrow-controller prev" type="button" data-slider-prev>‹</button>
+
+                <div class="wrapper-slide hidden" data-slider-wrapper>
+                    <div class="track" data-slider-track>
+                        @if (Model?.LatestProjects != null && Model.LatestProjects.Any())
+                        {
+                            foreach (var project in Model.LatestProjects)
+                            {
+                                <a href="@Url.Action("Index", "Projects")" class="card-news">
+                                    <img src="@(project.ImageUrl ?? Url.Content("~/assets/img/foto_2.png"))" alt="@project.Title">
+                                    <p class="title">@project.Title</p>
+                                </a>
+                            }
+                        }
+                        else
+                        {
+                            <div class="card-news err">
+                                <img src="~/assets/icon/err.no-load.svg" alt="Нет проектов">
+                                <p class="title">Скоро здесь появятся проекты</p>
+                            </div>
+                            <div class="card-news err">
+                                <img src="~/assets/icon/err.no-load.svg" alt="Следите за обновлениями">
+                                <p class="title">Следите за обновлениями</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <button class="arrow-controller next" type="button" data-slider-next>›</button>
+            </div>
+        </section>
+
         <!-- Секция: Стать частью -->
-        <section class="join-section">
+        <section class="join-section" data-animate>
             <div class="join-content">
                 <div class="join-text">
-                    <h2 class="join-title">Стань частью команды</h2>
+                    <h3 class="join-title">Стань частью команды</h3>
                     <p class="join-desc">
                         Студенческий отряд — это не просто подработка. Это первый трудовой опыт,
                         настоящие друзья и возможность изменить жизнь вокруг себя.
                         Присоединяйся — двери открыты для каждого студента колледжа.
                     </p>
-                    <a href="@Url.Action("Login", "Auth")" class="join-btn">Вступить в отряд</a>
+                    <button type="button" class="join-btn" data-fn="modal__join-us">
+                        Вступить в отряд
+                    </button>
                 </div>
+
                 <div class="join-stats">
                     <div class="stat">
                         <span class="stat-number">2016</span>
