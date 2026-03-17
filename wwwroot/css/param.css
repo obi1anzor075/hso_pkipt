@@ -61,6 +61,10 @@ button, a {
   cursor: pointer;
   background: none;
   border: none;
+
+  & * {
+    cursor: pointer;
+  }
 }
 
 input {

@@ -1,11 +1,42 @@
 ﻿@{
-    ViewData["Title"] = "Редактирование пользователей";
+    ViewData["Title"] = "Управление пользователями";
 }
 
-<h1>Управление пользователями</h1>
+<main class="admin-page">
+    <div class="admin-page__inner">
 
-<p>Раздел доступен только администратору.</p>
+        <!-- Шапка -->
+        <div class="admin-header admin-fade-in">
+            <div class="admin-header__left">
+                <a asp-controller="Admin" asp-action="Index" class="admin-header__back">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"                         stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6" />
+                    </svg>
+                    Панель управления
+                </a>
+                <h1 class="admin-header__title">Пользователи</h1>
+                <p class="admin-header__subtitle">Управление учётными записями и ролями</p>
+            </div>
+        </div>
 
-<p>
-    <a asp-controller="Admin" asp-action="Index">Назад</a>
-</p>
+        <div class="admin-divider"></div>
+
+        <!-- Заглушка (раздел в разработке) -->
+        <div class="admin-wip admin-fade-in" style="animation-delay:0.1s">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                 stroke-linecap="round" stroke-linejoin="round" style="color: var(--mute-color); opacity: 0.45;">
+                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 00-3-3.87" />
+                <path d="M16 3.13a4 4 0 010 7.75" />
+            </svg>
+            <p class="admin-wip__title">Раздел в разработке</p>
+            <p class="admin-wip__text">
+                Управление пользователями и ролями появится в одном из следующих обновлений.
+                Раздел доступен только администратору.
+            </p>
+        </div>
+
+    </div>
+</main>

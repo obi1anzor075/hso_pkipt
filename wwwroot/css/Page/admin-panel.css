@@ -1,0 +1,642 @@
+/* admin-panel.css */
+
+/* ─── Общая обёртка страниц админки ─── */
+
+.admin-page {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 50px 20px 80px;
+
+  .admin-page__inner {
+    max-width: 1100px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+}
+
+/* ─── Шапка страницы ─── */
+
+.admin-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.admin-header__left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.admin-header__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: calc(var(--fz-text) - 1px);
+  font-weight: var(--fw-medium);
+  color: var(--accent-color);
+  opacity: 0.55;
+  transition: var(--t-time);
+  transform: var(--default);
+
+  svg {
+    flex-shrink: 0;
+    transition: transform var(--t-time);
+  }
+
+  &:hover {
+    opacity: 1;
+    transform: var(--hover);
+
+    svg {
+      transform: translateX(-3px);
+    }
+  }
+}
+
+.admin-header__title {
+  font-size: var(--fz-h3);
+  font-weight: var(--fw-black);
+  color: var(--accent-color);
+  line-height: 1.1;
+}
+
+.admin-header__subtitle {
+  font-size: calc(var(--fz-text) - 1px);
+  font-weight: var(--fw-medium);
+  color: var(--mute-color);
+}
+
+/* Правая часть — кнопка действия */
+.admin-header__action {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 24px;
+  background-color: var(--accent-color);
+  color: var(--theme-color);
+  font-size: var(--fz-text);
+  font-weight: var(--fw-smbold);
+  border-radius: 8px;
+  border: 2px solid var(--accent-color);
+  cursor: pointer;
+  text-decoration: none;
+  transition: var(--t-time);
+  transform: var(--default);
+  flex-shrink: 0;
+
+  svg {
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    background-color: var(--role-color);
+    border-color: var(--role-color);
+    transform: var(--hover);
+  }
+}
+
+/* ─── Разделитель ─── */
+
+.admin-divider {
+  width: 100%;
+  height: 2px;
+  background-color: rgba(65, 36, 92, 0.08);
+  border-radius: 2px;
+  margin-block: -8px;
+}
+
+/* ─── Сетка карточек навигации (Index) ─── */
+
+.admin-nav-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.admin-nav-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 28px 24px;
+  background-color: var(--theme-color);
+  border: 2px solid rgba(65, 36, 92, 0.12);
+  border-radius: 12px;
+  text-decoration: none;
+  transition: var(--t-time);
+  transform: var(--default);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+
+  /* Левая акцентная полоска */
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background-color: rgba(65, 36, 92, 0.12);
+    transition: background-color var(--t-time);
+    border-radius: 0 0 0 0;
+  }
+
+  &:hover {
+    transform: var(--hover);
+    border-color: var(--accent-color);
+    box-shadow: 0 6px 24px rgba(65, 36, 92, 0.1);
+
+    &::before {
+      background-color: var(--accent-color);
+    }
+
+    .admin-nav-card__title {
+      color: var(--accent-color);
+    }
+
+    .admin-nav-card__icon {
+      background-color: var(--accent-color);
+    }
+  }
+
+  .admin-nav-card__icon-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background-color: rgba(65, 36, 92, 0.07);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color var(--t-time);
+    flex-shrink: 0;
+  }
+
+  .admin-nav-card__icon {
+    width: 22px;
+    height: 22px;
+    mask-position: center;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    background-color: var(--accent-color);
+    opacity: 0.6;
+    transition: var(--t-time);
+  }
+
+  .admin-nav-card__title {
+    font-size: var(--fz-text);
+    font-weight: var(--fw-bold);
+    color: rgba(65, 36, 92, 0.7);
+    line-height: 1.2;
+    transition: color var(--t-time);
+  }
+
+  .admin-nav-card__desc {
+    font-size: calc(var(--fz-text) - 2px);
+    font-weight: var(--fw-medium);
+    color: var(--mute-color);
+    line-height: 1.5;
+    margin-top: -6px;
+  }
+
+  .admin-nav-card__arrow {
+    margin-top: auto;
+    align-self: flex-end;
+    width: 20px;
+    height: 20px;
+    mask-image: url(../assets/icon/arrow-right.svg);
+    mask-position: center;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    background-color: var(--mute-color);
+    transition: var(--t-time);
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+
+  &:hover .admin-nav-card__arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Карточка "в разработке" */
+  &.admin-nav-card--disabled {
+    pointer-events: none;
+    opacity: 0.45;
+
+    &::before {
+      background-color: var(--mute-color);
+    }
+  }
+
+  /* Выделенная карточка (события для модератора) */
+  &.admin-nav-card--featured {
+    border-color: var(--role-color);
+    background-color: rgba(171, 129, 229, 0.04);
+
+    &::before {
+      background-color: var(--role-color);
+    }
+
+    &:hover {
+      border-color: var(--role-color);
+      box-shadow: 0 6px 24px rgba(171, 129, 229, 0.18);
+
+      .admin-nav-card__icon {
+        background-color: var(--role-color);
+      }
+    }
+  }
+}
+
+/* Бейдж "В разработке" */
+.admin-nav-card__badge {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-size: calc(var(--fz-text) - 4px);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+
+  &.badge--wip {
+    background-color: rgba(180, 195, 200, 0.25);
+    color: var(--mute-color);
+  }
+
+  &.badge--new {
+    background-color: rgba(171, 129, 229, 0.15);
+    color: var(--role-color);
+  }
+}
+
+/* ─── Блок действий на подстраницах ─── */
+
+.admin-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-action-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  background-color: var(--theme-color);
+  border: 2px solid rgba(65, 36, 92, 0.1);
+  border-radius: 10px;
+  text-decoration: none;
+  transition: var(--t-time);
+  transform: var(--default);
+
+  &:hover {
+    border-color: var(--accent-color);
+    transform: var(--hover);
+    box-shadow: 0 4px 16px rgba(65, 36, 92, 0.08);
+
+    .admin-action-item__icon {
+      background-color: var(--accent-color);
+      opacity: 1;
+    }
+
+    .admin-action-item__title {
+      color: var(--accent-color);
+    }
+  }
+
+  .admin-action-item__icon-wrap {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background-color: rgba(65, 36, 92, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background-color var(--t-time);
+  }
+
+  .admin-action-item__icon {
+    width: 20px;
+    height: 20px;
+    mask-position: center;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    background-color: var(--accent-color);
+    opacity: 0.55;
+    transition: var(--t-time);
+  }
+
+  .admin-action-item__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .admin-action-item__title {
+    font-size: var(--fz-text);
+    font-weight: var(--fw-smbold);
+    color: rgba(65, 36, 92, 0.75);
+    line-height: 1.2;
+    transition: color var(--t-time);
+  }
+
+  .admin-action-item__hint {
+    font-size: calc(var(--fz-text) - 2px);
+    font-weight: var(--fw-medium);
+    color: var(--mute-color);
+  }
+
+  .admin-action-item__chevron {
+    width: 18px;
+    height: 18px;
+    mask-image: url(../assets/icon/arrow-right.svg);
+    mask-position: center;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    background-color: var(--mute-color);
+    flex-shrink: 0;
+    opacity: 0.5;
+    transition: var(--t-time);
+  }
+
+  &:hover .admin-action-item__chevron {
+    opacity: 1;
+    background-color: var(--accent-color);
+  }
+}
+
+/* ─── Заглушка "В разработке" ─── */
+
+.admin-wip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 60px 20px;
+  background-color: var(--theme-color);
+  border: 2px dashed rgba(65, 36, 92, 0.15);
+  border-radius: 12px;
+  text-align: center;
+
+  .admin-wip__icon {
+    width: 56px;
+    height: 56px;
+    mask-image: url(../assets/icon/wip.svg);
+    mask-position: center;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    background-color: var(--mute-color);
+    opacity: 0.4;
+  }
+
+  .admin-wip__title {
+    font-size: var(--fz-h4);
+    font-weight: var(--fw-bold);
+    color: var(--accent-color);
+    opacity: 0.5;
+  }
+
+  .admin-wip__text {
+    font-size: calc(var(--fz-text) - 1px);
+    font-weight: var(--fw-medium);
+    color: var(--mute-color);
+    max-width: 320px;
+    line-height: 1.6;
+  }
+}
+
+/* ─── Заглушка "Только Администратор" ─── */
+
+.admin-restricted {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 60px 20px;
+  background-color: rgba(255, 77, 79, 0.04);
+  border: 2px solid rgba(255, 77, 79, 0.15);
+  border-radius: 12px;
+  text-align: center;
+
+  .admin-restricted__icon {
+    width: 52px;
+    height: 52px;
+    mask-image: url(../assets/icon/lock.svg);
+    mask-position: center;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    background-color: var(--error-color);
+    opacity: 0.5;
+  }
+
+  .admin-restricted__title {
+    font-size: var(--fz-h4);
+    font-weight: var(--fw-bold);
+    color: var(--error-color);
+    opacity: 0.7;
+  }
+
+  .admin-restricted__text {
+    font-size: calc(var(--fz-text) - 1px);
+    font-weight: var(--fw-medium);
+    color: var(--mute-color);
+    max-width: 320px;
+    line-height: 1.6;
+  }
+}
+
+/* ─── Приветственный блок (Index) ─── */
+
+.admin-welcome {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 24px 28px;
+  background: linear-gradient(135deg, rgba(65, 36, 92, 0.06) 0%, rgba(171, 129, 229, 0.06) 100%);
+  border: 2px solid rgba(65, 36, 92, 0.1);
+  border-radius: 12px;
+  flex-wrap: wrap;
+
+  .admin-welcome__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background-color: var(--accent-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    svg {
+      color: var(--theme-color);
+    }
+  }
+
+  .admin-welcome__text {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .admin-welcome__title {
+    font-size: var(--fz-h4);
+    font-weight: var(--fw-bold);
+    color: var(--accent-color);
+    cursor: default;
+  }
+
+  .admin-welcome__hint {
+    font-size: calc(var(--fz-text) - 1px);
+    font-weight: var(--fw-medium);
+    color: var(--mute-color);
+    cursor: default;
+  }
+
+  .admin-welcome__role {
+    display: inline-flex;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background-color: rgba(171, 129, 229, 0.15);
+    color: var(--role-color);
+    font-size: calc(var(--fz-text) - 3px);
+    font-weight: var(--fw-bold);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: default;
+  }
+}
+
+/* ─── Секция-группа (Index) ─── */
+
+.admin-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admin-section__label {
+  font-size: calc(var(--fz-text) - 2px);
+  font-weight: var(--fw-bold);
+  color: var(--accent-color);
+  opacity: 0.4;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: default;
+}
+
+/* ─── Анимация появления ─── */
+
+.admin-fade-in {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: adminFadeIn 0.4s ease forwards;
+}
+
+@keyframes adminFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Задержки для карточек */
+.admin-nav-card:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.admin-nav-card:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.admin-nav-card:nth-child(3) {
+  animation-delay: 0.15s;
+}
+.admin-nav-card:nth-child(4) {
+  animation-delay: 0.2s;
+}
+.admin-nav-card:nth-child(5) {
+  animation-delay: 0.25s;
+}
+
+.admin-action-item:nth-child(1) {
+  animation-delay: 0.08s;
+}
+.admin-action-item:nth-child(2) {
+  animation-delay: 0.14s;
+}
+
+/* ─── Адаптив ─── */
+
+@media (max-width: 768px) {
+  .admin-page {
+    padding: 30px 14px 60px;
+  }
+
+  .admin-page__inner {
+    gap: 24px;
+  }
+
+  .admin-header__title {
+    font-size: var(--fz-h4);
+  }
+
+  .admin-nav-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .admin-nav-card {
+    padding: 20px 18px;
+  }
+
+  .admin-welcome {
+    padding: 18px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-page {
+    padding: 20px 10px 50px;
+  }
+
+  .admin-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .admin-header__action {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .admin-nav-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-nav-card {
+    padding: 18px 16px;
+  }
+
+  .admin-welcome {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .admin-action-item {
+    padding: 14px 16px;
+  }
+}
