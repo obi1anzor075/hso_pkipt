@@ -1,0 +1,84 @@
+/* admin-panel.projects.css
+   Стили специфичные для страниц управления проектами.
+   Базовые стили (формы, таблица, пагинация, удаление) — в admin-panel.css
+*/
+
+/* Карточка предпросмотра проекта в форме */
+.admin-project-preview {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  padding: 16px;
+  background-color: rgba(65, 36, 92, 0.03);
+  border: 2px solid rgba(65, 36, 92, 0.1);
+  border-radius: 8px;
+  flex-wrap: wrap;
+
+  .admin-project-preview__img {
+    width: 120px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 2px solid rgba(65, 36, 92, 0.12);
+    flex-shrink: 0;
+    display: none;
+
+    &.visible {
+      display: block;
+    }
+  }
+
+  .admin-project-preview__placeholder {
+    width: 120px;
+    height: 80px;
+    border-radius: 6px;
+    border: 2px dashed rgba(65, 36, 92, 0.15);
+    background-color: rgba(65, 36, 92, 0.03);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    svg {
+      opacity: 0.2;
+    }
+
+    &.hidden {
+      display: none;
+    }
+  }
+
+  .admin-project-preview__text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+
+    .admin-project-preview__title {
+      font-size: calc(var(--fz-text) - 1px);
+      font-weight: var(--fw-smbold);
+      color: var(--accent-color);
+      opacity: 0.6;
+      cursor: default;
+    }
+
+    .admin-project-preview__hint {
+      font-size: calc(var(--fz-text) - 3px);
+      font-weight: var(--fw-medium);
+      color: var(--mute-color);
+      cursor: default;
+    }
+  }
+}
+
+/* Адаптив */
+@media (max-width: 480px) {
+  .admin-project-preview {
+    flex-direction: column;
+
+    .admin-project-preview__img,
+    .admin-project-preview__placeholder {
+      width: 100%;
+      height: 140px;
+    }
+  }
+}

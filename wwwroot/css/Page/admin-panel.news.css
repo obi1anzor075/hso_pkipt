@@ -145,6 +145,10 @@
     color: var(--error-color);
     border-color: rgba(255, 77, 79, 0.15);
 
+    & * {
+      color: var(--error-color);
+    }
+
     &:hover {
       background-color: var(--error-color);
       color: var(--theme-color);

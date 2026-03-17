@@ -4,44 +4,95 @@
     ViewData["Title"] = "Редактирование проекта";
 }
 
-<h1>Редактирование проекта</h1>
+<main class="admin-page">
+    <div class="admin-page__inner">
 
-<p>
-    <a asp-action="Index">Назад к списку</a>
-</p>
+        <div class="admin-header admin-fade-in">
+            <div class="admin-header__left">
+                <a asp-action="Index" class="admin-header__back">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                    Назад к списку
+                </a>
+                <h1 class="admin-header__title">Редактирование проекта</h1>
+                <p class="admin-header__subtitle">Внесите изменения и сохраните</p>
+            </div>
+        </div>
 
-<form method="post">
-    @Html.AntiForgeryToken()
+        <div class="admin-divider"></div>
 
-    <div>
-        <label asp-for="Title"></label>
-        <input asp-for="Title" />
-        <span asp-validation-for="Title"></span>
+        <div class="admin-form-wrap admin-fade-in" style="animation-delay:0.08s">
+            <div class="admin-form-wrap__stripe"></div>
+            <div class="admin-form-wrap__body">
+                <form asp-action="Edit"
+                      asp-route-id="@ViewContext.RouteData.Values["id"]"
+                      method="post" class="admin-form">
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly" class="admin-form__error-summary"></div>
+
+                    <div class="admin-form__field">
+                        <label asp-for="Title" class="admin-form__label">Название</label>
+                        <input asp-for="Title" class="admin-form__input" placeholder="Введите название проекта…" />
+                        <span asp-validation-for="Title" class="admin-form__error"></span>
+                    </div>
+
+                    <div class="admin-form__field">
+                        <label asp-for="ShortDescription" class="admin-form__label">Краткое описание</label>
+                        <span class="admin-form__hint">Показывается в карточке на странице проектов</span>
+                        <textarea asp-for="ShortDescription" class="admin-form__textarea"
+                                  placeholder="Пару предложений о проекте…"></textarea>
+                        <span asp-validation-for="ShortDescription" class="admin-form__error"></span>
+                    </div>
+
+                    <div class="admin-form__field">
+                        <label asp-for="Content" class="admin-form__label">Содержание</label>
+                        <span class="admin-form__hint">Поддерживается HTML</span>
+                        <textarea asp-for="Content" class="admin-form__textarea admin-form__textarea--tall"
+                                  placeholder="Подробное описание проекта…"></textarea>
+                        <span asp-validation-for="Content" class="admin-form__error"></span>
+                    </div>
+
+                    <div class="admin-form__field">
+                        <label asp-for="ImageUrl" class="admin-form__label">URL изображения</label>
+                        <div class="admin-form__img-wrap">
+                            <input asp-for="ImageUrl" class="admin-form__input"
+                                   id="imageUrlInput" placeholder="https://…" />
+                            <img src="@Model.ImageUrl" alt="Предпросмотр"
+                                 class="admin-form__img-preview @(!string.IsNullOrEmpty(Model.ImageUrl) ? "visible" : "")"
+                                 id="imagePreview" />
+                        </div>
+                        <span asp-validation-for="ImageUrl" class="admin-form__error"></span>
+                    </div>
+
+                    <div class="admin-form__field">
+                        <label class="admin-form__checkbox-row">
+                            <input asp-for="IsPublished" type="checkbox" />
+                            <span class="admin-form__checkbox-label">Опубликовать</span>
+                            <span class="admin-form__checkbox-hint">— сделать проект видимым на сайте</span>
+                        </label>
+                    </div>
+
+                    <div class="admin-form__actions">
+                        <button type="submit" class="admin-form__submit">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            Сохранить изменения
+                        </button>
+                        <a asp-action="Index" class="admin-form__cancel">Отмена</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
     </div>
+</main>
 
-    <div>
-        <label asp-for="ShortDescription"></label>
-        <textarea asp-for="ShortDescription"></textarea>
-        <span asp-validation-for="ShortDescription"></span>
-    </div>
-
-    <div>
-        <label asp-for="Content"></label>
-        <textarea asp-for="Content"></textarea>
-        <span asp-validation-for="Content"></span>
-    </div>
-
-    <div>
-        <label asp-for="ImageUrl"></label>
-        <input asp-for="ImageUrl" />
-        <span asp-validation-for="ImageUrl"></span>
-    </div>
-
-    <div>
-        <label asp-for="IsPublished"></label>
-        <input asp-for="IsPublished" type="checkbox" />
-        <span asp-validation-for="IsPublished"></span>
-    </div>
-
-    <button type="submit">Сохранить</button>
-</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/effect/admin-projects.edit.js"></script>
+}
