@@ -1,0 +1,35 @@
+﻿@model HsoPkipt.ViewModels.Project.ProjectDetailsVM
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<h1>@Model.Title</h1>
+
+@if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+{
+    <div>
+        <img src="@Model.ImageUrl" alt="@Model.Title" style="max-width: 500px;" />
+    </div>
+}
+
+@if (!string.IsNullOrWhiteSpace(Model.ShortDescription))
+{
+    <p>@Model.ShortDescription</p>
+}
+
+<p>
+    <strong>Дата создания:</strong> @Model.CreatedAt
+</p>
+
+<p>
+    <strong>Дата обновления:</strong> @Model.UpdatedAt
+</p>
+
+<div>
+    @Html.Raw(Model.Content)
+</div>
+
+<p>
+    <a asp-controller="Projects" asp-action="Index">Назад к проектам</a>
+</p>

@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const projectId = this.getAttribute('data-project-id');
                 if (projectId) {
-                    window.location.href = `/Projects/ProjectDetails/${projectId}`;
+                    window.location.href = `/Projects/Details/${projectId}`;
                 }
             });
         });

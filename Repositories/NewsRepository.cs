@@ -31,7 +31,9 @@ public class NewsRepository : INewsRepository
 
     public async Task<NewsItem?> GetByIdAsync(Guid id)
     {
-        return await _context.News.FirstOrDefaultAsync(n => n.Id == id);
+        return await _context.News
+            .Include(n => n.Tags)
+            .FirstOrDefaultAsync(n => n.Id == id);
     }
 
     public async Task<List<NewsItem>> GetLatestAsync(int count = 1)

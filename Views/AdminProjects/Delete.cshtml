@@ -1,0 +1,25 @@
+﻿@model HsoPkipt.ViewModels.Project.ProjectDetailsVM
+
+@{
+    ViewData["Title"] = "Удаление проекта";
+}
+
+<h1>Удаление проекта</h1>
+
+<p>Вы действительно хотите удалить этот проект?</p>
+
+<div>
+    <p><strong>Название:</strong> @Model.Title</p>
+    <p><strong>Краткое описание:</strong> @Model.ShortDescription</p>
+    <p><strong>Дата:</strong> @Model.CreatedAt</p>
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="id" value="@Model.Id" />
+    <button type="submit">Удалить</button>
+</form>
+
+<p>
+    <a asp-action="Index">Отмена</a>
+</p>

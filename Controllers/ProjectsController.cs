@@ -1,5 +1,5 @@
 ﻿using HsoPkipt.Services.Interfaces;
-using HsoPkipt.ViewModels.Projects;
+using HsoPkipt.ViewModels.Project;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HsoPkipt.Controllers;
@@ -33,5 +33,16 @@ public class ProjectsController : Controller
         var result = await _projectService.GetProjectPageAsync(page, pageSize);
 
         return PartialView("_ProjectsCardsPartial", result.Items);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Details(Guid id)
+    {
+        var project = await _projectService.GetByIdAsync(id);
+
+        if (project == null)
+            return NotFound();
+
+        return View(project);
     }
 }

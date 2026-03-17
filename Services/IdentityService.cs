@@ -45,9 +45,18 @@ public class IdentityService : IIdentityService
             UserName = userName
         };
 
-        return await _userManager.CreateAsync(user, password);
-    }
+        var createResult = await _userManager.CreateAsync(user, password);
 
+        if (!createResult.Succeeded)
+            return createResult;
+
+        var addToRoleResult = await _userManager.AddToRoleAsync(user, Roles.User);
+
+        if (!addToRoleResult.Succeeded)
+            return addToRoleResult;
+
+        return IdentityResult.Success;
+    }
 
     public async Task<SignInResult> SignInAsync(string email, string password, bool rememberMe)
     {

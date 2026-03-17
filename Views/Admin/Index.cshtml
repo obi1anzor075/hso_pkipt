@@ -1,0 +1,33 @@
+﻿@using HsoPkipt.Identity
+
+@{
+    ViewData["Title"] = "Панель администратора";
+}
+
+<h1>Панель администратора</h1>
+
+<p>Выберите действие:</p>
+
+<ul>
+
+    <li>
+        <a asp-controller="Admin" asp-action="Events">Управление событиями</a>
+    </li>
+
+
+    @if (User.IsInRole(Roles.Admin))
+    {
+        <li>
+            <a asp-controller="Admin" asp-action="News">Управление новостями</a>
+        </li>
+        <li>
+            <a asp-controller="Admin" asp-action="Projects">Управление проектами</a>
+        </li>
+        <li>
+            <a asp-controller="Admin" asp-action="Users">Управление пользователями</a>
+        </li>
+        <li>
+            <a asp-controller="Admin" asp-action="Tags">Управление тегами</a>
+        </li>
+    }
+</ul>

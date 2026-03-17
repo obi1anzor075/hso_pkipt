@@ -1,4 +1,5 @@
-﻿<nav class="__container">
+﻿@using HsoPkipt.Identity
+<nav class="__container">
     <a href="@Url.Action("Index", "Home")" class="horizontal-logo"></a>
 
     <button class="burger" id="burgerBtn" aria-label="Меню" aria-expanded="false">
@@ -15,6 +16,12 @@
         <a href="@Url.Action("Index", "Projects")" class="link">Наши проекты</a>
         <div class="line"></div>
         <a href="@Url.Action("Store", "Store")" class="link">Мерч</a>
+        <div class="line"></div>
+        @if (User.Identity?.IsAuthenticated == true &&
+             (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Moderator)))
+        {
+            <a href="@Url.Action("Index", "Admin")" class="link">Панель администратора</a>
+        }
     </div>
 
     @if (User.Identity.IsAuthenticated)

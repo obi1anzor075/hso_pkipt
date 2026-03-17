@@ -1,0 +1,25 @@
+﻿@model HsoPkipt.ViewModels.News.NewsDetailsVM
+
+@{
+    ViewData["Title"] = "Удаление новости";
+}
+
+<h1>Удаление новости</h1>
+
+<p>Вы действительно хотите удалить эту новость?</p>
+
+<div>
+    <p><strong>Заголовок:</strong> @Model.Title</p>
+    <p><strong>Краткое описание:</strong> @Model.ShortDescription</p>
+    <p><strong>Дата:</strong> @Model.CreatedAt</p>
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="id" value="@Model.Id" />
+    <button type="submit">Удалить</button>
+</form>
+
+<p>
+    <a asp-action="Index">Отмена</a>
+</p>

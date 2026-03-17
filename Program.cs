@@ -1,3 +1,4 @@
+using HsoPkipt.Extensions;
 using HsoPkipt.Identity;
 using HsoPkipt.Models;
 using HsoPkipt.Repositories;
@@ -24,7 +25,6 @@ builder.Services.AddIdentity<AppUser, AppRole>(options =>
 .AddEntityFrameworkStores<AppDbContext>()
 .AddDefaultTokenProviders();
 
-
 // Add Sessions
 builder.Services.AddSession(options =>
 {
@@ -38,6 +38,7 @@ builder.Services.AddSession(options =>
 builder.Services.AddScoped<INewsRepository, NewsRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
+builder.Services.AddScoped<ITagRepository, TagRepository>();
 
 // Add Services
 builder.Services.AddScoped<IIdentityService, IdentityService>();
@@ -51,13 +52,14 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseSession();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
@@ -89,20 +91,26 @@ using (var scope = app.Services.CreateScope())
         }
     }
 
-    // Название роли
-    string roleName = "Admin";
+    // Создание ролей
+    string[] roles =
+    [
+        Roles.User,
+        Roles.Moderator,
+        Roles.Admin
+    ];
 
-    // Проверяем существует ли роль
-    if (!await roleManager.RoleExistsAsync(roleName))
+    foreach (var role in roles)
     {
-        await roleManager.CreateAsync(new AppRole { Name = roleName });
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new AppRole { Name = role });
+        }
     }
 
-    // Email администратора
+    // Дефолтный администратор
     string adminEmail = "admin@mail.ru";
     string adminPassword = "Admin123!";
 
-    // Проверяем существует ли пользователь
     var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
     if (adminUser == null)
@@ -118,10 +126,16 @@ using (var scope = app.Services.CreateScope())
 
         if (result.Succeeded)
         {
-            await userManager.AddToRoleAsync(user, roleName);
+            await userManager.AddToRoleAsync(user, Roles.Admin);
+        }
+    }
+    else
+    {
+        if (!await userManager.IsInRoleAsync(adminUser, Roles.Admin))
+        {
+            await userManager.AddToRoleAsync(adminUser, Roles.Admin);
         }
     }
 }
-
 
 app.Run();

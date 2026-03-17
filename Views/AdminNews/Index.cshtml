@@ -1,0 +1,46 @@
+﻿@model HsoPkipt.Common.PagedResult<HsoPkipt.ViewModels.News.NewsItemVM>
+
+@{
+    ViewData["Title"] = "Управление новостями";
+}
+
+<h1>Управление новостями</h1>
+
+<p>
+    <a asp-controller="Admin" asp-action="Index">Назад в админку</a>
+</p>
+
+<p>
+    <a asp-action="Create">Создать новость</a>
+</p>
+
+@if (Model.Items == null || !Model.Items.Any())
+{
+    <p>Новостей пока нет.</p>
+}
+else
+{
+    <table border="1" cellpadding="5">
+        <thead>
+        <tr>
+            <th>Заголовок</th>
+            <th>Дата</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.CreatedAt</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a>
+                    |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

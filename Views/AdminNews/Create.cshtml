@@ -1,0 +1,41 @@
+﻿@model HsoPkipt.ViewModels.News.CreateNewsItemVM
+
+@{
+    ViewData["Title"] = "Создание новости";
+}
+
+<h1>Создание новости</h1>
+
+<p>
+    <a asp-action="Index">Назад к списку</a>
+</p>
+
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+
+    <div>
+        <label asp-for="Title"></label>
+        <input asp-for="Title" />
+        <span asp-validation-for="Title"></span>
+    </div>
+
+    <div>
+        <label asp-for="ShortDescription"></label>
+        <textarea asp-for="ShortDescription"></textarea>
+        <span asp-validation-for="ShortDescription"></span>
+    </div>
+
+    <div>
+        <label asp-for="Content"></label>
+        <textarea asp-for="Content"></textarea>
+        <span asp-validation-for="Content"></span>
+    </div>
+
+    <div>
+        <label asp-for="ImageUrl"></label>
+        <input asp-for="ImageUrl" />
+        <span asp-validation-for="ImageUrl"></span>
+    </div>
+
+    <button type="submit">Сохранить</button>
+</form>
