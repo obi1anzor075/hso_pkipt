@@ -138,7 +138,7 @@
                         {
                             foreach (var project in Model.LatestProjects)
                             {
-                                <a href="@Url.Action("Index", "Projects")" class="card-news">
+                                <a href="@Url.Action("Details", "Projects", new { id = project.Id })" class="card-news">
                                     <img src="@(project.ImageUrl ?? Url.Content("~/assets/img/foto_2.png"))" alt="@project.Title">
                                     <p class="title">@project.Title</p>
                                 </a>
