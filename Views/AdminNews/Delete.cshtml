@@ -1,25 +1,86 @@
-﻿@model HsoPkipt.ViewModels.News.NewsDetailsVM
+﻿@using System.Globalization
+@model HsoPkipt.ViewModels.News.NewsDetailsVM
 
 @{
     ViewData["Title"] = "Удаление новости";
 }
 
-<h1>Удаление новости</h1>
+<main class="admin-page">
+    <div class="admin-page__inner">
 
-<p>Вы действительно хотите удалить эту новость?</p>
+        <div class="admin-header admin-fade-in">
+            <div class="admin-header__left">
+                <a asp-action="Index" class="admin-header__back">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                    Назад к списку
+                </a>
+                <h1 class="admin-header__title">Удаление новости</h1>
+                <p class="admin-header__subtitle">Это действие нельзя отменить</p>
+            </div>
+        </div>
 
-<div>
-    <p><strong>Заголовок:</strong> @Model.Title</p>
-    <p><strong>Краткое описание:</strong> @Model.ShortDescription</p>
-    <p><strong>Дата:</strong> @Model.CreatedAt</p>
-</div>
+        <div class="admin-divider"></div>
 
-<form asp-action="DeleteConfirmed" method="post">
-    @Html.AntiForgeryToken()
-    <input type="hidden" name="id" value="@Model.Id" />
-    <button type="submit">Удалить</button>
-</form>
+        <div class="admin-delete-card admin-fade-in" style="animation-delay:0.08s">
+            <div class="admin-delete-card__stripe"></div>
+            <div class="admin-delete-card__body">
 
-<p>
-    <a asp-action="Index">Отмена</a>
-</p>
+                <!-- Предупреждение -->
+                <div class="admin-delete-card__warning">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path style="color: var(--error-color);" d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+                        <line style="color: var(--error-color);" x1="12" y1="9" x2="12" y2="13"/>
+                        <line style="color: var(--error-color);" x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                    <p>Вы действительно хотите удалить эту новость? Восстановить её будет невозможно.</p>
+                </div>
+
+                <!-- Данные -->
+                <div class="admin-delete-card__info">
+                    <div class="admin-delete-card__row">
+                        <span class="admin-delete-card__key">Заголовок</span>
+                        <span class="admin-delete-card__val">@Model.Title</span>
+                    </div>
+                    @if (!string.IsNullOrWhiteSpace(Model.ShortDescription))
+                    {
+                        <div class="admin-delete-card__row">
+                            <span class="admin-delete-card__key">Описание</span>
+                            <span class="admin-delete-card__val">@Model.ShortDescription</span>
+                        </div>
+                    }
+                    <div class="admin-delete-card__row">
+                        <span class="admin-delete-card__key">Дата публикации</span>
+                        <span class="admin-delete-card__val">
+                            @Model.CreatedAt.ToString("dd MMMM yyyy", new CultureInfo("ru-RU"))
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Действия -->
+                <div class="admin-delete-card__actions">
+                    <form asp-action="DeleteConfirmed" method="post" style="display:contents">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <button type="submit" class="admin-delete-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline style="color: white;" points="3 6 5 6 21 6"/>
+                                <path style="color: white;" d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/>
+                                <path style="color: white;" d="M10 11v6M14 11v6"/>
+                                <path style="color: white;" d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/>
+                            </svg>
+                            Удалить навсегда
+                        </button>
+                    </form>
+                    <a asp-action="Index" class="admin-form__cancel">Отмена</a>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</main>

@@ -1,46 +1,152 @@
-﻿@model HsoPkipt.Common.PagedResult<HsoPkipt.ViewModels.News.NewsItemVM>
+﻿@using System.Globalization
+@model HsoPkipt.Common.PagedResult<HsoPkipt.ViewModels.News.NewsItemVM>
 
 @{
-    ViewData["Title"] = "Управление новостями";
+    ViewData["Title"] = "Список новостей";
 }
 
-<h1>Управление новостями</h1>
+<main class="admin-page">
+    <div class="admin-page__inner">
 
-<p>
-    <a asp-controller="Admin" asp-action="Index">Назад в админку</a>
-</p>
+        <!-- Шапка -->
+        <div class="admin-header admin-fade-in">
+            <div class="admin-header__left">
+                <a asp-controller="Admin" asp-action="News" class="admin-header__back">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                    Управление новостями
+                </a>
+                <h1 class="admin-header__title">Все новости</h1>
+                <p class="admin-header__subtitle">Страница @Model.CurrentPage из @Model.TotalPages</p>
+            </div>
+            <a asp-action="Create" class="admin-header__action">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line style="color: white;" x1="12" y1="5" x2="12" y2="19"/>
+                    <line style="color: white;" x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+                Создать новость
+            </a>
+        </div>
 
-<p>
-    <a asp-action="Create">Создать новость</a>
-</p>
+        <div class="admin-divider"></div>
 
-@if (Model.Items == null || !Model.Items.Any())
-{
-    <p>Новостей пока нет.</p>
-}
-else
-{
-    <table border="1" cellpadding="5">
-        <thead>
-        <tr>
-            <th>Заголовок</th>
-            <th>Дата</th>
-            <th>Действия</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var item in Model.Items)
+        @if (Model.Items == null || !Model.Items.Any())
         {
-            <tr>
-                <td>@item.Title</td>
-                <td>@item.CreatedAt</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a>
-                    |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
-                </td>
-            </tr>
+            <!-- Пустой список -->
+            <div class="admin-news-table-wrap admin-fade-in">
+                <div class="admin-news-empty">
+                    <svg width="52" height="52" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                        <polyline points="10 9 9 9 8 9"/>
+                    </svg>
+                    <p>Новостей пока нет</p>
+                </div>
+            </div>
         }
-        </tbody>
-    </table>
-}
+        else
+        {
+            <!-- Тулбар над таблицей -->
+            <div class="admin-news-toolbar admin-fade-in">
+                <p class="admin-news-count">
+                    Показано <strong>@Model.Items.Count()</strong> записей
+                </p>
+            </div>
+
+            <!-- Таблица -->
+            <div class="admin-news-table-wrap admin-fade-in" style="animation-delay:0.08s">
+                <table class="admin-news-table">
+                    <thead>
+                        <tr>
+                            <th>Заголовок</th>
+                            <th>Дата</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="admin-news-table__title">@item.Title</div>
+                                    @if (!string.IsNullOrEmpty(item.ShortDescription))
+                                    {
+                                        <div class="admin-news-table__desc">@item.ShortDescription</div>
+                                    }
+                                </td>
+                                <td>
+                                    <span class="admin-news-table__date">
+                                        @item.CreatedAt.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="admin-news-table__actions">
+                                        <a asp-action="Edit" asp-route-id="@item.Id"
+                                           class="admin-tbl-btn admin-tbl-btn--edit">
+                                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                                                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+                                                <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                            </svg>
+                                            Изменить
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id"
+                                           class="admin-tbl-btn admin-tbl-btn--delete">
+                                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                                                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline style="color: var(--error-color);" points="3 6 5 6 21 6" />
+                                                <path style="color: var(--error-color);" d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" />
+                                                <path style="color: var(--error-color);" d="M10 11v6M14 11v6" />
+                                                <path style="color: var(--error-color);" d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/>
+                                            </svg>
+                                            Удалить
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Пагинация -->
+            @if (Model.TotalPages > 1)
+            {
+                <div class="admin-pagination admin-fade-in" style="animation-delay:0.12s">
+                    @if (Model.CurrentPage > 1)
+                    {
+                        <a asp-action="Index" asp-route-page="@(Model.CurrentPage - 1)"
+                           class="admin-pagination__btn">‹</a>
+                    }
+                    else
+                    {
+                        <span class="admin-pagination__btn disabled">‹</span>
+                    }
+
+                    @for (int p = 1; p <= Model.TotalPages; p++)
+                    {
+                        <a asp-action="Index" asp-route-page="@p"
+                           class="admin-pagination__btn @(p == Model.CurrentPage ? "active" : "")">@p</a>
+                    }
+
+                    @if (Model.CurrentPage < Model.TotalPages)
+                    {
+                        <a asp-action="Index" asp-route-page="@(Model.CurrentPage + 1)"
+                           class="admin-pagination__btn">›</a>
+                    }
+                    else
+                    {
+                        <span class="admin-pagination__btn disabled">›</span>
+                    }
+                </div>
+            }
+        }
+
+    </div>
+</main>

@@ -1,0 +1,596 @@
+/* admin-panel.news.css */
+
+/* ─── Список новостей (Index) ─── */
+
+.admin-news-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.admin-news-count {
+  font-size: calc(var(--fz-text) - 1px);
+  font-weight: var(--fw-medium);
+  color: var(--mute-color);
+  cursor: default;
+
+  strong {
+    color: var(--accent-color);
+    font-weight: var(--fw-bold);
+  }
+}
+
+/* Таблица */
+.admin-news-table-wrap {
+  border: 2px solid rgba(65, 36, 92, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.admin-news-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead {
+    background-color: rgba(65, 36, 92, 0.04);
+    border-bottom: 2px solid rgba(65, 36, 92, 0.1);
+
+    th {
+      padding: 13px 16px;
+      text-align: left;
+      font-size: calc(var(--fz-text) - 2px);
+      font-weight: var(--fw-bold);
+      color: var(--accent-color);
+      opacity: 0.5;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+      cursor: default;
+    }
+  }
+
+  tbody tr {
+    border-bottom: 1px solid rgba(65, 36, 92, 0.07);
+    transition: background-color 0.15s ease;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background-color: rgba(65, 36, 92, 0.025);
+    }
+
+    td {
+      padding: 14px 16px;
+      vertical-align: middle;
+    }
+  }
+}
+
+.admin-news-table__title {
+  font-size: var(--fz-text);
+  font-weight: var(--fw-smbold);
+  color: var(--accent-color);
+  line-height: 1.3;
+  max-width: 420px;
+}
+
+.admin-news-table__desc {
+  font-size: calc(var(--fz-text) - 2px);
+  font-weight: var(--fw-medium);
+  color: var(--mute-color);
+  margin-top: 3px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  max-width: 420px;
+}
+
+.admin-news-table__date {
+  font-size: calc(var(--fz-text) - 2px);
+  font-weight: var(--fw-medium);
+  color: var(--mute-color);
+  white-space: nowrap;
+  cursor: default;
+}
+
+.admin-news-table__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.admin-tbl-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: calc(var(--fz-text) - 2px);
+  font-weight: var(--fw-smbold);
+  border: 2px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: var(--t-time);
+  transform: var(--default);
+  white-space: nowrap;
+
+  &:hover {
+    transform: var(--hover);
+  }
+
+  &.admin-tbl-btn--edit {
+    background-color: rgba(65, 36, 92, 0.06);
+    color: var(--accent-color);
+    border-color: rgba(65, 36, 92, 0.12);
+
+    &:hover {
+      background-color: var(--accent-color);
+      color: var(--theme-color);
+      border-color: var(--accent-color);
+
+      & * {
+        color: var(--theme-color) !important;
+      }
+    }
+  }
+
+  &.admin-tbl-btn--delete {
+    background-color: rgba(255, 77, 79, 0.06);
+    color: var(--error-color);
+    border-color: rgba(255, 77, 79, 0.15);
+
+    &:hover {
+      background-color: var(--error-color);
+      color: var(--theme-color);
+      border-color: var(--error-color);
+
+      & * {
+        color: var(--theme-color) !important;
+      }
+    }
+  }
+}
+
+/* Пустой список */
+.admin-news-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 60px 20px;
+  text-align: center;
+
+  svg {
+    color: var(--mute-color);
+    opacity: 0.35;
+  }
+
+  p {
+    font-size: var(--fz-text);
+    font-weight: var(--fw-medium);
+    color: var(--mute-color);
+  }
+}
+
+/* Пагинация */
+.admin-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.admin-pagination__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 10px;
+  border-radius: 8px;
+  font-size: calc(var(--fz-text) - 1px);
+  font-weight: var(--fw-smbold);
+  border: 2px solid rgba(65, 36, 92, 0.12);
+  color: var(--accent-color);
+  background: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: var(--t-time);
+
+  &:hover {
+    border-color: var(--accent-color);
+    background-color: rgba(65, 36, 92, 0.05);
+  }
+
+  &.active {
+    background-color: var(--accent-color);
+    color: var(--theme-color);
+    border-color: var(--accent-color);
+    cursor: default;
+  }
+
+  &.disabled {
+    opacity: 0.3;
+    cursor: default;
+    pointer-events: none;
+  }
+}
+
+/* ─── Форма создания / редактирования ─── */
+
+.admin-form-wrap {
+  background-color: var(--theme-color);
+  border: 2px solid rgba(65, 36, 92, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.admin-form-wrap__stripe {
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent-color) 0%, var(--role-color) 60%, var(--second-color) 100%);
+}
+
+.admin-form-wrap__body {
+  padding: 32px;
+}
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.admin-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.admin-form__label {
+  font-size: calc(var(--fz-text) - 1px);
+  font-weight: var(--fw-smbold);
+  color: var(--accent-color);
+  cursor: default;
+}
+
+.admin-form__hint {
+  font-size: calc(var(--fz-text) - 3px);
+  font-weight: var(--fw-medium);
+  color: var(--mute-color);
+  margin-top: -3px;
+}
+
+.admin-form__input,
+.admin-form__textarea {
+  width: 100%;
+  padding: 11px 14px;
+  font-size: var(--fz-text);
+  font-weight: var(--fw-medium);
+  color: var(--accent-color);
+  background-color: var(--theme-color);
+  border: 2px solid rgba(65, 36, 92, 0.18);
+  border-radius: 8px;
+  transition: border-color var(--t-time);
+  font-family: inherit;
+
+  &:focus {
+    outline: none;
+    border-color: var(--accent-color);
+  }
+
+  &::placeholder {
+    color: var(--mute-color);
+    opacity: 0.6;
+  }
+
+  &.input-error {
+    border-color: var(--error-color);
+  }
+}
+
+.admin-form__textarea {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.6;
+}
+
+.admin-form__textarea--tall {
+  min-height: 260px;
+}
+
+.admin-form__error {
+  font-size: calc(var(--fz-text) - 2px);
+  font-weight: var(--fw-medium);
+  color: var(--error-color);
+  min-height: 16px;
+}
+
+/* Чекбокс "Опубликовать" */
+.admin-form__checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  background-color: rgba(65, 36, 92, 0.03);
+  border: 2px solid rgba(65, 36, 92, 0.1);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color var(--t-time);
+  width: fit-content;
+
+  &:hover {
+    border-color: rgba(65, 36, 92, 0.25);
+  }
+
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent-color);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .admin-form__checkbox-label {
+    font-size: var(--fz-text);
+    font-weight: var(--fw-smbold);
+    color: var(--accent-color);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .admin-form__checkbox-hint {
+    font-size: calc(var(--fz-text) - 2px);
+    font-weight: var(--fw-medium);
+    color: var(--mute-color);
+    cursor: pointer;
+  }
+}
+
+/* Предпросмотр картинки */
+.admin-form__img-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-form__img-preview {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid rgba(65, 36, 92, 0.1);
+  display: none;
+
+  &.visible {
+    display: block;
+  }
+}
+
+/* Действия формы */
+.admin-form__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 8px;
+  flex-wrap: wrap;
+}
+
+.admin-form__submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  background-color: var(--accent-color);
+  color: var(--theme-color);
+  font-size: var(--fz-text);
+  font-weight: var(--fw-bold);
+  border: 2px solid var(--accent-color);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--t-time);
+  transform: var(--default);
+  font-family: inherit;
+
+  &:hover {
+    background-color: var(--role-color);
+    border-color: var(--role-color);
+    transform: var(--hover);
+  }
+}
+
+.admin-form__cancel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: none;
+  color: var(--accent-color);
+  font-size: var(--fz-text);
+  font-weight: var(--fw-smbold);
+  border: 2px solid rgba(65, 36, 92, 0.2);
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: var(--t-time);
+  transform: var(--default);
+  font-family: inherit;
+
+  &:hover {
+    border-color: var(--accent-color);
+    background-color: rgba(65, 36, 92, 0.05);
+    transform: var(--hover);
+  }
+}
+
+/* ─── Страница удаления ─── */
+
+.admin-delete-card {
+  background-color: var(--theme-color);
+  border: 2px solid rgba(255, 77, 79, 0.2);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.admin-delete-card__stripe {
+  height: 4px;
+  background-color: var(--error-color);
+  opacity: 0.75;
+}
+
+.admin-delete-card__body {
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.admin-delete-card__warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  background-color: rgba(255, 77, 79, 0.06);
+  border: 2px solid rgba(255, 77, 79, 0.14);
+  border-radius: 8px;
+
+  svg {
+    flex-shrink: 0;
+    margin-top: 1px;
+    color: var(--error-color);
+  }
+
+  p {
+    font-size: var(--fz-text);
+    font-weight: var(--fw-medium);
+    color: var(--error-color);
+    line-height: 1.5;
+  }
+}
+
+.admin-delete-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  background-color: rgba(65, 36, 92, 0.03);
+  border-radius: 8px;
+  border: 1px solid rgba(65, 36, 92, 0.08);
+}
+
+.admin-delete-card__row {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.admin-delete-card__key {
+  font-size: calc(var(--fz-text) - 1px);
+  font-weight: var(--fw-bold);
+  color: var(--accent-color);
+  opacity: 0.45;
+  min-width: 140px;
+  flex-shrink: 0;
+  cursor: default;
+}
+
+.admin-delete-card__val {
+  font-size: calc(var(--fz-text) - 1px);
+  font-weight: var(--fw-medium);
+  color: var(--accent-color);
+  line-height: 1.4;
+}
+
+.admin-delete-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 4px;
+  flex-wrap: wrap;
+}
+
+.admin-delete-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  background-color: var(--error-color);
+  color: var(--theme-color);
+  font-size: var(--fz-text);
+  font-weight: var(--fw-bold);
+  border: 2px solid var(--error-color);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--t-time);
+  transform: var(--default);
+  font-family: inherit;
+
+  &:hover {
+    background-color: #cc3c3e;
+    border-color: #cc3c3e;
+    transform: var(--hover);
+  }
+}
+
+/* ─── Адаптив ─── */
+
+@media (max-width: 768px) {
+  .admin-form-wrap__body,
+  .admin-delete-card__body {
+    padding: 22px 20px;
+  }
+
+  .admin-delete-card__key {
+    min-width: 100px;
+  }
+
+  .admin-news-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .admin-news-table {
+    min-width: 560px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-form-wrap__body,
+  .admin-delete-card__body {
+    padding: 16px 14px;
+  }
+
+  .admin-form {
+    gap: 16px;
+  }
+
+  .admin-form__actions,
+  .admin-delete-card__actions {
+    flex-direction: column;
+
+    .admin-form__submit,
+    .admin-form__cancel,
+    .admin-delete-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  .admin-form__checkbox-row {
+    width: 100%;
+  }
+
+  .admin-news-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
