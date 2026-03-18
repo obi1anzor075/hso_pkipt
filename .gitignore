@@ -7,7 +7,6 @@
 
 ##DbConnection
 appsettings.json
-/Extention/AddDbConnection.cs
 
 # User-specific files
 *.suo
@@ -546,6 +545,3 @@ FodyWeavers.xsd
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio,visualstudiocode,aspnetcore
 /Migrations
 appsettings.json
-/Extention
-Extention/AddDbConnection.cs
-Extensions/AddDbConnection.cs
