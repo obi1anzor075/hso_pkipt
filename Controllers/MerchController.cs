@@ -1,6 +1,8 @@
 using HsoPkipt.Services.Interfaces;
 using HsoPkipt.ViewModels.Merch;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace HsoPkipt.Controllers;
 
@@ -37,8 +39,7 @@ public class MerchController : Controller
     [HttpGet]
     public async Task<IActionResult> Cart()
     {
-        var cart = await _merchCartService.GetCartAsync();
-        return View(cart);
+        return View(await BuildCartPageAsync());
     }
 
     [HttpPost]
@@ -73,6 +74,36 @@ public class MerchController : Controller
         return RedirectToAction(nameof(Cart));
     }
 
+    [Authorize]
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Checkout(MerchCartPageVM model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View("Cart", await BuildCartPageAsync(model.Checkout));
+        }
+
+        var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (string.IsNullOrWhiteSpace(userIdClaim))
+        {
+            return Unauthorized();
+        }
+
+        var userId = Guid.Parse(userIdClaim);
+        var result = await _merchCartService.CheckoutAsync(userId, model.Checkout);
+
+        if (!result)
+        {
+            TempData["CartError"] = "Корзина пуста";
+            return RedirectToAction(nameof(Cart));
+        }
+
+        TempData["CartSuccess"] = "Заказ успешно оформлен";
+        return RedirectToAction(nameof(Cart));
+    }
+
     private async Task<MerchCatalogVM> BuildCatalogAsync(List<MerchItemVM> items, string? searchQuery = null)
     {
         return new MerchCatalogVM
@@ -80,6 +111,16 @@ public class MerchController : Controller
             Items = items,
             Cart = await _merchCartService.GetCartAsync(),
             SearchQuery = searchQuery ?? string.Empty
+        };
+    }
+
+    private async Task<MerchCartPageVM> BuildCartPageAsync(CheckoutOrderVM? checkout = null)
+    {
+        return new MerchCartPageVM
+        {
+            Cart = await _merchCartService.GetCartAsync(),
+            Checkout = checkout ?? new CheckoutOrderVM(),
+            IsAuthenticated = User.Identity?.IsAuthenticated == true
         };
     }
 

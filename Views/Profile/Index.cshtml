@@ -44,6 +44,9 @@
                 <button class="profile-nav__item" data-tab="events">
                     События
                 </button>
+                <button class="profile-nav__item" data-tab="orders">
+                    Заказы
+                </button>
             </nav>
 
             <form asp-action="Logout" asp-controller="Auth" method="post" class="profile-sidebar__logout-form">
@@ -269,6 +272,50 @@
                         </div>
                     </div>
                 </div>
+            </section>
+
+            <section class="profile-section" id="tab-orders">
+                <h2 class="profile-section__title">Заказы</h2>
+
+                @if (Model.Orders.Count == 0)
+                {
+                    <p>У вас пока нет заказов.</p>
+                }
+                else
+                {
+                    @foreach (var order in Model.Orders)
+                    {
+                        <article>
+                            <h3>Заказ от @order.CreatedAt.ToString("dd.MM.yyyy HH:mm")</h3>
+                            <p>Получатель: @order.RecipientName</p>
+                            <p>Телефон: @order.PhoneNumber</p>
+                            <p>Адрес: @order.DeliveryAddress</p>
+                            <p>Сумма: @order.TotalPrice ₽</p>
+
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Товар</th>
+                                        <th>Цена</th>
+                                        <th>Количество</th>
+                                        <th>Сумма</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in order.Items)
+                                    {
+                                        <tr>
+                                            <td>@item.Name</td>
+                                            <td>@item.Price ₽</td>
+                                            <td>@item.Quantity</td>
+                                            <td>@item.TotalPrice ₽</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </article>
+                    }
+                }
             </section>
 
         </div>

@@ -10,4 +10,5 @@ public interface IMerchCartService
     Task UpdateQuantityAsync(Guid merchItemId, int quantity);
     Task RemoveAsync(Guid merchItemId);
     Task ClearAsync();
+    Task<bool> CheckoutAsync(Guid userId, CheckoutOrderVM model);
 }

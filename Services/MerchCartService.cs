@@ -1,4 +1,5 @@
 using HsoPkipt.Extensions;
+using HsoPkipt.Models;
 using HsoPkipt.Repositories.Interfaces;
 using HsoPkipt.Services.Interfaces;
 using HsoPkipt.ViewModels.Merch;
@@ -12,11 +13,16 @@ public class MerchCartService : IMerchCartService
 
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IMerchRepository _merchRepository;
+    private readonly IOrderRepository _orderRepository;
 
-    public MerchCartService(IHttpContextAccessor httpContextAccessor, IMerchRepository merchRepository)
+    public MerchCartService(
+        IHttpContextAccessor httpContextAccessor,
+        IMerchRepository merchRepository,
+        IOrderRepository orderRepository)
     {
         _httpContextAccessor = httpContextAccessor;
         _merchRepository = merchRepository;
+        _orderRepository = orderRepository;
     }
 
     public async Task<MerchCartVM> GetCartAsync()
@@ -129,6 +135,32 @@ public class MerchCartService : IMerchCartService
     {
         GetSession().Remove(SessionKey);
         return Task.CompletedTask;
+    }
+
+    public async Task<bool> CheckoutAsync(Guid userId, CheckoutOrderVM model)
+    {
+        var cart = await GetCartAsync();
+
+        if (cart.IsEmpty)
+        {
+            return false;
+        }
+
+        var items = cart.Items
+            .Select(x => new OrderItem(x.Id, x.Name, x.Price, x.Quantity))
+            .ToList();
+
+        var order = new Order(
+            userId,
+            model.RecipientName,
+            model.PhoneNumber,
+            model.DeliveryAddress,
+            items);
+
+        await _orderRepository.CreateAsync(order);
+        await ClearAsync();
+
+        return true;
     }
 
     private ISession GetSession()

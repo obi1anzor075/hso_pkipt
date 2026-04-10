@@ -41,6 +41,7 @@ builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddScoped<IMerchRepository, MerchRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 // Add Services
 builder.Services.AddScoped<IIdentityService, IdentityService>();

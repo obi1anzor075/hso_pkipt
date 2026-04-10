@@ -9,4 +9,6 @@ public class ProfileVM
     public ChangePasswordVM ChangePassword { get; set; } = new();
 
     public List<EventVM> UpcomingEvents { get; set; } = new();
+
+    public List<OrderVM> Orders { get; set; } = new();
 }

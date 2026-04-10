@@ -23,16 +23,14 @@
         <div class="line"></div>
         <a href="@Url.Action("Index", "Merch")" class="link">Мерч</a>
         <div class="line"></div>
+        <a href="@Url.Action("Cart", "Merch")" class="link">Корзина (@merchCartCount)</a>
+        <div class="line"></div>
         @if (User.Identity?.IsAuthenticated == true &&
              (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Moderator)))
         {
             <a href="@Url.Action("Index", "Admin")" class="link">Панель администратора</a>
         }
     </div>
-
-    <a href="@Url.Action("Cart", "Merch")" class="cart-link" aria-label="Корзина">
-        <span class="cart-link__badge @(merchCartCount == 0 ? "cart-link__badge--empty" : "")">@merchCartCount</span>
-    </a>
 
     @if (User.Identity?.IsAuthenticated == true)
     {

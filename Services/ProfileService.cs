@@ -9,6 +9,7 @@ namespace HsoPkipt.Services;
 public class ProfileService : IProfileService
 {
     private readonly IEventRepository _eventRepository;
+    private readonly IOrderRepository _orderRepository;
     private readonly UserManager<AppUser> _userManager;
     private static readonly TimeZoneInfo MoscowTz = GetMoscowTimeZone();
 
@@ -25,9 +26,11 @@ public class ProfileService : IProfileService
     }
     public ProfileService(
         IEventRepository eventRepository,
+        IOrderRepository orderRepository,
         UserManager<AppUser> userManager)
     {
         _eventRepository = eventRepository;
+        _orderRepository = orderRepository;
         _userManager = userManager;
     }
 
@@ -39,6 +42,7 @@ public class ProfileService : IProfileService
             return null;
 
         var upcomingEvents = await GetUpcomingEventsAsync();
+        var orders = await GetOrdersAsync(userId);
 
         var vm = new ProfileVM
         {
@@ -54,7 +58,8 @@ public class ProfileService : IProfileService
             {
                 CurrentPhotoUrl = user.PhotoUrl
             },
-            UpcomingEvents = upcomingEvents
+            UpcomingEvents = upcomingEvents,
+            Orders = orders
         };
 
         return vm;
@@ -82,6 +87,28 @@ public class ProfileService : IProfileService
             .ToList();
 
         return vm;
+    }
+
+    public async Task<List<OrderVM>> GetOrdersAsync(Guid userId)
+    {
+        var orders = await _orderRepository.GetByUserIdAsync(userId);
+
+        return orders.Select(x => new OrderVM
+        {
+            Id = x.Id,
+            CreatedAt = ToMoscow(x.CreatedAt),
+            RecipientName = x.RecipientName,
+            PhoneNumber = x.PhoneNumber,
+            DeliveryAddress = x.DeliveryAddress,
+            TotalPrice = x.TotalPrice,
+            Items = x.Items.Select(item => new OrderItemVM
+            {
+                Name = item.MerchItemName,
+                Price = item.Price,
+                Quantity = item.Quantity,
+                TotalPrice = item.TotalPrice
+            }).ToList()
+        }).ToList();
     }
 
     public async Task<bool> UpdateProfileInfoAsync(Guid userId, ProfileInfoVM model)

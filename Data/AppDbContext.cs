@@ -11,6 +11,8 @@ namespace HsoPkipt.Models
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<MerchItem> MerchItems { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -24,6 +26,20 @@ namespace HsoPkipt.Models
                     v => v.ToUniversalTime(),
                     v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
                 );
+
+            modelBuilder.Entity<Order>()
+                .HasMany(x => x.Items)
+                .WithOne(x => x.Order)
+                .HasForeignKey(x => x.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Order>()
+                .Property(x => x.TotalPrice)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<OrderItem>()
+                .Property(x => x.Price)
+                .HasColumnType("decimal(18,2)");
 
             // ---- Сидируем Теги ----
             var tag1Id = Guid.Parse("11111111-1111-1111-1111-111111111111");

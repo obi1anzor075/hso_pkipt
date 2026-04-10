@@ -1,81 +1,112 @@
-@model HsoPkipt.ViewModels.Merch.MerchCartVM
+@model HsoPkipt.ViewModels.Merch.MerchCartPageVM
 
 @{
     ViewData["Title"] = "Корзина";
 }
 
-<main class="shop shop--cart">
-    <section class="shop__hero">
-        <div class="shop__hero-inner">
-            <h1 class="shop__title">Корзина</h1>
-            <p class="shop__subtitle">Проверьте товары перед оформлением</p>
-        </div>
-    </section>
+<main>
+    <h1>Корзина</h1>
 
-    <div class="shop__container">
-        <section class="shop__products shop__products--wide">
-            @if (Model.IsEmpty)
-            {
-                <div class="shop-cart-empty">
-                    <p>Корзина пока пустая.</p>
-                    <a asp-action="Index" class="shop__cart-link">Вернуться к мерчу</a>
+    @if (TempData["CartSuccess"] != null)
+    {
+        <p>@TempData["CartSuccess"]</p>
+    }
+
+    @if (TempData["CartError"] != null)
+    {
+        <p>@TempData["CartError"]</p>
+    }
+
+    @if (Model.Cart.IsEmpty)
+    {
+        <p>Корзина пуста.</p>
+        <p>
+            <a asp-action="Index">Вернуться к товарам</a>
+        </p>
+    }
+    else
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Товар</th>
+                    <th>Цена</th>
+                    <th>Количество</th>
+                    <th>Сумма</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Cart.Items)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Price ₽</td>
+                        <td>
+                            <form method="post" asp-action="UpdateCartItem">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="merchItemId" value="@item.Id" />
+                                <input type="number" name="quantity" min="1" value="@item.Quantity" />
+                                <button type="submit">Обновить</button>
+                            </form>
+                        </td>
+                        <td>@item.TotalPrice ₽</td>
+                        <td>
+                            <form method="post" asp-action="RemoveFromCart">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="merchItemId" value="@item.Id" />
+                                <button type="submit">Удалить</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <p>Итого: @Model.Cart.TotalPrice ₽</p>
+
+        <form method="post" asp-action="ClearCart">
+            @Html.AntiForgeryToken()
+            <button type="submit">Очистить корзину</button>
+        </form>
+
+        @if (Model.IsAuthenticated)
+        {
+            <h2>Оформление заказа</h2>
+
+            <form method="post" asp-action="Checkout">
+                @Html.AntiForgeryToken()
+                <div>
+                    <label asp-for="Checkout.RecipientName">Получатель</label>
+                    <input asp-for="Checkout.RecipientName" />
+                    <span asp-validation-for="Checkout.RecipientName"></span>
                 </div>
-            }
-            else
-            {
-                <div class="shop-cart-list">
-                    @foreach (var item in Model.Items)
-                    {
-                        <article class="shop-cart-item">
-                            <div class="shop-cart-item__media">
-                                <img src="@(string.IsNullOrWhiteSpace(item.ImageUrl) ? Url.Content("~/assets/icon/err.no-image.svg") : item.ImageUrl)" alt="@item.Name" />
-                            </div>
 
-                            <div class="shop-cart-item__content">
-                                <div class="shop-cart-item__head">
-                                    <h2>@item.Name</h2>
-                                    <div class="shop-cart-item__price">@item.Price ₽</div>
-                                </div>
-
-                                <div class="shop-cart-item__controls">
-                                    <form method="post" asp-action="UpdateCartItem" class="shop-cart-item__quantity">
-                                        <input type="hidden" name="merchItemId" value="@item.Id" />
-                                        <label>
-                                            Количество
-                                            <input type="number" name="quantity" min="1" value="@item.Quantity" />
-                                        </label>
-                                        <button type="submit">Обновить</button>
-                                    </form>
-
-                                    <form method="post" asp-action="RemoveFromCart">
-                                        <input type="hidden" name="merchItemId" value="@item.Id" />
-                                        <button type="submit" class="shop-cart-item__remove">Удалить</button>
-                                    </form>
-                                </div>
-                            </div>
-
-                            <div class="shop-cart-item__total">
-                                @item.TotalPrice ₽
-                            </div>
-                        </article>
-                    }
+                <div>
+                    <label asp-for="Checkout.PhoneNumber">Телефон</label>
+                    <input asp-for="Checkout.PhoneNumber" />
+                    <span asp-validation-for="Checkout.PhoneNumber"></span>
                 </div>
 
-                <aside class="shop-cart-summary-panel">
-                    <div class="shop-cart-summary-panel__row">
-                        <span>Товаров</span>
-                        <strong>@Model.ItemsCount</strong>
-                    </div>
-                    <div class="shop-cart-summary-panel__row">
-                        <span>Итого</span>
-                        <strong>@Model.TotalPrice ₽</strong>
-                    </div>
-                    <a asp-action="Index" class="shop__cart-link">Продолжить покупки</a>
-                    <form method="post" asp-action="ClearCart">
-                        <button type="submit" class="shop-cart-summary-panel__clear">Очистить корзину</button>
-                    </form>
-                </aside>
-            }
-        </section>
-    </div>
+                <div>
+                    <label asp-for="Checkout.DeliveryAddress">Адрес доставки</label>
+                    <textarea asp-for="Checkout.DeliveryAddress"></textarea>
+                    <span asp-validation-for="Checkout.DeliveryAddress"></span>
+                </div>
+
+                <button type="submit">Оформить заказ</button>
+            </form>
+        }
+        else
+        {
+            <p>
+                Для оформления заказа нужно
+                <a asp-controller="Auth" asp-action="Login">войти в аккаунт</a>.
+            </p>
+        }
+    }
 </main>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

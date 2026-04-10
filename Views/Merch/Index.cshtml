@@ -5,122 +5,66 @@
     var returnUrl = $"{Context.Request.Path}{Context.Request.QueryString}";
 }
 
-<main class="shop">
+<main>
+    <h1>Мерч</h1>
 
-    <!-- HERO / баннер -->
-    <section class="shop__hero">
-        <div class="shop__hero-inner">
-            <h1 class="shop__title">Мерч</h1>
-            <p class="shop__subtitle">Одежда и аксессуары</p>
-        </div>
-    </section>
+    <form method="get" asp-action="Search">
+        <input type="text" name="q" value="@Model.SearchQuery" placeholder="Поиск..." />
+        <button type="submit">Найти</button>
+    </form>
 
-    <div class="shop__container">
+    <p>
+        Корзина:
+        @if (Model.Cart.IsEmpty)
+        {
+            <span>пусто</span>
+        }
+        else
+        {
+            <span>@Model.Cart.ItemsCount шт. на сумму @Model.Cart.TotalPrice ₽</span>
+            <a asp-action="Cart">Открыть корзину</a>
+        }
+    </p>
 
-        <!-- SIDEBAR -->
-        <aside class="shop__sidebar">
-
-            <!-- поиск -->
-            <form class="shop__search" method="get" asp-action="Search">
-                <input type="text" name="q" value="@Model.SearchQuery" placeholder="Поиск..." />
-                <button type="submit">🔍</button>
-            </form>
-
-            <!-- корзина -->
-            <div class="shop__cart">
-                <div class="shop__cart-title">🛒 Корзина</div>
-
-                @if (Model.Cart.IsEmpty)
-                {
-                    <p class="shop__cart-empty">Пока пусто. Добавьте первый товар.</p>
-                }
-                else
-                {
-                    <div class="shop__cart-summary">
-                        <span>@Model.Cart.ItemsCount шт.</span>
-                        <span>@Model.Cart.TotalPrice ₽</span>
-                    </div>
-                    <a class="shop__cart-link" asp-action="Cart">Открыть корзину</a>
-                }
-            </div>
-
-            <!-- категории -->
-            <div class="shop__categories">
-
-                <div class="shop__category shop__category--active">
-                    Одежда
-                </div>
-
-                <div class="shop__subcategory">
-                    Футболки
-                </div>
-
-                <div class="shop__subcategory">
-                    Свитшоты
-                </div>
-
-                <div class="shop__subcategory">
-                    Худи
-                </div>
-
-                <div class="shop__category">
-                    Аксессуары
-                </div>
-
-                <div class="shop__category">
-                    Другое
-                </div>
-
-            </div>
-
-        </aside>
-
-        <!-- PRODUCTS GRID -->
-        <section class="shop__products">
-
-            <div class="shop__grid">
-
+    @if (Model.Items.Count == 0)
+    {
+        <p>Товары не найдены.</p>
+    }
+    else
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Товар</th>
+                    <th>Цена</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
                 @foreach (var item in Model.Items)
                 {
-                    <div class="product-card">
-
-                        <!-- IMAGE -->
-                        <div class="product-card__image">
-                            <img src="@(string.IsNullOrWhiteSpace(item.ImageUrl) ? Url.Content("~/assets/icon/err.no-image.svg") : item.ImageUrl)" alt="@item.Name" />
-                        </div>
-
-                        <!-- INFO -->
-                        <div class="product-card__info">
-                            <h3 class="product-card__title">@item.Name</h3>
-
-                            <div class="product-card__price">
-                                @item.Price ₽
-                            </div>
-                        </div>
-
-                        <!-- ACTIONS -->
-                        <div class="product-card__actions">
-
-                            <button class="product-card__fav" type="button">
-                                ♡
-                            </button>
-
+                    <tr>
+                        <td>
+                            <div>@item.Name</div>
+                            @if (!string.IsNullOrWhiteSpace(item.ImageUrl))
+                            {
+                                <div>
+                                    <img src="@item.ImageUrl" alt="@item.Name" width="120" />
+                                </div>
+                            }
+                        </td>
+                        <td>@item.Price ₽</td>
+                        <td>
                             <form method="post" asp-action="AddToCart">
+                                @Html.AntiForgeryToken()
                                 <input type="hidden" name="merchItemId" value="@item.Id" />
                                 <input type="hidden" name="returnUrl" value="@returnUrl" />
-                                <button type="submit" class="product-card__add" aria-label="Добавить @item.Name в корзину">
-                                    +
-                                </button>
+                                <button type="submit">Добавить в корзину</button>
                             </form>
-
-                        </div>
-
-                    </div>
+                        </td>
+                    </tr>
                 }
-
-            </div>
-
-        </section>
-
-    </div>
+            </tbody>
+        </table>
+    }
 </main>
