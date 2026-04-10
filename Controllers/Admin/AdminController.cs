@@ -1,4 +1,4 @@
-﻿using HsoPkipt.Identity;
+using HsoPkipt.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,6 +26,12 @@ public class AdminController : Controller
 
     [Authorize(Roles = Roles.Admin)]
     public IActionResult Projects()
+    {
+        return View();
+    }
+
+    [Authorize(Roles = Roles.Admin)]
+    public IActionResult Merch()
     {
         return View();
     }

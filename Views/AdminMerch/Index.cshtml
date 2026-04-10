@@ -1,0 +1,124 @@
+@model HsoPkipt.Common.PagedResult<HsoPkipt.ViewModels.Merch.MerchItemVM>
+
+@{
+    ViewData["Title"] = "Список товаров мерча";
+}
+
+<main class="admin-page">
+    <div class="admin-page__inner">
+
+        <div class="admin-header admin-fade-in">
+            <div class="admin-header__left">
+                <a asp-controller="Admin" asp-action="Merch" class="admin-header__back">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                    Управление мерчем
+                </a>
+                <h1 class="admin-header__title">Все товары</h1>
+                <p class="admin-header__subtitle">Страница @Model.CurrentPage из @Model.TotalPages</p>
+            </div>
+            <a asp-action="Create" asp-controller="AdminMerch" class="admin-header__action">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line style="color: white;" x1="12" y1="5" x2="12" y2="19"/>
+                    <line style="color: white;" x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+                Создать товар
+            </a>
+        </div>
+
+        <div class="admin-divider"></div>
+
+        @if (Model.Items == null || !Model.Items.Any())
+        {
+            <div class="admin-news-table-wrap admin-fade-in">
+                <div class="admin-news-empty">
+                    <p>Товаров пока нет</p>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="admin-news-toolbar admin-fade-in">
+                <p class="admin-news-count">
+                    Показано <strong>@Model.Items.Count()</strong> записей
+                </p>
+            </div>
+
+            <div class="admin-news-table-wrap admin-fade-in" style="animation-delay:0.08s">
+                <table class="admin-news-table">
+                    <thead>
+                        <tr>
+                            <th>Товар</th>
+                            <th>Категория</th>
+                            <th>Цена</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="admin-news-table__title">@item.Name</div>
+                                    @if (!string.IsNullOrWhiteSpace(item.Description))
+                                    {
+                                        <div class="admin-news-table__desc">@item.Description</div>
+                                    }
+                                </td>
+                                <td>@item.TagName</td>
+                                <td>@item.Price ₽</td>
+                                <td>
+                                    <div class="admin-news-table__actions">
+                                        <a asp-action="Edit" asp-route-id="@item.Id"
+                                           class="admin-tbl-btn admin-tbl-btn--edit">
+                                            Изменить
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id"
+                                           class="admin-tbl-btn admin-tbl-btn--delete">
+                                            Удалить
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @if (Model.TotalPages > 1)
+            {
+                <div class="admin-pagination admin-fade-in" style="animation-delay:0.12s">
+                    @if (Model.CurrentPage > 1)
+                    {
+                        <a asp-action="Index" asp-route-page="@(Model.CurrentPage - 1)"
+                           class="admin-pagination__btn">‹</a>
+                    }
+                    else
+                    {
+                        <span class="admin-pagination__btn disabled">‹</span>
+                    }
+
+                    @for (int p = 1; p <= Model.TotalPages; p++)
+                    {
+                        <a asp-action="Index" asp-route-page="@p"
+                           class="admin-pagination__btn @(p == Model.CurrentPage ? "active" : "")">@p</a>
+                    }
+
+                    @if (Model.CurrentPage < Model.TotalPages)
+                    {
+                        <a asp-action="Index" asp-route-page="@(Model.CurrentPage + 1)"
+                           class="admin-pagination__btn">›</a>
+                    }
+                    else
+                    {
+                        <span class="admin-pagination__btn disabled">›</span>
+                    }
+                </div>
+            }
+        }
+
+    </div>
+</main>

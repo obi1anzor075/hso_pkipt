@@ -1,4 +1,4 @@
-﻿using HsoPkipt.Models;
+using HsoPkipt.Models;
 using HsoPkipt.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,13 +23,16 @@ public class MerchRepository : IMerchRepository
     public async Task<List<MerchItem>> GetByTagIdAsync(Guid tagId)
     {
         return await _context.MerchItems
+            .Include(x => x.Tag)
             .Where(x => x.TagId == tagId)
             .ToListAsync();
     }
 
     public async Task<MerchItem?> GetByIdAsync(Guid id)
     {
-        return await _context.MerchItems.FindAsync(id);
+        return await _context.MerchItems
+            .Include(x => x.Tag)
+            .FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task CreateAsync(MerchItem item)

@@ -1,0 +1,79 @@
+@model HsoPkipt.ViewModels.Merch.UpdateMerchItemVM
+
+@{
+    ViewData["Title"] = "Редактирование товара";
+}
+
+<main class="admin-page">
+    <div class="admin-page__inner">
+
+        <div class="admin-header admin-fade-in">
+            <div class="admin-header__left">
+                <a asp-action="Index" class="admin-header__back">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                    Назад к списку
+                </a>
+                <h1 class="admin-header__title">Редактирование товара</h1>
+                <p class="admin-header__subtitle">Внесите изменения и сохраните</p>
+            </div>
+        </div>
+
+        <div class="admin-divider"></div>
+
+        <div class="admin-form-wrap admin-fade-in" style="animation-delay:0.08s">
+            <div class="admin-form-wrap__stripe"></div>
+            <div class="admin-form-wrap__body">
+                <form method="post" class="admin-form">
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly" class="admin-form__error-summary"></div>
+
+                    <div class="admin-form__field">
+                        <label asp-for="Name" class="admin-form__label">Название</label>
+                        <input asp-for="Name" class="admin-form__input" />
+                        <span asp-validation-for="Name" class="admin-form__error"></span>
+                    </div>
+
+                    <div class="admin-form__field">
+                        <label asp-for="Description" class="admin-form__label">Описание</label>
+                        <textarea asp-for="Description" class="admin-form__textarea"></textarea>
+                        <span asp-validation-for="Description" class="admin-form__error"></span>
+                    </div>
+
+                    <div class="admin-form__field">
+                        <label asp-for="Price" class="admin-form__label">Цена</label>
+                        <input asp-for="Price" class="admin-form__input" type="number" step="0.01" />
+                        <span asp-validation-for="Price" class="admin-form__error"></span>
+                    </div>
+
+                    <div class="admin-form__field">
+                        <label asp-for="ImageUrl" class="admin-form__label">URL изображения</label>
+                        <input asp-for="ImageUrl" class="admin-form__input" />
+                        <span asp-validation-for="ImageUrl" class="admin-form__error"></span>
+                    </div>
+
+                    <div class="admin-form__field">
+                        <label asp-for="TagId" class="admin-form__label">Категория</label>
+                        <select asp-for="TagId" asp-items="ViewBag.Tags" class="admin-form__input">
+                            <option value="">Выберите категорию</option>
+                        </select>
+                        <span asp-validation-for="TagId" class="admin-form__error"></span>
+                    </div>
+
+                    <div class="admin-form__actions">
+                        <button type="submit" class="admin-form__submit">Сохранить изменения</button>
+                        <a asp-action="Index" class="admin-form__cancel">Отмена</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

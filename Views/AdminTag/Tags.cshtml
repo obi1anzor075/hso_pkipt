@@ -1,0 +1,97 @@
+@model List<HsoPkipt.ViewModels.Tags.TagListItemVM>
+
+@{
+    ViewData["Title"] = "Список категорий";
+}
+
+<main class="admin-page">
+    <div class="admin-page__inner">
+
+        <div class="admin-header admin-fade-in">
+            <div class="admin-header__left">
+                <a asp-controller="Admin" asp-action="Tags" class="admin-header__back">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                    Управление категориями
+                </a>
+                <h1 class="admin-header__title">Все категории</h1>
+                <p class="admin-header__subtitle">Всего категорий: @Model.Count</p>
+            </div>
+            <a asp-action="CreateTag" asp-controller="AdminTag" class="admin-header__action">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line style="color: white;" x1="12" y1="5" x2="12" y2="19"/>
+                    <line style="color: white;" x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+                Создать категорию
+            </a>
+        </div>
+
+        <div class="admin-divider"></div>
+
+        @if (TempData["TagError"] is string tagError && !string.IsNullOrWhiteSpace(tagError))
+        {
+            <div class="admin-form-wrap admin-fade-in" style="animation-delay:0.04s">
+                <div class="admin-form-wrap__body">
+                    <div class="admin-form__error-summary">@tagError</div>
+                </div>
+            </div>
+        }
+
+        @if (!Model.Any())
+        {
+            <div class="admin-news-table-wrap admin-fade-in">
+                <div class="admin-news-empty">
+                    <p>Категорий пока нет</p>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="admin-news-toolbar admin-fade-in">
+                <p class="admin-news-count">
+                    Показано <strong>@Model.Count</strong> записей
+                </p>
+            </div>
+
+            <div class="admin-news-table-wrap admin-fade-in" style="animation-delay:0.08s">
+                <table class="admin-news-table">
+                    <thead>
+                        <tr>
+                            <th>Название</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="admin-news-table__title">@item.Name</div>
+                                </td>
+                                <td>
+                                    <div class="admin-news-table__actions">
+                                        <a asp-action="EditTag" asp-route-id="@item.Id"
+                                           class="admin-tbl-btn admin-tbl-btn--edit">
+                                            Изменить
+                                        </a>
+                                        <form asp-action="DeleteTag" method="post" style="display:inline">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="id" value="@item.Id" />
+                                            <button type="submit" class="admin-tbl-btn admin-tbl-btn--delete">
+                                                Удалить
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+
+    </div>
+</main>
