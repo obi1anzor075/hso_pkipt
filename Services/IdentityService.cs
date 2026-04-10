@@ -1,5 +1,6 @@
 ﻿using HsoPkipt.Identity;
 using HsoPkipt.Services.Interfaces;
+using HsoPkipt.ViewModels.Users;
 using Microsoft.AspNetCore.Identity;
 
 namespace HsoPkipt.Services;
@@ -26,34 +27,28 @@ public class IdentityService : IIdentityService
     {
         return await _userManager.FindByEmailAsync(email);
     }
-    public async Task<IdentityResult> CreateUserAsync(string email, string userName, string password)
+    public async Task<IdentityResult> CreateUserAsync(CreateUserVM model)
     {
-        if (string.IsNullOrWhiteSpace(email) ||
-            string.IsNullOrWhiteSpace(userName) ||
-            string.IsNullOrWhiteSpace(password))
-        {
-            return IdentityResult.Failed(new IdentityError
-            {
-                Code = "InvalidArguments",
-                Description = "Email, имя пользователя и пароль обязательны"
-            });
-        }
-
         var user = new AppUser
         {
-            Email = email,
-            UserName = userName
+            Email = model.Email,
+            UserName = model.Email,
+            FirstName = model.FirstName,
+            LastName = model.LastName,
+            Position = model.Position
         };
 
-        var createResult = await _userManager.CreateAsync(user, password);
+        var result = await _userManager.CreateAsync(user, model.Password);
 
-        if (!createResult.Succeeded)
-            return createResult;
+        if (!result.Succeeded)
+            return result;
 
-        var addToRoleResult = await _userManager.AddToRoleAsync(user, Roles.User);
+        var role = string.IsNullOrEmpty(model.Role) ? Roles.User : model.Role;
 
-        if (!addToRoleResult.Succeeded)
-            return addToRoleResult;
+        var roleResult = await _userManager.AddToRoleAsync(user, role);
+
+        if (!roleResult.Succeeded)
+            return roleResult;
 
         return IdentityResult.Success;
     }

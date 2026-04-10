@@ -1,0 +1,90 @@
+﻿@model HsoPkipt.ViewModels.Events.EventEditVM
+
+@{
+    ViewData["Title"] = "Редактирование события";
+}
+
+<main class="admin-page">
+    <div class="admin-page__inner">
+
+        <div class="admin-header admin-fade-in">
+            <div class="admin-header__left">
+                <a asp-action="Index" class="admin-header__back">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                    Назад к списку
+                </a>
+                <h1 class="admin-header__title">Редактирование новости</h1>
+                <p class="admin-header__subtitle">Внесите изменения и сохраните</p>
+            </div>
+        </div>
+
+        <div class="admin-divider"></div>
+
+        <div class="admin-form-wrap admin-fade-in" style="animation-delay:0.08s">
+            <div class="admin-form-wrap__stripe"></div>
+            <div class="admin-form-wrap__body">
+                <form method="post" class="admin-form">
+                    @Html.AntiForgeryToken()
+
+                    <div class="admin-form__field">
+                        <label asp-for="Title" class="admin-form__label">Заголовок</label>
+                        <input asp-for="Title" class="admin-form__input" placeholder="Введите заголовок…" />
+                        <span asp-validation-for="Title" class="admin-form__error"></span>
+                    </div>
+
+                    <div class="admin-form__field">
+                        <label asp-for="Description" class="admin-form__label">Краткое описание</label>
+                        <textarea asp-for="Description" class="admin-form__textarea"
+                                  placeholder="Пару предложений о сути новости…"></textarea>
+                        <span asp-validation-for="Description" class="admin-form__error"></span>
+                    </div>
+
+                    <div class="admin-form__field">
+                        <label asp-for="EventDate" class="admin-form__label">
+                            Дата публикации
+                        </label>
+
+                        <span class="admin-form__hint">
+                            Укажите дату и время публикации материала. Используется для сортировки и отображения в ленте новостей.
+                        </span>
+
+                        <input asp-for="EventDate"
+                               type="datetime-local"
+                               class="admin-form__input"
+                               placeholder="Выберите дату и время" />
+
+                        <span asp-validation-for="EventDate" class="admin-form__error"></span>
+                    </div>
+
+                    <div class="admin-form__field">
+                        <label class="admin-form__checkbox-row">
+                            <input asp-for="IsPublished" type="checkbox" />
+                            <span class="admin-form__checkbox-label">Опубликовать</span>
+                            <span class="admin-form__checkbox-hint">— сделать новость видимой на сайте</span>
+                        </label>
+                        <span asp-validation-for="IsPublished" class="admin-form__error"></span>
+                    </div>
+
+                    <div class="admin-form__actions">
+                        <button type="submit" class="admin-form__submit">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline style="color: white;" points="20 6 9 17 4 12"/>
+                            </svg>
+                            Сохранить изменения
+                        </button>
+                        <a asp-action="Index" class="admin-form__cancel">Отмена</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+@section Scripts {
+    <script src="~/js/effect/admin-news.edit.js"></script>
+}

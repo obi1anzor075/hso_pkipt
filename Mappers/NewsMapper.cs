@@ -13,6 +13,7 @@ public static class NewsMapper
             Title = entity.Title,
             ShortDescription = entity.ShortDescription,
             ImageUrl = entity.ImageUrl,
+            IsPublished = entity.IsPublished,
             CreatedAt = entity.CreatedAt,
         };
     }

@@ -1,0 +1,108 @@
+﻿@model List<HsoPkipt.ViewModels.Merch.MerchItemVM>
+
+@{
+    ViewData["Title"] = "Мерч";
+}
+
+<main class="shop">
+
+    <!-- HERO / баннер -->
+    <section class="shop__hero">
+        <div class="shop__hero-inner">
+            <h1 class="shop__title">Мерч</h1>
+            <p class="shop__subtitle">Одежда и аксессуары</p>
+        </div>
+    </section>
+
+    <div class="shop__container">
+
+        <!-- SIDEBAR -->
+        <aside class="shop__sidebar">
+
+            <!-- поиск -->
+            <form class="shop__search" method="get" asp-action="Search">
+                <input type="text" name="q" placeholder="Поиск..." />
+                <button type="submit">🔍</button>
+            </form>
+
+            <!-- корзина -->
+            <div class="shop__cart">
+                🛒 Корзина
+            </div>
+
+            <!-- категории -->
+            <div class="shop__categories">
+
+                <div class="shop__category shop__category--active">
+                    Одежда
+                </div>
+
+                <div class="shop__subcategory">
+                    Футболки
+                </div>
+
+                <div class="shop__subcategory">
+                    Свитшоты
+                </div>
+
+                <div class="shop__subcategory">
+                    Худи
+                </div>
+
+                <div class="shop__category">
+                    Аксессуары
+                </div>
+
+                <div class="shop__category">
+                    Другое
+                </div>
+
+            </div>
+
+        </aside>
+
+        <!-- PRODUCTS GRID -->
+        <section class="shop__products">
+
+            <div class="shop__grid">
+
+                @foreach (var item in Model)
+                {
+                    <div class="product-card">
+
+                        <!-- IMAGE -->
+                        <div class="product-card__image">
+                            <img src="@item.ImageUrl" alt="@item.Name" />
+                        </div>
+
+                        <!-- INFO -->
+                        <div class="product-card__info">
+                            <h3 class="product-card__title">@item.Name</h3>
+
+                            <div class="product-card__price">
+                                @item.Price ₽
+                            </div>
+                        </div>
+
+                        <!-- ACTIONS -->
+                        <div class="product-card__actions">
+
+                            <button class="product-card__fav">
+                                ♡
+                            </button>
+
+                            <button class="product-card__add">
+                                +
+                            </button>
+
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+
+        </section>
+
+    </div>
+</main>

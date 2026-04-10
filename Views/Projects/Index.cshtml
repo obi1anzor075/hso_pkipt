@@ -11,7 +11,7 @@
         <div class="project-grid" id="projectsGrid">
             @if (Model.ProjectItems.Any())
             {
-                foreach (var project in Model.ProjectItems)
+                foreach (var project in Model.ProjectItems.Where(p => p.IsPublished))
                 {
                     var hasTitle = !string.IsNullOrWhiteSpace(project.Title);
                     var hasDescription = !string.IsNullOrWhiteSpace(project.ShortDescription);

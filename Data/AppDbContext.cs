@@ -10,12 +10,20 @@ namespace HsoPkipt.Models
         public DbSet<ProjectItem> Projects { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<MerchItem> MerchItems { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Event>()
+                .Property(e => e.EventDate)
+                .HasConversion(
+                    v => v.ToUniversalTime(),
+                    v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
+                );
 
             // ---- Сидируем Теги ----
             var tag1Id = Guid.Parse("11111111-1111-1111-1111-111111111111");
@@ -108,49 +116,56 @@ namespace HsoPkipt.Models
                     Id = Guid.Parse("cccccccc-cccc-cccc-cccc-ccccccccccc1"),
                     Title = "Открытие весенней смены",
                     Description = "Торжественное открытие весенней смены с участием всех отрядов.",
-                    EventDate = eventBaseDate
+                    EventDate = eventBaseDate,
+                    IsPublished = true
                 },
                 new
                 {
                     Id = Guid.Parse("cccccccc-cccc-cccc-cccc-ccccccccccc2"),
                     Title = "Турнир по настольным играм",
                     Description = "Командное соревнование по настольным играм среди участников лагеря.",
-                    EventDate = eventBaseDate.AddDays(2)
+                    EventDate = eventBaseDate.AddDays(2),
+                    IsPublished = true
                 },
                 new
                 {
                     Id = Guid.Parse("cccccccc-cccc-cccc-cccc-ccccccccccc3"),
                     Title = "Вечер талантов",
                     Description = "Творческий вечер с выступлениями участников и вожатых.",
-                    EventDate = eventBaseDate.AddDays(5)
+                    EventDate = eventBaseDate.AddDays(5),
+                    IsPublished = true
                 }
             );
 
-            // --- Many-to-Many конфигурация и сидинг ---
-            modelBuilder.Entity<NewsItem>()
-                .HasMany(n => n.Tags)
-                .WithMany(t => t.News)
-                .UsingEntity<Dictionary<string, object>>(
-                    "NewsItemTag",
-                    j => j.HasOne<Tag>().WithMany().HasForeignKey("TagId"),
-                    j => j.HasOne<NewsItem>().WithMany().HasForeignKey("NewsItemId"),
-                    j =>
-                    {
-                        j.HasKey("NewsItemId", "TagId");
-
-                        j.HasData(
-                            // Игры
-                            new { NewsItemId = newsIds[0], TagId = tag2Id },
-                            new { NewsItemId = newsIds[1], TagId = tag2Id },
-                            new { NewsItemId = newsIds[2], TagId = tag2Id },
-
-                            // Технологии
-                            new { NewsItemId = newsIds[3], TagId = tag1Id },
-                            new { NewsItemId = newsIds[4], TagId = tag1Id },
-                            new { NewsItemId = newsIds[5], TagId = tag1Id }
-                        );
-                    }
-                );
+            modelBuilder.Entity<MerchItem>().HasData(
+                new
+                {
+                    Id = Guid.Parse("dddddddd-dddd-dddd-dddd-ddddddddddd1"),
+                    Name = "Футболка",
+                    Description = "Фирменная футболка",
+                    Price = 500m,
+                    ImageUrl = "/assets/img/foto_3.png",
+                    TagId = tag1Id
+                },
+                new
+                {
+                    Id = Guid.Parse("dddddddd-dddd-dddd-dddd-ddddddddddd2"),
+                    Name = "Кепка",
+                    Description = "Стильная кепка",
+                    Price = 300m,
+                    ImageUrl = "/assets/img/foto_3.png",
+                    TagId = tag1Id
+                },
+                new
+                {
+                    Id = Guid.Parse("dddddddd-dddd-dddd-dddd-ddddddddddd3"),
+                    Name = "Брелок",
+                    Description = "Металлический брелок",
+                    Price = 100m,
+                    ImageUrl = "/assets/img/foto_3.png",
+                    TagId = tag2Id
+                }
+            );
         }
     }
 }

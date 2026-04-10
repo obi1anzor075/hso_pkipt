@@ -1,4 +1,5 @@
 ﻿using HsoPkipt.Identity;
+using HsoPkipt.ViewModels.Users;
 using Microsoft.AspNetCore.Identity;
 
 namespace HsoPkipt.Services.Interfaces;
@@ -9,5 +10,5 @@ public interface IIdentityService
     Task<AppUser> GetUserByEmailAsync(string email);
     Task<SignInResult> SignInAsync(string email, string password, bool rememberMe);
     Task SignOutAsync();
-    Task<IdentityResult> CreateUserAsync(string email, string userName, string password);
+    Task<IdentityResult> CreateUserAsync(CreateUserVM model);
 }

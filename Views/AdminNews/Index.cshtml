@@ -21,7 +21,7 @@
                 <h1 class="admin-header__title">Все новости</h1>
                 <p class="admin-header__subtitle">Страница @Model.CurrentPage из @Model.TotalPages</p>
             </div>
-            <a asp-action="Create" class="admin-header__action">
+            <a asp-action="Create" asp-controller="AdminNews" class="admin-header__action">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line style="color: white;" x1="12" y1="5" x2="12" y2="19"/>

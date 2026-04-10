@@ -299,7 +299,9 @@
     <script>
         window.profileEvents = @Html.Raw(
             System.Text.Json.JsonSerializer.Serialize(
-                Model.UpcomingEvents.Select(e => new {
+                Model.UpcomingEvents
+                    .Where(e => e.IsPublished)
+                    .Select(e => new {
                     id = e.Id,
                     title = e.Title,
                     description = e.Description,

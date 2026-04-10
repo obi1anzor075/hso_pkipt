@@ -56,8 +56,7 @@ public class NewsRepository : INewsRepository
     public async Task<(List<NewsItem> items, int count)> GetPagedAsync(int pageNumber, int pageSize)
     {
         var query = _context.News
-            .AsNoTracking()
-            .Where(n => n.IsPublished);
+            .AsNoTracking();
 
         int totalCount = query.Count();
 

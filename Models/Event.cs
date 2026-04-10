@@ -16,4 +16,6 @@ public class Event
 
     [Display(Name = "Описание")]
     public string Description { get; set; }
+
+    public bool IsPublished { get; set; }
 }

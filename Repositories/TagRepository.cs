@@ -16,7 +16,6 @@ public class TagRepository : ITagRepository
     public async Task<Tag?> GetByIdAsync(Guid id)
     {
         return await _context.Tags
-            .Include(t => t.News)
             .FirstOrDefaultAsync(t => t.Id == id);
     }
 

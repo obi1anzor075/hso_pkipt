@@ -1,0 +1,76 @@
+﻿@model HsoPkipt.ViewModels.Users.CreateUserVM
+
+@{
+    ViewData["Title"] = "Создание пользователя";
+}
+
+<main class="admin-page">
+    <div class="admin-page__inner">
+
+        <div class="admin-header">
+            <h1 class="admin-header__title">Создание пользователя</h1>
+            <p class="admin-header__subtitle">Добавление новой учётной записи</p>
+        </div>
+
+        <div class="admin-divider"></div>
+
+        <div class="admin-form-wrap">
+            <div class="admin-form-wrap__body">
+
+                <form method="post" class="admin-form">
+                    @Html.AntiForgeryToken()
+                    
+                    <div asp-validation-summary="All" class="admin-form__error"></div>
+
+                    <div class="admin-form__field">
+                        <label>Email</label>
+                        <input asp-for="Email" class="admin-form__input" />
+                    </div>
+
+                    <div class="admin-form__field">
+                        <label>Пароль</label>
+                        <input asp-for="Password" type="password" class="admin-form__input" />
+                    </div>
+
+                    <div class="admin-form__field">
+                        <label>Имя</label>
+                        <input asp-for="FirstName" class="admin-form__input" />
+                    </div>
+
+                    <div class="admin-form__field">
+                        <label>Фамилия</label>
+                        <input asp-for="LastName" class="admin-form__input" />
+                    </div>
+
+                    <div class="admin-form__field">
+                        <label>Должность</label>
+                        <input asp-for="Position" class="admin-form__input" />
+                    </div>
+
+                    <div class="admin-form__field">
+                        <label>Роль</label>
+                        <select asp-for="Role" class="admin-form__input">
+                            <option value="User">User</option>
+                            <option value="Moderator">Moderator</option>
+                            <option value="Admin">Admin</option>
+                        </select>
+                    </div>
+
+                    <div class="admin-form__actions">
+                        <button type="submit" class="admin-form__submit">
+                            Создать пользователя
+                        </button>
+                        <a asp-action="Index" class="admin-form__cancel">Отмена</a>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</main>
+
+@section Scripts {
+    <script src="~/js/effect/admin-news.edit.js"></script>
+}

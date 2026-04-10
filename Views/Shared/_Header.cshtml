@@ -15,7 +15,7 @@
         <div class="line"></div>
         <a href="@Url.Action("Index", "Projects")" class="link">Наши проекты</a>
         <div class="line"></div>
-        <a href="@Url.Action("Store", "Store")" class="link">Мерч</a>
+        <a href="@Url.Action("Index", "Merch")" class="link">Мерч</a>
         <div class="line"></div>
         @if (User.Identity?.IsAuthenticated == true &&
              (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Moderator)))

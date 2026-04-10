@@ -51,14 +51,13 @@ public class AdminNewsController : Controller
 
         if (news == null)
             return NotFound();
-
         var model = new UpdateNewsItemVM
         {
             Title = news.Title,
             ShortDescription = news.ShortDescription,
             Content = news.Content,
             ImageUrl = news.ImageUrl,
-            IsPublished = false
+            IsPublished = news.IsPublished
         };
 
         return View(model);

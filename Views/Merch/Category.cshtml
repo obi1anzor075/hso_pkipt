@@ -1,0 +1,12 @@
+﻿@model List<HsoPkipt.ViewModels.Merch.MerchItemVM>
+
+<div class="merch-grid">
+    @foreach (var item in Model)
+    {
+        <div class="merch-item">
+            <img src="@item.ImageUrl" />
+            <h3>@item.Name</h3>
+            <p>@item.Price ₽</p>
+        </div>
+    }
+</div>

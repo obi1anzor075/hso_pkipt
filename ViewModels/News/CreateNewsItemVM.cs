@@ -16,5 +16,7 @@ public class CreateNewsItemVM
 
     public string? ImageUrl { get; init; }
 
+    public bool IsPublished { get; set; }
+
     public IReadOnlyCollection<Guid>? TagIds { get; init; }
 }

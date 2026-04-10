@@ -120,7 +120,8 @@ public class ProjectService : IProjectService
             model.Title,
             model.ShortDescription ?? string.Empty,
             model.Content,
-            model.ImageUrl
+            model.ImageUrl,
+            model.IsPublished
         );
 
         project.SetPublish(model.IsPublished);

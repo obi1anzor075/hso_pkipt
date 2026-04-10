@@ -45,8 +45,7 @@ public class ProjectRepository : IProjectRepository
     public async Task<(List<ProjectItem> items, int count)> GetPagedAsync(int pageNumber, int pageSize)
     {
         var query = _context.Projects
-            .AsNoTracking()
-            .Where(n => n.IsPublished);
+            .AsNoTracking();
 
         int totalCount = query.Count();
 

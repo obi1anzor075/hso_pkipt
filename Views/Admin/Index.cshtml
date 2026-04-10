@@ -23,73 +23,55 @@
             <span class="admin-welcome__role">@(isAdmin ? "Администратор" : "Модератор")</span>
         </div>
 
-        <!-- Всегда доступно -->
+        <!-- Динамический блок -->
         <div class="admin-section admin-fade-in" style="animation-delay:0.1s">
             <span class="admin-section__label">Доступно вам</span>
+
             <div class="admin-nav-grid">
+
+                <!-- Общий доступ -->
                 <a asp-controller="Admin" asp-action="Events"
                    class="admin-nav-card admin-nav-card--featured admin-fade-in">
                     <div class="admin-nav-card__icon-wrap">
                         <span class="admin-nav-card__icon" style="mask-image:url(/assets/icon/calendar.svg)"></span>
                     </div>
                     <p class="admin-nav-card__title">События</p>
-                    <p class="admin-nav-card__desc">Создание и редактирование событий для студентов</p>
+                    <p class="admin-nav-card__desc">Создание и редактирование событий</p>
                     <span class="admin-nav-card__arrow"></span>
                 </a>
-            </div>
-        </div>
 
-        @if (isAdmin)
-        {
-            <!-- Только для Admin -->
-            <div class="admin-section admin-fade-in" style="animation-delay:0.15s">
-                <span class="admin-section__label">Только для администратора</span>
-                <div class="admin-nav-grid">
-
-                    <a asp-controller="Admin" asp-action="News"
-                       class="admin-nav-card admin-fade-in">
+                @if (isAdmin)
+                {
+                    <a asp-controller="Admin" asp-action="News" class="admin-nav-card admin-fade-in">
                         <div class="admin-nav-card__icon-wrap">
                             <span class="admin-nav-card__icon" style="mask-image:url(/assets/icon/news.svg)"></span>
                         </div>
                         <p class="admin-nav-card__title">Новости</p>
-                        <p class="admin-nav-card__desc">Публикация, редактирование и удаление новостей</p>
+                        <p class="admin-nav-card__desc">Публикация и редактирование новостей</p>
                         <span class="admin-nav-card__arrow"></span>
                     </a>
 
-                    <a asp-controller="Admin" asp-action="Projects"
-                       class="admin-nav-card admin-fade-in">
+                    <a asp-controller="Admin" asp-action="Projects" class="admin-nav-card admin-fade-in">
                         <div class="admin-nav-card__icon-wrap">
                             <span class="admin-nav-card__icon" style="mask-image:url(/assets/icon/projects.svg)"></span>
                         </div>
                         <p class="admin-nav-card__title">Проекты</p>
-                        <p class="admin-nav-card__desc">Управление карточками проектов на сайте</p>
+                        <p class="admin-nav-card__desc">Управление проектами</p>
                         <span class="admin-nav-card__arrow"></span>
                     </a>
 
-                    <a asp-controller="Admin" asp-action="Users"
-                       class="admin-nav-card admin-fade-in">
+                    <a asp-controller="Admin" asp-action="Users" class="admin-nav-card admin-fade-in">
                         <div class="admin-nav-card__icon-wrap">
                             <span class="admin-nav-card__icon" style="mask-image:url(/assets/icon/profile.svg)"></span>
                         </div>
                         <p class="admin-nav-card__title">Пользователи</p>
-                        <p class="admin-nav-card__desc">Управление учётными записями и ролями</p>
+                        <p class="admin-nav-card__desc">Управление пользователями и ролями</p>
                         <span class="admin-nav-card__arrow"></span>
                     </a>
+                }
 
-                    <a asp-controller="Admin" asp-action="Tags"
-                       class="admin-nav-card admin-fade-in">
-                        <div class="admin-nav-card__icon-wrap">
-                            <span class="admin-nav-card__icon" style="mask-image:url(/assets/icon/tag.svg)"></span>
-                        </div>
-                        <p class="admin-nav-card__title">Теги</p>
-                        <p class="admin-nav-card__desc">Категории и метки для фильтрации новостей</p>
-                        <span class="admin-nav-card__badge badge--wip">В разработке</span>
-                        <span class="admin-nav-card__arrow"></span>
-                    </a>
-
-                </div>
             </div>
-        }
+        </div>
 
     </div>
 </main>

@@ -9,8 +9,7 @@ public class Tag
     [Required]
     public string Name { get; private set; }
 
-    public virtual ICollection<NewsItem> News { get; private set; } = new List<NewsItem>();
-
+    public virtual ICollection<MerchItem> MerchItems { get; private set; } = new List<MerchItem>();
     protected Tag() { }
 
     public Tag(string name)

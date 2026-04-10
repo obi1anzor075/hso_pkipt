@@ -33,7 +33,7 @@ public class NewsItem
         CreatedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
         ViewCount = 0;
-        IsPublished = false;
+        IsPublished = true;
 
         Update(title, shortDescription, content, imageUrl);
     }

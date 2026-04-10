@@ -39,12 +39,17 @@ builder.Services.AddScoped<INewsRepository, NewsRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<ITagRepository, TagRepository>();
+builder.Services.AddScoped<IMerchRepository, MerchRepository>();
 
 // Add Services
 builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddScoped<INewsService, NewsService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
+builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<ITagService, TagService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IMerchService, MerchService>();
 
 var app = builder.Build();
 

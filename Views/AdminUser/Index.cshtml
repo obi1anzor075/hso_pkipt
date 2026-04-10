@@ -1,0 +1,91 @@
+﻿@model HsoPkipt.Common.PagedResult<HsoPkipt.ViewModels.Users.UserItemVM>
+
+@{
+    ViewData["Title"] = "Пользователи";
+}
+
+<main class="admin-page">
+    <div class="admin-page__inner">
+
+        <div class="admin-header admin-fade-in">
+            <div class="admin-header__left">
+                <a asp-controller="Admin" asp-action="Index" class="admin-header__back">
+                    ← Назад
+                </a>
+                <h1 class="admin-header__title">Пользователи</h1>
+                <p class="admin-header__subtitle">
+                    Страница @Model.CurrentPage из @Model.TotalPages
+                </p>
+            </div>
+            <a asp-action="Create" asp-controller="AdminUser" class="admin-header__action">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line style="color: white;" x1="12" y1="5" x2="12" y2="19"/>
+                    <line style="color: white;" x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+                Создать пользователя
+            </a>
+        </div>
+
+        <div class="admin-divider"></div>
+
+        @if (!Model.Items.Any())
+        {
+            <div class="admin-news-empty">
+                <p>Пользователей пока нет</p>
+            </div>
+        }
+        else
+        {
+            <div class="admin-news-table-wrap admin-fade-in">
+                <table class="admin-news-table">
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Имя</th>
+                            <th>Роль</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model.Items)
+                        {
+                            <tr>
+                                <td>@user.Email</td>
+                                <td>@user.FirstName @user.LastName</td>
+                                <td>@user.Role</td>
+                                <td>
+                                    <div class="admin-news-table__actions">
+                                        <a asp-action="Edit" asp-controller="AdminUser" asp-route-id="@user.Id"
+                                           class="admin-tbl-btn admin-tbl-btn--edit">
+                                            Изменить
+                                        </a>
+                                        <a asp-action="Delete" asp-controller="AdminUser" asp-route-id="@user.Id"
+                                           class="admin-tbl-btn admin-tbl-btn--delete">
+                                            Удалить
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Пагинация -->
+            @if (Model.TotalPages > 1)
+            {
+                <div class="admin-pagination">
+                    @for (int p = 1; p <= Model.TotalPages; p++)
+                    {
+                        <a asp-action="Index" asp-controller="AdminUser" asp-route-page="@p"
+                           class="admin-pagination__btn @(p == Model.CurrentPage ? "active" : "")">
+                            @p
+                        </a>
+                    }
+                </div>
+            }
+        }
+
+    </div>
+</main>

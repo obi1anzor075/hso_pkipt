@@ -10,7 +10,19 @@ public class ProfileService : IProfileService
 {
     private readonly IEventRepository _eventRepository;
     private readonly UserManager<AppUser> _userManager;
+    private static readonly TimeZoneInfo MoscowTz = GetMoscowTimeZone();
 
+    private static TimeZoneInfo GetMoscowTimeZone()
+    {
+        try
+        {
+            return TimeZoneInfo.FindSystemTimeZoneById("Europe/Moscow");
+        }
+        catch
+        {
+            return TimeZoneInfo.FindSystemTimeZoneById("Russian Standard Time");
+        }
+    }
     public ProfileService(
         IEventRepository eventRepository,
         UserManager<AppUser> userManager)
@@ -52,19 +64,19 @@ public class ProfileService : IProfileService
     {
         var events = await _eventRepository.GetAllAsync();
 
-        if (events.Count is 0)
+        if (events.Count == 0)
             return new List<EventVM>();
 
-        var now = DateTime.UtcNow;
+        var nowUtc = DateTime.UtcNow;
 
         var vm = events
-            .Where(e => e.EventDate >= now)
+            .Where(e => e.EventDate >= nowUtc)
             .OrderBy(e => e.EventDate)
             .Select(e => new EventVM
             {
                 Id = e.Id,
                 Title = e.Title,
-                Date = e.EventDate,
+                Date = ToMoscow(e.EventDate),
                 Description = e.Description
             })
             .ToList();
@@ -144,5 +156,16 @@ public class ProfileService : IProfileService
             return null;
 
         return photoUrl;
+    }
+
+    private static DateTime ToUtc(DateTime date)
+    {
+        var unspecified = DateTime.SpecifyKind(date, DateTimeKind.Unspecified);
+        return TimeZoneInfo.ConvertTimeToUtc(unspecified, MoscowTz);
+    }
+
+    private static DateTime ToMoscow(DateTime dateUtc)
+    {
+        return TimeZoneInfo.ConvertTimeFromUtc(dateUtc, MoscowTz);
     }
 }
