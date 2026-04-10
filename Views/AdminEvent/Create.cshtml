@@ -40,7 +40,7 @@
                         <label asp-for="Description" class="admin-form__label">Краткое описание</label>
                         <span class="admin-form__hint">Показывается в карточке на главной и в списке</span>
                         <textarea asp-for="Description" class="admin-form__textarea"
-                                  placeholder="Пару предложений о сути новости…"></textarea>
+                                  placeholder="Короткое описание что это за событие…"></textarea>
                         <span asp-validation-for="Description" class="admin-form__error"></span>
                     </div>
 
@@ -77,7 +77,3 @@
 
     </div>
 </main>
-
-@section Scripts {
-    <script src="~/js/effect/admin-news.create.js"></script>
-}
