@@ -1,9 +1,12 @@
-﻿using HsoPkipt.Services.Interfaces;
+using HsoPkipt.Identity;
+using HsoPkipt.Services.Interfaces;
 using HsoPkipt.ViewModels.Tags;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HsoPkipt.Controllers.Admin;
 
+[Authorize(Roles = Roles.Admin)]
 public class AdminTagController : Controller
 {
     private readonly ITagService _tagService;
@@ -19,11 +22,10 @@ public class AdminTagController : Controller
         return View(tags);
     }
 
-    // Создание
     [HttpGet]
     public IActionResult CreateTag()
     {
-        return View();
+        return View(new TagCreateVM());
     }
 
     [HttpPost]
@@ -46,7 +48,6 @@ public class AdminTagController : Controller
         return RedirectToAction(nameof(Tags));
     }
 
-    // Редактирование
     [HttpGet]
     public async Task<IActionResult> EditTag(Guid id)
     {
@@ -84,12 +85,19 @@ public class AdminTagController : Controller
         return RedirectToAction(nameof(Tags));
     }
 
-    // Удаление
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteTag(Guid id)
     {
-        await _tagService.DeleteAsync(id);
+        try
+        {
+            await _tagService.DeleteAsync(id);
+        }
+        catch (Exception ex)
+        {
+            TempData["TagError"] = ex.Message;
+        }
+
         return RedirectToAction(nameof(Tags));
     }
 }

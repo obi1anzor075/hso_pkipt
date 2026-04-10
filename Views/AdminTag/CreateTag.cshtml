@@ -1,0 +1,53 @@
+@model HsoPkipt.ViewModels.Tags.TagCreateVM
+
+@{
+    ViewData["Title"] = "Создание категории";
+}
+
+<main class="admin-page">
+    <div class="admin-page__inner">
+
+        <div class="admin-header admin-fade-in">
+            <div class="admin-header__left">
+                <a asp-action="Tags" class="admin-header__back">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                    Назад к списку
+                </a>
+                <h1 class="admin-header__title">Новая категория</h1>
+                <p class="admin-header__subtitle">Введите название и сохраните категорию</p>
+            </div>
+        </div>
+
+        <div class="admin-divider"></div>
+
+        <div class="admin-form-wrap admin-fade-in" style="animation-delay:0.08s">
+            <div class="admin-form-wrap__stripe"></div>
+            <div class="admin-form-wrap__body">
+                <form asp-action="CreateTag" method="post" class="admin-form">
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly" class="admin-form__error-summary"></div>
+
+                    <div class="admin-form__field">
+                        <label asp-for="Name" class="admin-form__label">Название</label>
+                        <input asp-for="Name" class="admin-form__input" placeholder="Введите название категории…" />
+                        <span asp-validation-for="Name" class="admin-form__error"></span>
+                    </div>
+
+                    <div class="admin-form__actions">
+                        <button type="submit" class="admin-form__submit">Сохранить</button>
+                        <a asp-action="Tags" class="admin-form__cancel">Отмена</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

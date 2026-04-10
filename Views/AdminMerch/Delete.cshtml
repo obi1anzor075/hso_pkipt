@@ -1,0 +1,67 @@
+@model HsoPkipt.ViewModels.Merch.MerchItemVM
+
+@{
+    ViewData["Title"] = "Удаление товара";
+}
+
+<main class="admin-page">
+    <div class="admin-page__inner">
+
+        <div class="admin-header admin-fade-in">
+            <div class="admin-header__left">
+                <a asp-action="Index" class="admin-header__back">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                    Назад к списку
+                </a>
+                <h1 class="admin-header__title">Удаление товара</h1>
+                <p class="admin-header__subtitle">Это действие нельзя отменить</p>
+            </div>
+        </div>
+
+        <div class="admin-divider"></div>
+
+        <div class="admin-delete-card admin-fade-in" style="animation-delay:0.08s">
+            <div class="admin-delete-card__stripe"></div>
+            <div class="admin-delete-card__body">
+                <div class="admin-delete-card__warning">
+                    <p>Вы действительно хотите удалить этот товар?</p>
+                </div>
+
+                <div class="admin-delete-card__info">
+                    <div class="admin-delete-card__row">
+                        <span class="admin-delete-card__key">Название</span>
+                        <span class="admin-delete-card__val">@Model.Name</span>
+                    </div>
+                    @if (!string.IsNullOrWhiteSpace(Model.Description))
+                    {
+                        <div class="admin-delete-card__row">
+                            <span class="admin-delete-card__key">Описание</span>
+                            <span class="admin-delete-card__val">@Model.Description</span>
+                        </div>
+                    }
+                    <div class="admin-delete-card__row">
+                        <span class="admin-delete-card__key">Категория</span>
+                        <span class="admin-delete-card__val">@Model.TagName</span>
+                    </div>
+                    <div class="admin-delete-card__row">
+                        <span class="admin-delete-card__key">Цена</span>
+                        <span class="admin-delete-card__val">@Model.Price ₽</span>
+                    </div>
+                </div>
+
+                <div class="admin-delete-card__actions">
+                    <form asp-action="DeleteConfirmed" method="post" style="display:contents">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <button type="submit" class="admin-delete-btn">Удалить</button>
+                    </form>
+                    <a asp-action="Index" class="admin-form__cancel">Отмена</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
