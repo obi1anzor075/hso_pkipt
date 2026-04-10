@@ -1,4 +1,10 @@
-﻿@using HsoPkipt.Identity
+@using HsoPkipt.Identity
+@inject HsoPkipt.Services.Interfaces.IMerchCartService MerchCartService
+
+@{
+    var merchCartCount = await MerchCartService.GetItemsCountAsync();
+}
+
 <nav class="__container">
     <a href="@Url.Action("Index", "Home")" class="horizontal-logo"></a>
 
@@ -24,7 +30,11 @@
         }
     </div>
 
-    @if (User.Identity.IsAuthenticated)
+    <a href="@Url.Action("Cart", "Merch")" class="cart-link" aria-label="Корзина">
+        <span class="cart-link__badge @(merchCartCount == 0 ? "cart-link__badge--empty" : "")">@merchCartCount</span>
+    </a>
+
+    @if (User.Identity?.IsAuthenticated == true)
     {
         <a href="@Url.Action("Index", "Profile")" class="profile"></a>
     }

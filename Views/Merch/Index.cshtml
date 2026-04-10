@@ -1,7 +1,8 @@
-﻿@model List<HsoPkipt.ViewModels.Merch.MerchItemVM>
+@model HsoPkipt.ViewModels.Merch.MerchCatalogVM
 
 @{
     ViewData["Title"] = "Мерч";
+    var returnUrl = $"{Context.Request.Path}{Context.Request.QueryString}";
 }
 
 <main class="shop">
@@ -21,13 +22,26 @@
 
             <!-- поиск -->
             <form class="shop__search" method="get" asp-action="Search">
-                <input type="text" name="q" placeholder="Поиск..." />
+                <input type="text" name="q" value="@Model.SearchQuery" placeholder="Поиск..." />
                 <button type="submit">🔍</button>
             </form>
 
             <!-- корзина -->
             <div class="shop__cart">
-                🛒 Корзина
+                <div class="shop__cart-title">🛒 Корзина</div>
+
+                @if (Model.Cart.IsEmpty)
+                {
+                    <p class="shop__cart-empty">Пока пусто. Добавьте первый товар.</p>
+                }
+                else
+                {
+                    <div class="shop__cart-summary">
+                        <span>@Model.Cart.ItemsCount шт.</span>
+                        <span>@Model.Cart.TotalPrice ₽</span>
+                    </div>
+                    <a class="shop__cart-link" asp-action="Cart">Открыть корзину</a>
+                }
             </div>
 
             <!-- категории -->
@@ -66,13 +80,13 @@
 
             <div class="shop__grid">
 
-                @foreach (var item in Model)
+                @foreach (var item in Model.Items)
                 {
                     <div class="product-card">
 
                         <!-- IMAGE -->
                         <div class="product-card__image">
-                            <img src="@item.ImageUrl" alt="@item.Name" />
+                            <img src="@(string.IsNullOrWhiteSpace(item.ImageUrl) ? Url.Content("~/assets/icon/err.no-image.svg") : item.ImageUrl)" alt="@item.Name" />
                         </div>
 
                         <!-- INFO -->
@@ -87,13 +101,17 @@
                         <!-- ACTIONS -->
                         <div class="product-card__actions">
 
-                            <button class="product-card__fav">
+                            <button class="product-card__fav" type="button">
                                 ♡
                             </button>
 
-                            <button class="product-card__add">
-                                +
-                            </button>
+                            <form method="post" asp-action="AddToCart">
+                                <input type="hidden" name="merchItemId" value="@item.Id" />
+                                <input type="hidden" name="returnUrl" value="@returnUrl" />
+                                <button type="submit" class="product-card__add" aria-label="Добавить @item.Name в корзину">
+                                    +
+                                </button>
+                            </form>
 
                         </div>
 

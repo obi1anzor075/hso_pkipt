@@ -12,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
 
 // Add db context
 builder.Services.AddDb(builder.Configuration);
@@ -50,6 +51,7 @@ builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IMerchService, MerchService>();
+builder.Services.AddScoped<IMerchCartService, MerchCartService>();
 
 var app = builder.Build();
 
