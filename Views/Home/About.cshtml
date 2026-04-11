@@ -1,134 +1,345 @@
-@* @using HsoPkipt.ViewModels.News
-@model NewsIndexVM *@
-
 @{
-  ViewData["Title"] = "О нас";
+    ViewData["Title"] = "О нас";
 }
 
 <main class="about-page">
-  <div class="about-container">
-    <h2 class="about-title">Люди, знающие свое дело!</h2>
+    <div class="about-container">
 
-    <div class="about-grid">
-      @* @if (Model.NewsItems.Any())
-      {
-        foreach (var about in Model.NewsItems)
-        {
-          var hasTitle = !string.IsNullOrWhiteSpace(about.Title);
-          var hasDescription = !string.IsNullOrWhiteSpace(about.ShortDescription);
-          var hasRole = !string.IsNullOrWhiteSpace(about.Role);
-          var hasImage = !string.IsNullOrWhiteSpace(about.ImageUrl);
-          var hasVkLink = !string.IsNullOrWhiteSpace(about.VkLink);
-          var hasTgLink = !string.IsNullOrWhiteSpace(about.TgLink);
+        <!-- ══ HERO ══════════════════════════════════ -->
+        <section class="about-hero" data-about-animate>
 
-          var cardClass = "card-about";
+            <span class="about-hero__badge">ШСО ПКИПТ · с 2016 года</span>
 
-          if (!hasTitle && !hasDescription && !hasRole)
-          {
-            cardClass += " no-content";
-          }
-          else if (!hasImage)
-          {
-            cardClass += " no-image";
-          }
+            <h1 class="about-hero__title">
+                Студенческие отряды,<br>
+                которые <span class="about-hero__accent">меняют жизнь</span>
+            </h1>
 
-          <div class="@cardClass">
-            <img src="@(hasImage? about.ImageUrl: Url.Content("~/assets/icon/err.no-image.svg"))"
-              alt="@(hasTitle? about.Title: "О нас")">
-            <div class="card-text-wrapper">
-              @if (hasTitle)
-              {
-                <p class="card-title">@about.Title</p>
-              }
-              @if (hasRole) {
-                <p class="card-role">@about.Role</p>
-              }
-              @if (hasDescription)
-              {
-                <p class="card-description">@about.ShortDescription</p>
-              }
-              <div class="link-block">
-              @if (hasVkLink)
-              {
-                <a class="card-link vk" href="@about.hasVkLink"></a>
-              }
-              @if (hasTgLink)
-              {
-                <a class="card-link tg" href="@about.hasTgLink"></a>
-              }
-              </div>
+            <p class="about-hero__subtitle">
+                Мы объединяем студентов IT-колледжа, которые хотят не просто учиться,
+                а действовать: работать, создавать, помогать и развиваться вместе.
+            </p>
+
+            <div class="about-hero__actions">
+                <button type="button" class="about-hero__btn about-hero__btn--primary" data-fn="modal__join-us">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                    </svg>
+                    Вступить в отряд
+                </button>
+                <a href="@Url.Action("News", "Home")" class="about-hero__btn about-hero__btn--ghost">
+                    Читать новости
+                </a>
             </div>
-          </div>
-        }
-      }
-      else
-      {
-        <div class="card-about not-load">
-          <img src="~/assets/icon/err.no-load.svg" alt="">
-          <div class="card-text-wrapper"></div>
-        </div>
-        <div class="card-about not-load">
-          <img src="~/assets/icon/err.no-load.svg" alt="">
-          <div class="card-text-wrapper"></div>
-        </div>
-      } *@
 
-      <div class="card-about not-load">
-        <img src="~/assets/icon/err.no-load-about.svg" alt="">
-        <div class="card-text-wrapper"></div>
-      </div>
-      <div class="card-about no-image">
-        <img src="~/assets/icon/err.no-image-about.svg" alt="">
-        <div class="card-text-wrapper">
-          <p class="card-title">Text text</p>
-          <p class="card-role">Text text</p>
-          <p class="card-description">Text text</p>
-          <div class="link-block">
-            <a href="#" class="card-link vk"></a>
-            <a href="#" class="card-link tg"></a>
-          </div>
-        </div>
-      </div>
-      <div class="card-about no-content">
-        <img src="~/assets/img/foto_3.png" alt="">
-        <div class="card-text-wrapper"></div>
-      </div>
-      <div class="card-about">
-        <img src="~/assets/img/foto_3.png" alt="">
-        <div class="card-text-wrapper">
-          <p class="card-title">Text text</p>
-          <p class="card-role">Text text</p>
-          <p class="card-description">Text text</p>
-          <div class="link-block">
-            <a href="#" class="card-link vk"></a>
-            <a href="#" class="card-link tg"></a>
-          </div>
-        </div>
-      </div>
-      <div class="card-about">
-        <img src="~/assets/img/foto_3.png" alt="">
-        <div class="card-text-wrapper">
-          <p class="card-title">Text text</p>
-          <p class="card-role">Text text</p>
-          <p class="card-description">Text text</p>
-          <div class="link-block">
-            <a href="#" class="card-link vk"></a>
-            <a href="#" class="card-link tg"></a>
-          </div>
-        </div>
-      </div>
-      <div class="card-about">
-        <img src="~/assets/img/foto_3.png" alt="">
-        <div class="card-text-wrapper">
-          <p class="card-title">Text text</p>
-          <p class="card-role">Text text</p>
-          <p class="card-description">Text text</p>
-          <div class="link-block">
-            <a href="#" class="card-link vk"></a>
-            <a href="#" class="card-link tg"></a>
-          </div>
-        </div>
-      </div>
+            <div class="about-hero__stats">
+                <div class="about-hero__stat">
+                    <span class="value">2016</span>
+                    <span class="label">год основания</span>
+                </div>
+                <div class="about-hero__stat">
+                    <span class="value">4</span>
+                    <span class="label">направления</span>
+                </div>
+                <div class="about-hero__stat">
+                    <span class="value">200+</span>
+                    <span class="label">участников</span>
+                </div>
+                <div class="about-hero__stat">
+                    <span class="value">8+</span>
+                    <span class="label">лет работы</span>
+                </div>
+            </div>
+
+        </section>
+
+        <div class="about-divider"></div>
+
+        <!-- ══ ИСТОРИЯ ════════════════════════════════ -->
+        <section class="about-story">
+
+            <div class="about-story__text" data-about-animate>
+                <span class="about-section-label">Наша история</span>
+                <h2 class="about-section-title">Как всё начиналось</h2>
+                <div class="about-story__body">
+                    <p>
+                        Штаб Студенческих Отрядов ПКИПТ появился 26 января 2016 года
+                        с создания педагогического отряда «Созвездие». Несколько студентов
+                        решили, что хотят проводить лето не в ожидании — а в работе,
+                        где каждый день имеет смысл.
+                    </p>
+                    <p>
+                        С тех пор движение выросло в четыре полноценных направления.
+                        Через наши ряды прошли сотни студентов колледжа — одни стали
+                        опытными педагогами, другие запустили IT-проекты, третьи организовали
+                        городские мероприятия.
+                    </p>
+                    <p>
+                        Сегодня ШСО ПКИПТ — это не просто подработка. Это первый опыт
+                        настоящей командной работы, наставничества и ответственности.
+                    </p>
+                </div>
+            </div>
+
+            <div class="about-story__timeline" data-about-animate>
+                <div class="about-timeline-item">
+                    <div class="about-timeline-item__dot">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                        </svg>
+                    </div>
+                    <div class="about-timeline-item__content">
+                        <span class="year">2016</span>
+                        <span class="event">Основание ШСО ПКИПТ</span>
+                        <span class="desc">Создан педагогический отряд «Созвездие» — первый отряд движения</span>
+                    </div>
+                </div>
+
+                <div class="about-timeline-item">
+                    <div class="about-timeline-item__dot dot--role">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                            <line x1="8" y1="21" x2="16" y2="21" />
+                            <line x1="12" y1="17" x2="12" y2="21" />
+                        </svg>
+                    </div>
+                    <div class="about-timeline-item__content">
+                        <span class="year">2018</span>
+                        <span class="event">Появился IT-отряд</span>
+                        <span class="desc">Студенты-программисты объединились для работы над реальными проектами</span>
+                    </div>
+                </div>
+
+                <div class="about-timeline-item">
+                    <div class="about-timeline-item__dot dot--second">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M23 21v-2a4 4 0 00-3-3.87" />
+                            <path d="M16 3.13a4 4 0 010 7.75" />
+                        </svg>
+                    </div>
+                    <div class="about-timeline-item__content">
+                        <span class="year">2020</span>
+                        <span class="event">Рост до 4 направлений</span>
+                        <span class="desc">Добавились сервисный и строительный отряды — движение охватило все сферы</span>
+                    </div>
+                </div>
+
+                <div class="about-timeline-item">
+                    <div class="about-timeline-item__dot">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                        </svg>
+                    </div>
+                    <div class="about-timeline-item__content">
+                        <span class="year">Сегодня</span>
+                        <span class="event">200+ участников за всё время</span>
+                        <span class="desc">Ежегодно новые студенты находят команду, опыт и первую работу</span>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <div class="about-divider"></div>
+
+        <!-- ══ НАПРАВЛЕНИЯ ═══════════════════════════ -->
+        <section class="about-directions" data-about-animate>
+
+            <div>
+                <span class="about-section-label">Чем мы занимаемся</span>
+                <h2 class="about-section-title">Четыре направления</h2>
+            </div>
+
+            <div class="about-directions__grid">
+
+                <div class="about-direction-card">
+                    <div class="about-direction-card__icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M23 21v-2a4 4 0 00-3-3.87" />
+                            <path d="M16 3.13a4 4 0 010 7.75" />
+                        </svg>
+                    </div>
+                    <p class="about-direction-card__name">Педагогический отряд</p>
+                    <p class="about-direction-card__desc">
+                        Работа в детских лагерях и образовательных учреждениях.
+                        Первый опыт наставничества и ответственности за другого человека.
+                    </p>
+                    <ul class="about-direction-card__list">
+                        <li>Детские оздоровительные лагеря</li>
+                        <li>Кружки и секции для школьников</li>
+                        <li>Организация городских событий для детей</li>
+                    </ul>
+                </div>
+
+                <div class="about-direction-card">
+                    <div class="about-direction-card__icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="16 18 22 12 16 6" />
+                            <polyline points="8 6 2 12 8 18" />
+                        </svg>
+                    </div>
+                    <p class="about-direction-card__name">IT-отряд</p>
+                    <p class="about-direction-card__desc">
+                        Разработка, поддержка и цифровизация — применяем знания
+                        на реальных проектах ещё в студенческие годы.
+                    </p>
+                    <ul class="about-direction-card__list">
+                        <li>Веб-разработка и мобильные приложения</li>
+                        <li>IT-поддержка организаций города</li>
+                        <li>Цифровизация учебных процессов</li>
+                    </ul>
+                </div>
+
+                <div class="about-direction-card">
+                    <div class="about-direction-card__icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+                        </svg>
+                    </div>
+                    <p class="about-direction-card__name">Сервисный отряд</p>
+                    <p class="about-direction-card__desc">
+                        Волонтёрство, организация мероприятий и работа с населением.
+                        Помогаем городу стать лучше.
+                    </p>
+                    <ul class="about-direction-card__list">
+                        <li>Городские волонтёрские акции</li>
+                        <li>Помощь пожилым и социально незащищённым</li>
+                        <li>Организация студенческих праздников</li>
+                    </ul>
+                </div>
+
+                <div class="about-direction-card">
+                    <div class="about-direction-card__icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="1" y="3" width="15" height="13" rx="1" />
+                            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                            <circle cx="5.5" cy="18.5" r="2.5" />
+                            <circle cx="18.5" cy="18.5" r="2.5" />
+                        </svg>
+                    </div>
+                    <p class="about-direction-card__name">Строительный отряд</p>
+                    <p class="about-direction-card__desc">
+                        Участие в благоустройстве и строительных проектах
+                        на территории Пензенской области.
+                    </p>
+                    <ul class="about-direction-card__list">
+                        <li>Благоустройство дворов и скверов</li>
+                        <li>Ремонтные и строительные работы</li>
+                        <li>Участие в региональных стройотрядах РФ</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+        <div class="about-divider"></div>
+
+        <!-- ══ ПОЧЕМУ МЫ ══════════════════════════════ -->
+        <section class="about-why" data-about-animate>
+
+            <div>
+                <span class="about-section-label">Почему стоит выбрать нас</span>
+                <h2 class="about-section-title">6 причин вступить в ШСО</h2>
+            </div>
+
+            <div class="about-why__grid">
+
+                <div class="about-why-card">
+                    <span class="about-why-card__num">01</span>
+                    <p class="about-why-card__title">Реальный опыт ещё в колледже</p>
+                    <p class="about-why-card__text">
+                        Работаешь по специальности, получаешь запись в трудовую книжку
+                        и реальные кейсы для портфолио — до диплома.
+                    </p>
+                </div>
+
+                <div class="about-why-card">
+                    <span class="about-why-card__num">02</span>
+                    <p class="about-why-card__title">Команда, которая поддерживает</p>
+                    <p class="about-why-card__text">
+                        Здесь не бросают одного. Старшие помогают новичкам,
+                        вместе решаем задачи и отмечаем победы.
+                    </p>
+                </div>
+
+                <div class="about-why-card">
+                    <span class="about-why-card__num">03</span>
+                    <p class="about-why-card__title">Официальное трудоустройство</p>
+                    <p class="about-why-card__text">
+                        Всё официально: договор, зарплата, стаж.
+                        Никакой серой занятости — только честная работа.
+                    </p>
+                </div>
+
+                <div class="about-why-card">
+                    <span class="about-why-card__num">04</span>
+                    <p class="about-why-card__title">Развитие лидерских навыков</p>
+                    <p class="about-why-card__text">
+                        Берёшь на себя ответственность, учишься планировать,
+                        мотивировать людей и доводить дело до результата.
+                    </p>
+                </div>
+
+                <div class="about-why-card">
+                    <span class="about-why-card__num">05</span>
+                    <p class="about-why-card__title">Яркая студенческая жизнь</p>
+                    <p class="about-why-card__text">
+                        Слёты, конкурсы, совместные поездки, традиции движения —
+                        воспоминания, которые остаются на всю жизнь.
+                    </p>
+                </div>
+
+                <div class="about-why-card">
+                    <span class="about-why-card__num">06</span>
+                    <p class="about-why-card__title">Польза для города и общества</p>
+                    <p class="about-why-card__text">
+                        Твоя работа имеет значение — дети, которым ты помогаешь,
+                        дворы, которые ты благоустраиваешь, и код, который работает.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ══ CTA ════════════════════════════════════ -->
+        <section class="about-cta" data-about-animate>
+            <div class="about-cta__text">
+                <h2 class="about-cta__title">Готов стать частью команды?</h2>
+                <p class="about-cta__desc">
+                    Двери открыты для каждого студента ПКИПТ. Не важно, на каком ты курсе
+                    и какая у тебя специальность — у нас есть место для тебя.
+                </p>
+            </div>
+            <div class="about-cta__actions">
+                <button type="button" class="about-cta__btn" data-fn="modal__join-us">
+                    <img src="~/assets/icon/login.svg" alt="login__svg" width="18px" height="18px" />
+                    Вступить в ШСО
+                </button>
+                <a href="https://vk.com/phaza58" target="_blank" rel="noopener noreferrer"
+                   class="about-cta__link">
+                    Сообщество ВКонтакте →
+                </a>
+            </div>
+        </section>
+
     </div>
-  </div>
-</main> 
+</main>
+
+@section Scripts {
+    <script src="~/js/effect/home.about.js"></script>
+    <script src="~/js/app/home.about.js"></script>
+}
