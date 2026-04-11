@@ -82,7 +82,8 @@ public class ProfileService : IProfileService
                 Id = e.Id,
                 Title = e.Title,
                 Date = ToMoscow(e.EventDate),
-                Description = e.Description
+                Description = e.Description,
+                IsPublished = e.IsPublished
             })
             .ToList();
 
