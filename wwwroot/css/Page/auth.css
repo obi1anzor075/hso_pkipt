@@ -295,7 +295,7 @@ main.auth {
         color: var(--mute-color);
         text-align: center;
 
-        a {
+        button {
           font-weight: var(--fw-smbold);
           color: var(--accent-color);
           position: relative;
