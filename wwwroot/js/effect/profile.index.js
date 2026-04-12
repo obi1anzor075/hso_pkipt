@@ -23,27 +23,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const events = (window.profileEvents || []).map(e => ({
         ...e,
-        date: parseLocalDate(e.date)
+        date: parseLocalDate(typeof e.date === 'string' ? e.date : e.date.toString())
     }));
 
-    /* ══════════ Константы ══════════ */
-    /* ══════════ Константы ══════════ */
-    const HOUR_HEIGHT = 52;
+    /* ══════════ Константы ══════════
+       HOUR_HEIGHT должна совпадать с --cal-hour-height в CSS
+    ══════════════════════════════════ */
+    const HOUR_HEIGHT = 32;   // ← соответствует --cal-hour-height: 32px
     const TIME_START = 0;
     const TIME_END = 24;
     const HOURS = TIME_END - TIME_START;
-    const TOTAL_HEIGHT = HOURS * HOUR_HEIGHT;
+    const TOTAL_HEIGHT = HOURS * HOUR_HEIGHT;  // 24 * 32 = 768px
 
     const DAYS_SHORT = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
-    const MONTHS_RU = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
-    const MONTHS_GEN = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+    const MONTHS_RU = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+        'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+    const MONTHS_GEN = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+        'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
 
     /* ══════════ Состояние ══════════ */
     let currentView = 'week';
     let anchorDate = new Date();
     let miniMonth = new Date(anchorDate.getFullYear(), anchorDate.getMonth(), 1);
 
-    /* ══════════ DOM ══════════ */
     const calRange = document.getElementById('calRange');
     const calGrid = document.getElementById('calendarGrid');
     const calPrev = document.getElementById('calPrev');
@@ -55,45 +57,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* ══════════ Утилиты ══════════ */
     function addDays(date, n) {
-        const d = new Date(date);
-        d.setDate(d.getDate() + n);
-        return d;
+        const d = new Date(date); d.setDate(d.getDate() + n); return d;
     }
-
     function isSameDay(a, b) {
-        return a.getFullYear() === b.getFullYear()
-            && a.getMonth() === b.getMonth()
-            && a.getDate() === b.getDate();
+        return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
     }
-
     function isToday(d) { return isSameDay(d, new Date()); }
     function pad2(n) { return String(n).padStart(2, '0'); }
     function formatTime(d) { return pad2(d.getHours()) + ':' + pad2(d.getMinutes()); }
-
     function formatDateFull(d) {
         return d.getDate() + ' ' + MONTHS_GEN[d.getMonth()] + ' ' + d.getFullYear() + ', ' + formatTime(d);
     }
-
     function eventsOnDay(day) { return events.filter(e => isSameDay(e.date, day)); }
-
     function timeToPx(d) {
         return ((d.getHours() - TIME_START) * 60 + d.getMinutes()) / 60 * HOUR_HEIGHT;
     }
-
-    function isNightHour(hour) {
-        return hour < 6 || hour >= 22;
-    }
-
-    function getFirstEventTop(days) {
-        const dayEvents = days
-            .flatMap(day => eventsOnDay(day))
-            .sort((a, b) => a.date - b.date);
-
-        if (!dayEvents.length) return 0;
-
-        return Math.max(0, timeToPx(dayEvents[0].date) - 80);
-    }
-
+    function isNightHour(h) { return h < 6 || h >= 22; }
     function getWeekStart(date) {
         const d = new Date(date);
         const day = d.getDay();
@@ -101,10 +80,13 @@ document.addEventListener('DOMContentLoaded', () => {
         d.setHours(0, 0, 0, 0);
         return d;
     }
-
     function getWeekDays() {
         const s = getWeekStart(anchorDate);
         return Array.from({ length: 7 }, (_, i) => addDays(s, i));
+    }
+    function getFirstEventTop(days) {
+        const all = days.flatMap(d => eventsOnDay(d)).sort((a, b) => a.date - b.date);
+        return all.length ? Math.max(0, timeToPx(all[0].date) - 60) : 0;
     }
 
     /* ══════════ Модалка события ══════════ */
@@ -121,7 +103,8 @@ document.addEventListener('DOMContentLoaded', () => {
           <button class="cal-event-modal__close" type="button" aria-label="Закрыть">×</button>
           <div class="cal-event-modal__header">
             <div class="cal-event-modal__icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
                 <line x1="16" y1="2" x2="16" y2="6"/>
                 <line x1="8" y1="2" x2="8" y2="6"/>
@@ -139,13 +122,10 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       </div>`;
 
-        function close() { closeEventModal(); }
-        overlay.querySelector('.cal-event-modal__close').addEventListener('click', close);
-        overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
-
-        function escH(e) { if (e.key === 'Escape') { close(); document.removeEventListener('keydown', escH); } }
+        overlay.querySelector('.cal-event-modal__close').addEventListener('click', closeEventModal);
+        overlay.addEventListener('click', e => { if (e.target === overlay) closeEventModal(); });
+        function escH(e) { if (e.key === 'Escape') { closeEventModal(); document.removeEventListener('keydown', escH); } }
         document.addEventListener('keydown', escH);
-
         document.body.appendChild(overlay);
         requestAnimationFrame(() => overlay.classList.add('is-active'));
         document.body.style.overflow = 'hidden';
@@ -154,8 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function closeEventModal() {
         if (!eventModal) return;
-        const m = eventModal;
-        eventModal = null;
+        const m = eventModal; eventModal = null;
         m.classList.remove('is-active');
         m.classList.add('is-closing');
         setTimeout(() => { if (m.parentNode) m.remove(); document.body.style.overflow = ''; }, 260);
@@ -168,9 +147,9 @@ document.addEventListener('DOMContentLoaded', () => {
         calGrid.innerHTML = '';
         const days = currentView === 'week' ? getWeekDays() : [new Date(anchorDate)];
 
+        /* Заголовок дней */
         const head = document.createElement('div');
         head.className = 'cal-head';
-
         const sp = document.createElement('div');
         sp.className = 'cal-head__spacer';
         head.appendChild(sp);
@@ -178,25 +157,22 @@ document.addEventListener('DOMContentLoaded', () => {
         days.forEach(day => {
             const cell = document.createElement('div');
             cell.className = 'cal-head__day';
-
             const ne = document.createElement('div');
             ne.className = 'cal-head__day-name';
             ne.textContent = DAYS_SHORT[day.getDay()];
-
             const nu = document.createElement('div');
             nu.className = 'cal-head__day-num' + (isToday(day) ? ' today' : '');
             nu.textContent = day.getDate();
-
-            cell.appendChild(ne);
-            cell.appendChild(nu);
+            cell.appendChild(ne); cell.appendChild(nu);
             head.appendChild(cell);
         });
-
         calGrid.appendChild(head);
 
+        /* Тело */
         const body = document.createElement('div');
         body.className = 'cal-body';
 
+        /* Колонка времени */
         const tc = document.createElement('div');
         tc.className = 'cal-body__times';
         tc.style.height = TOTAL_HEIGHT + 'px';
@@ -204,13 +180,13 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let h = TIME_START; h <= TIME_END; h++) {
             const lbl = document.createElement('div');
             lbl.className = 'cal-body__time-label';
-            lbl.textContent = `${pad2(h % 24)}:00`;
+            lbl.textContent = pad2(h % 24) + ':00';
             lbl.style.top = (h * HOUR_HEIGHT) + 'px';
             tc.appendChild(lbl);
         }
-
         body.appendChild(tc);
 
+        /* Колонки дней */
         days.forEach(day => {
             const col = document.createElement('div');
             col.className = 'cal-body__day-col' + (isToday(day) ? ' today-col' : '');
@@ -218,13 +194,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             for (let h = 0; h < HOURS; h++) {
                 if (isNightHour(h)) {
-                    const night = document.createElement('div');
-                    night.className = 'cal-body__night-block';
-                    night.style.top = (h * HOUR_HEIGHT) + 'px';
-                    night.style.height = HOUR_HEIGHT + 'px';
-                    col.appendChild(night);
+                    const nb = document.createElement('div');
+                    nb.className = 'cal-body__night-block';
+                    nb.style.top = (h * HOUR_HEIGHT) + 'px';
+                    nb.style.height = HOUR_HEIGHT + 'px';
+                    col.appendChild(nb);
                 }
-
                 const hl = document.createElement('div');
                 hl.className = 'cal-body__hour-line';
                 hl.style.top = (h * HOUR_HEIGHT) + 'px';
@@ -235,12 +210,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 hf.style.top = (h * HOUR_HEIGHT + HOUR_HEIGHT / 2) + 'px';
                 col.appendChild(hf);
             }
-
             const bl = document.createElement('div');
             bl.className = 'cal-body__hour-line';
             bl.style.top = TOTAL_HEIGHT + 'px';
             col.appendChild(bl);
 
+            /* События */
             eventsOnDay(day).forEach(ev => {
                 const topPx = timeToPx(ev.date);
                 const top = Math.max(0, Math.min(topPx, TOTAL_HEIGHT - 28));
@@ -248,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const evEl = document.createElement('div');
                 evEl.className = 'cal-event';
                 evEl.style.top = top + 'px';
-                evEl.style.minHeight = '42px';
+                evEl.style.minHeight = Math.max(28, HOUR_HEIGHT * 0.9) + 'px';
                 evEl.style.cursor = 'pointer';
                 evEl.title = ev.description || ev.title;
 
@@ -262,14 +237,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 evEl.appendChild(tEl);
                 evEl.appendChild(tmEl);
-                evEl.addEventListener('click', e => {
-                    e.stopPropagation();
-                    openEventModal(ev);
-                });
-
+                evEl.addEventListener('click', e => { e.stopPropagation(); openEventModal(ev); });
                 col.appendChild(evEl);
             });
 
+            /* Линия сейчас */
             if (isToday(day)) {
                 const nowPx = timeToPx(new Date());
                 if (nowPx >= 0 && nowPx <= TOTAL_HEIGHT) {
@@ -290,14 +262,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         calGrid.appendChild(body);
 
+        /* Автоскролл к текущему времени или первому событию */
         requestAnimationFrame(() => {
             const wrap = calGrid.closest('.calendar__grid-wrap');
             if (!wrap) return;
-
             const hasToday = getWeekDays().some(d => isToday(d)) || isToday(anchorDate);
-
             wrap.scrollTop = hasToday
-                ? Math.max(0, timeToPx(new Date()) - 140)
+                ? Math.max(0, timeToPx(new Date()) - 120)
                 : getFirstEventTop(days);
         });
 
@@ -317,6 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    /* ══════════ Мини-календарь ══════════ */
     function renderMini() {
         if (!miniEl) return;
         miniEl.innerHTML = '';
@@ -372,9 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isSameDay(date, anchorDate)) el.classList.add('selected');
 
         if (eventsOnDay(date).length > 0) {
-            const now = new Date();
-            const i7 = addDays(now, 7);
-            const i28 = addDays(now, 28);
+            const now = new Date(), i7 = addDays(now, 7), i28 = addDays(now, 28);
             if (date >= now && date <= i7) el.classList.add('has-event-week');
             else if (date > i7 && date <= i28) el.classList.add('has-event-month');
         }
@@ -391,6 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
         grid.appendChild(el);
     }
 
+    /* ══════════ Ближайшие события ══════════ */
     function renderUpcoming() {
         if (!upcomingEl) return;
         upcomingEl.innerHTML = '';
@@ -433,18 +404,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const text = document.createElement('div');
                 text.className = 'cal-upcoming__text';
-
                 const row = document.createElement('div');
                 row.className = 'cal-upcoming__row';
 
                 const tit = document.createElement('span');
                 tit.className = 'cal-upcoming__title';
                 tit.textContent = ev.title;
-
                 const sep = document.createElement('span');
                 sep.className = 'cal-upcoming__sep';
                 sep.textContent = '|';
-
                 const tm = document.createElement('span');
                 tm.className = 'cal-upcoming__time';
                 tm.textContent = formatTime(ev.date);
@@ -463,10 +431,13 @@ document.addEventListener('DOMContentLoaded', () => {
         addGroup('В этом месяце', mL, 'var(--second-color)');
     }
 
-    /* ══════════ Навигация ══════════ */
-    calPrev.addEventListener('click', () => { anchorDate = addDays(anchorDate, currentView === 'week' ? -7 : -1); render(); });
-    calNext.addEventListener('click', () => { anchorDate = addDays(anchorDate, currentView === 'week' ? 7 : 1); render(); });
-
+    /* ══════════ Навигация + ресайз ══════════ */
+    calPrev.addEventListener('click', () => {
+        anchorDate = addDays(anchorDate, currentView === 'week' ? -7 : -1); render();
+    });
+    calNext.addEventListener('click', () => {
+        anchorDate = addDays(anchorDate, currentView === 'week' ? 7 : 1); render();
+    });
     document.querySelectorAll('.calendar__view-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('.calendar__view-btn').forEach(b => b.classList.remove('active'));
@@ -476,9 +447,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    render();
-});
+    /* Перерисовать при смене вкладки "События" */
+    document.querySelectorAll('[data-tab="events"]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            requestAnimationFrame(() => render());
+        });
+    });
 
-window.addEventListener('resize', () => {
     render();
 });
