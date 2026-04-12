@@ -1,0 +1,134 @@
+﻿@{
+    ViewData["Title"] = "Документация";
+
+    var slug = (ViewBag.DocumentSlug as string ?? "").ToLower();
+
+    var isOverview = string.IsNullOrWhiteSpace(slug);
+    var isPrivacy = slug == "privacy_policy";
+    var isUseData = slug == "use_data_policy";
+    var isGuide = slug == "user_guide";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/styles.documents.css" />
+}
+
+<div class="docs-page" data-doc-slug="@slug">
+    <div class="docs-topbar">
+        <div class="docs-topbar-left">
+            <a asp-controller="Home" asp-action="Index" class="docs-top-link">Главная</a>
+            <span class="docs-top-sep">/</span>
+            <a asp-controller="Documents" asp-action="Index" class="docs-top-link docs-top-link--active">Документация</a>
+        </div>
+
+        <div class="docs-topbar-right">
+            <a asp-controller="Documents" asp-action="Index" asp-route-slug="privacy_policy"
+               class="docs-tab @(isPrivacy ? "active" : "")">Конфиденциальность</a>
+
+            <a asp-controller="Documents" asp-action="Index" asp-route-slug="use_data_policy"
+               class="docs-tab @(isUseData ? "active" : "")">Использование данных</a>
+
+            <a asp-controller="Documents" asp-action="Index" asp-route-slug="user_guide"
+               class="docs-tab @(isGuide ? "active" : "")">Руководство</a>
+        </div>
+    </div>
+
+    @if (isOverview)
+    {
+        <section class="docs-hero">
+            <div class="docs-hero-content">
+                <p class="docs-kicker">Документация</p>
+                <h1 class="docs-title">Выберите, что хотите прочитать</h1>
+                <p class="docs-subtitle">
+                    Здесь собраны основные документы ZooMag: политика конфиденциальности,
+                    политика использования данных и руководство пользователя.
+                </p>
+            </div>
+        </section>
+
+        <section class="docs-cards">
+            <a asp-controller="Documents" asp-action="Index" asp-route-slug="privacy_policy" class="docs-card">
+                <div class="docs-card-icon">🔒</div>
+                <h2 class="docs-card-title">Политика конфиденциальности</h2>
+                <p class="docs-card-text">
+                    Информация о том, какие данные мы собираем, как храним и защищаем их.
+                </p>
+            </a>
+
+            <a asp-controller="Documents" asp-action="Index" asp-route-slug="use_data_policy" class="docs-card">
+                <div class="docs-card-icon">📊</div>
+                <h2 class="docs-card-title">Политика использования данных</h2>
+                <p class="docs-card-text">
+                    Правила обработки, анализа и использования данных внутри сервиса.
+                </p>
+            </a>
+
+            <a asp-controller="Documents" asp-action="Index" asp-route-slug="user_guide" class="docs-card">
+                <div class="docs-card-icon">📘</div>
+                <h2 class="docs-card-title">Руководство пользователя</h2>
+                <p class="docs-card-text">
+                    Пошаговое описание основных возможностей сайта и сценариев использования.
+                </p>
+            </a>
+        </section>
+    }
+    else
+    {
+        <div class="docs-layout">
+            <aside class="docs-sidebar" id="docsSidebar">
+                <div class="docs-sidebar-inner">
+                    <button class="docs-sidebar-mobile-close" id="docsSidebarClose" type="button">Закрыть</button>
+
+                    <div class="docs-nav-group">
+                        <p class="docs-nav-title">Документы</p>
+
+                        <a asp-controller="Documents" asp-action="Index" asp-route-slug="privacy_policy"
+                           class="docs-nav-link @(isPrivacy ? "active" : "")">
+                            Политика конфиденциальности
+                        </a>
+
+                        <a asp-controller="Documents" asp-action="Index" asp-route-slug="use_data_policy"
+                           class="docs-nav-link @(isUseData ? "active" : "")">
+                            Политика использования данных
+                        </a>
+
+                        <a asp-controller="Documents" asp-action="Index" asp-route-slug="user_guide"
+                           class="docs-nav-link @(isGuide ? "active" : "")">
+                            Руководство пользователя
+                        </a>
+                    </div>
+
+                    <div class="docs-nav-group">
+                        <p class="docs-nav-title">Разделы</p>
+                        <div id="docsToc" class="docs-toc"></div>
+                    </div>
+                </div>
+            </aside>
+
+            <div class="docs-overlay hidden" id="docsOverlay"></div>
+
+            <section class="docs-content-wrap">
+                <div class="docs-content-topnav">
+                    <button class="docs-sidebar-toggle" id="docsSidebarToggle" type="button">Разделы</button>
+                </div>
+
+                <article class="docs-content">
+                    <div class="docs-meta">
+                        <span class="docs-meta-label">
+                            @(isPrivacy ? "Политика конфиденциальности" :
+                                                    isUseData ? "Политика использования данных" :
+                                                                "Руководство пользователя")
+                        </span>
+                    </div>
+
+                    <div id="docsRenderedContent" class="docs-rendered"></div>
+                </article>
+            </section>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="~/js/data/documents.map.js"></script>
+    <script src="~/js/app/documents.index.js"></script>
+}

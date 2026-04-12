@@ -1,28 +1,63 @@
 ﻿<nav class="__container">
+
+    <!-- Руководители -->
     <section class="managers">
+        <p class="footer-label">Руководство</p>
         <div class="content">
-            <p class="role">Руководитель (командир) ШСО ПКИПТ:</p>
+            <p class="role">Руководитель (командир) ШСО ПКИПТ</p>
             <p class="full-name">Павлов Павел Павлович</p>
             <p class="tel">8 (986) 777-88-66</p>
         </div>
         <div class="content">
-            <p class="role">Заместитель руководителя (комиссар) ШСО ПКИПТ:</p>
+            <p class="role">Заместитель руководителя (комиссар) ШСО ПКИПТ</p>
             <p class="full-name">Антонов Антон Антонович</p>
             <p class="tel">8 (986) 888-66-77</p>
         </div>
     </section>
-    <address class="about">
-        <div class="top">
-            <p class="address">Адрес: г. Пенза, пр. Строителей д. 7</p>
-            <p class="mail">Почта: <a href="mailto:SHO_PKIPT@gmail.com" class="email">SHO_PKIPT@gmail.com</a></p>
-            <p class="site-it">Сайт колледжа: <a class="site" href="https://ит-колледж.рф/it/">https://ит-колледж.рф/it/</a></p>
-        </div>
-        <div class="contacts">
-            <a href="" class="vk"></a>
-            <a href="" class="tg"></a>
-        </div>
-    </address>
+
+    <!-- Логотип -->
     <section class="logo">
         <a href="@Url.Action("Index", "Home")" class="vertical-logo"></a>
     </section>
+
+    <!-- Контакты -->
+    <address class="about">
+        <p class="footer-label">Контакты</p>
+        <div class="top">
+            <p class="address">г. Пенза, пр. Строителей д. 7</p>
+            <p class="mail"><a href="mailto:SHO_PKIPT@gmail.com">SHO_PKIPT@gmail.com</a></p>
+            <p class="site-it"><a href="https://ит-колледж.рф/it/">ит-колледж.рф/it</a></p>
+        </div>
+        <div class="contacts">
+            <a href="https://vk.com/phaza58" target="_blank" rel="noopener noreferrer" class="vk" aria-label="ВКонтакте"></a>
+            <a href="" class="tg" aria-label="Telegram"></a>
+        </div>
+    </address>
+
+    <!-- Документация -->
+    <div class="footer-docs-block">
+        <p class="footer-docs-block__title">Документация</p>
+        <a asp-controller="Documents" asp-action="Index" target="_blank" rel="noopener noreferrer">
+            <span class="footer-docs-block__name">Все документы</span>
+            <span class="footer-docs-block__arrow">→</span>
+        </a>
+        <a asp-controller="Documents" asp-action="Index" asp-route-slug="privacy_policy" target="_blank" rel="noopener noreferrer">
+            <span class="footer-docs-block__name">Политика конфиденциальности</span>
+            <span class="footer-docs-block__arrow">→</span>
+        </a>
+        <a asp-controller="Documents" asp-action="Index" asp-route-slug="user_guide" target="_blank" rel="noopener noreferrer">
+            <span class="footer-docs-block__name">Руководство пользователя</span>
+            <span class="footer-docs-block__arrow">→</span>
+        </a>
+        <a asp-controller="Documents" asp-action="Index" asp-route-slug="use_data_policy" target="_blank" rel="noopener noreferrer">
+            <span class="footer-docs-block__name">Политика использования</span>
+            <span class="footer-docs-block__arrow">→</span>
+        </a>
+    </div>
+
+    <!-- Копирайт -->
+    <div class="footer-bottom">
+        <p>© @DateTime.Now.Year ШСО ПКИПТ — Штаб Студенческих Отрядов ПКИПТ</p>
+    </div>
+
 </nav>

@@ -1,10 +1,8 @@
 @using HsoPkipt.Identity
 @inject HsoPkipt.Services.Interfaces.IMerchCartService MerchCartService
-
 @{
     var merchCartCount = await MerchCartService.GetItemsCountAsync();
 }
-
 <nav class="__container">
     <a href="@Url.Action("Index", "Home")" class="horizontal-logo"></a>
 
@@ -16,17 +14,19 @@
 
     <div class="center" id="navCenter">
         <a href="@Url.Action("News", "Home")" class="link">Новости</a>
-        <div class="line"></div>
         <a href="@Url.Action("About", "Home")" class="link">О нас</a>
-        <div class="line"></div>
         <a href="@Url.Action("Index", "Projects")" class="link">Наши проекты</a>
-        <div class="line"></div>
         <a href="@Url.Action("Index", "Merch")" class="link">Мерч</a>
-        <div class="line"></div>
-        <a href="@Url.Action("Cart", "Merch")" class="link">Корзина (@merchCartCount)</a>
-        <div class="line"></div>
+        <a href="@Url.Action("Cart", "Merch")" class="link">
+            <span class="link-cart-icon"></span>
+            Корзина
+            @if (merchCartCount > 0)
+            {
+                <span class="link-cart-badge">@merchCartCount</span>
+            }
+        </a>
         @if (User.Identity?.IsAuthenticated == true &&
-             (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Moderator)))
+                (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Moderator)))
         {
             <a href="@Url.Action("Index", "Admin")" class="link">Панель администратора</a>
         }

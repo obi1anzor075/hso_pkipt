@@ -5,18 +5,24 @@ document.addEventListener('DOMContentLoaded', () => {
   const navBtns = document.querySelectorAll('.profile-nav__item');
   const sections = document.querySelectorAll('.profile-section');
 
-  navBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const target = btn.dataset.tab;
+    navBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const target = btn.dataset.tab;
 
-      navBtns.forEach(b => b.classList.remove('active'));
-      sections.forEach(s => s.classList.remove('active'));
+            navBtns.forEach(b => b.classList.remove('active'));
+            sections.forEach(s => s.classList.remove('active'));
 
-      btn.classList.add('active');
-      const section = document.getElementById('tab-' + target);
-      if (section) section.classList.add('active');
+            btn.classList.add('active');
+            const section = document.getElementById('tab-' + target);
+            if (section) section.classList.add('active');
+
+            if (target === 'events') {
+                requestAnimationFrame(() => {
+                    window.dispatchEvent(new Event('resize'));
+                });
+            }
+        });
     });
-  });
 
   /* ─── Превью и загрузка фото ─── */
   const photoInput = document.getElementById('photoInput');

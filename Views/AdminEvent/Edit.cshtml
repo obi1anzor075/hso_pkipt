@@ -16,7 +16,7 @@
                     </svg>
                     Назад к списку
                 </a>
-                <h1 class="admin-header__title">Редактирование новости</h1>
+                <h1 class="admin-header__title">Редактирование события</h1>
                 <p class="admin-header__subtitle">Внесите изменения и сохраните</p>
             </div>
         </div>
@@ -38,7 +38,7 @@
                     <div class="admin-form__field">
                         <label asp-for="Description" class="admin-form__label">Краткое описание</label>
                         <textarea asp-for="Description" class="admin-form__textarea"
-                                  placeholder="Пару предложений о сути новости…"></textarea>
+                                  placeholder="Краткое описание что за событие…"></textarea>
                         <span asp-validation-for="Description" class="admin-form__error"></span>
                     </div>
 
@@ -48,7 +48,7 @@
                         </label>
 
                         <span class="admin-form__hint">
-                            Укажите дату и время публикации материала. Используется для сортировки и отображения в ленте новостей.
+                            Укажите дату и время публикации события. Используется для сортировки и отображения в ленте новостей.
                         </span>
 
                         <input asp-for="EventDate"
@@ -63,7 +63,7 @@
                         <label class="admin-form__checkbox-row">
                             <input asp-for="IsPublished" type="checkbox" />
                             <span class="admin-form__checkbox-label">Опубликовать</span>
-                            <span class="admin-form__checkbox-hint">— сделать новость видимой на сайте</span>
+                            <span class="admin-form__checkbox-hint">— сделать событие видимым на сайте</span>
                         </label>
                         <span asp-validation-for="IsPublished" class="admin-form__error"></span>
                     </div>
@@ -84,7 +84,3 @@
 
     </div>
 </main>
-
-@section Scripts {
-    <script src="~/js/effect/admin-news.edit.js"></script>
-}
