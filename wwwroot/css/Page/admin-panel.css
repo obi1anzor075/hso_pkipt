@@ -1266,31 +1266,61 @@
    ═══════════════════════════════════════════ */
 
 @media (max-width: 768px) {
-  .admin-form-wrap .admin-form-wrap__body {
-    padding: 22px 20px 24px;
-  }
-
-  .admin-form__grid {
-    grid-template-columns: 1fr;
-  }
-
-  .admin-news-table {
-    th:nth-child(2) { display: none; }
-    td:nth-child(2) { display: none; }
-  }
-
-  .admin-delete-card .admin-delete-card__body {
-    padding: 20px 18px 22px;
-  }
-
-  .admin-delete-card__row {
-    flex-direction: column;
-    gap: 4px;
-
-    .admin-delete-card__key {
-      min-width: unset;
+    .admin-news-table-wrap {
+        overflow-x: hidden;
     }
-  }
+
+    .admin-news-table,
+    .admin-news-table thead,
+    .admin-news-table tbody,
+    .admin-news-table tr,
+    .admin-news-table th,
+    .admin-news-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .admin-news-table {
+        table-layout: fixed;
+    }
+
+        .admin-news-table thead {
+            display: none;
+        }
+
+        .admin-news-table tbody tr {
+            padding: 14px;
+            border-bottom: 1px solid rgba(65, 36, 92, 0.07);
+        }
+
+        .admin-news-table td {
+            padding: 0;
+            border: none;
+        }
+
+            .admin-news-table td + td {
+                margin-top: 0px;
+            }
+
+    .admin-news-table__title,
+    .admin-news-table__desc {
+        word-break: break-word;
+    }
+
+    .admin-news-table__actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .admin-tbl-btn {
+        flex: 1 1 calc(50% - 4px);
+        min-width: 0;
+        justify-content: center;
+        padding: 10px 12px;
+        white-space: normal;
+    }
 }
 
 @media (max-width: 480px) {

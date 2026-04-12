@@ -560,10 +560,6 @@
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
-
-  .admin-news-table {
-    min-width: 560px;
-  }
 }
 
 @media (max-width: 480px) {
@@ -590,6 +586,10 @@
 
   .admin-form__checkbox-row {
     width: 100%;
+
+    & .admin-form__checkbox-hint {
+        display: none;
+    }
   }
 
   .admin-news-toolbar {

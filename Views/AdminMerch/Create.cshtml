@@ -52,7 +52,13 @@
 
                     <div class="admin-form__field">
                         <label asp-for="ImageUrl" class="admin-form__label">URL изображения</label>
-                        <input asp-for="ImageUrl" class="admin-form__input" placeholder="https://…" />
+                        <div class="admin-form__img-wrap">
+                            <input asp-for="ImageUrl" class="admin-form__input"
+                                   id="imageUrlInput" placeholder="https://…" />
+                            <img src="@Model.ImageUrl" alt="Предпросмотр"
+                                 class="admin-form__img-preview merch @(!string.IsNullOrEmpty(Model.ImageUrl) ? "visible" : "")"
+                                 id="imagePreview" />
+                        </div>
                         <span asp-validation-for="ImageUrl" class="admin-form__error"></span>
                     </div>
 
@@ -76,5 +82,6 @@
 </main>
 
 @section Scripts {
+    <script src="~/js/effect/admin-merch.create.js"></script>
     <partial name="_ValidationScriptsPartial" />
 }

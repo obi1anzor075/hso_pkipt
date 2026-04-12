@@ -1,4 +1,4 @@
-﻿// effect/admin-merch.edit.js
+﻿// effect/admin-merch.create.js
 document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById('imageUrlInput');
     const preview = document.getElementById('imagePreview');
@@ -18,6 +18,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     input.addEventListener('input', updatePreview);
-    // Показываем уже заполненное при загрузке
     updatePreview();
 });
