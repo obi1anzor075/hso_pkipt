@@ -343,10 +343,11 @@
 
     .docs-sidebar {
         position: fixed;
-        top: 0;
+        top: 60px;
+        height: calc(100% - 60px);
+        overflow-y: auto;
         right: 0;
         left: auto;
-        bottom: 0;
         width: 340px;
         max-width: 88vw;
         z-index: 30;
