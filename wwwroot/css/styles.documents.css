@@ -1,29 +1,30 @@
-﻿.site-main {
-    padding-top: calc(var(--navbar-height));
-}
+﻿/* styles.documents.css — документация ШСО ПКИПТ */
+
+/* ─── Страница ─── */
 
 .docs-page {
     max-width: 1440px;
     margin: 0 auto;
-    padding: 0 24px 64px;
-    color: #111111;
-    background: #ffffff;
+    padding: 0 24px 80px;
+    color: var(--accent-color);
 }
+
+/* ─── Топбар ─── */
 
 .docs-topbar {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
     gap: 18px;
-    padding: 20px 0 24px;
-    border-bottom: 1px solid #ececec;
+    padding: 22px 0 26px;
+    border-bottom: 2px solid rgba(65, 36, 92, 0.1);
 }
 
 .docs-topbar-left,
 .docs-topbar-right {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     flex-wrap: wrap;
 }
 
@@ -32,139 +33,276 @@
 }
 
 .docs-top-link {
-    color: #5f6368;
-    font-size: 14px;
-    font-weight: 500;
+    color: var(--accent-color);
+    opacity: 0.45;
+    font-size: calc(var(--fz-text) - 1px);
+    font-weight: var(--fw-medium);
     text-decoration: none;
-}
+    transition: opacity var(--t-time);
 
-    .docs-top-link--active,
-    .docs-top-link:hover {
-        color: #111111;
+    &:hover,
+    &.docs-top-link--active {
+        opacity: 1;
     }
+}
 
 .docs-top-sep {
-    color: #b0b0b0;
+    color: var(--accent-color);
+    opacity: 0.25;
+    font-size: calc(var(--fz-text) - 1px);
 }
 
+/* Вкладки-таблетки */
 .docs-tab {
     display: inline-flex;
     align-items: center;
-    padding: 8px 14px;
-    border-radius: 999px;
-    color: #5f6368;
+    padding: 7px 16px;
+    border-radius: 50px;
+    color: var(--accent-color);
+    opacity: 0.55;
     text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    transition: background 0.2s ease, color 0.2s ease;
+    font-size: calc(var(--fz-text) - 1px);
+    font-weight: var(--fw-medium);
+    transition: background-color var(--t-time), opacity var(--t-time), color var(--t-time);
+    border: 1.5px solid transparent;
+
+    &:hover {
+        background-color: rgba(65, 36, 92, 0.07);
+        opacity: 1;
+    }
+
+    &.active {
+        background-color: var(--accent-color);
+        color: var(--theme-color);
+        opacity: 1;
+        border-color: var(--accent-color);
+    }
 }
 
-    .docs-tab:hover {
-        background: #f5f5f5;
-        color: #111111;
-    }
-
-    .docs-tab.active {
-        background: #111111;
-        color: #ffffff;
-    }
+/* ═══════════════════════════════════════
+   HERO — стартовая страница
+   ═══════════════════════════════════════ */
 
 .docs-hero {
-    padding: 42px 0 16px;
+    padding: 60px 0 12px;
+}
+
+.docs-hero-content {
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
 }
 
 .docs-kicker {
-    color: #5f6368;
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: calc(var(--fz-text) - 2px);
+    font-weight: var(--fw-bold);
+    color: var(--accent-color);
+    opacity: 0.4;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: default;
+
+    &::before {
+        content: "";
+        display: block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: var(--second-color);
+        flex-shrink: 0;
+    }
 }
 
 .docs-title {
-    font-size: clamp(32px, 4vw, 56px);
-    line-height: 1.08;
-    font-weight: 800;
-    color: #111111;
-    margin-bottom: 16px;
+    font-size: clamp(28px, 4vw, 48px);
+    line-height: 1.1;
+    font-weight: var(--fw-black);
+    color: var(--accent-color);
+    cursor: default;
 }
 
 .docs-subtitle {
-    max-width: 760px;
-    font-size: 18px;
+    max-width: 600px;
+    font-size: calc(var(--fz-text) + 1px);
     line-height: 1.75;
-    color: #5f6368;
+    color: var(--accent-color);
+    opacity: 0.6;
+    cursor: default;
 }
+
+/* ─── Карточки документов ─── */
 
 .docs-cards {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 18px;
-    margin-top: 28px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 36px;
+    padding-bottom: 20px;
 }
 
 .docs-card {
-    display: block;
-    padding: 24px;
-    border: 1px solid #e8e8e8;
-    border-radius: 20px;
-    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 28px 24px;
+    border: 2px solid rgba(65, 36, 92, 0.1);
+    border-radius: 16px;
+    background: var(--theme-color);
     text-decoration: none;
-    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-    .docs-card:hover {
-        transform: translateY(-2px);
-        border-color: #d5d5d5;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+    transition: var(--t-time);
+    transform: var(--default);
+    position: relative;
+    overflow: hidden;
+    /* Левая акцентная полоска */
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background-color: rgba(65, 36, 92, 0.1);
+        transition: background-color var(--t-time);
     }
 
-.docs-card-icon {
-    font-size: 28px;
-    margin-bottom: 14px;
+    &:hover {
+        transform: var(--hover);
+        border-color: rgba(65, 36, 92, 0.22);
+        box-shadow: 0 8px 28px rgba(65, 36, 92, 0.09);
+
+        &::before {
+            background-color: var(--accent-color);
+        }
+
+        .docs-card-title {
+            color: var(--accent-color);
+        }
+
+        .docs-card-arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    &:nth-child(2):hover::before {
+        background-color: var(--role-color);
+    }
+
+    &:nth-child(3):hover::before {
+        background-color: var(--second-color);
+    }
+}
+
+.docs-card-icon-wrap {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background-color: rgba(65, 36, 92, 0.07);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background-color var(--t-time);
+
+    svg {
+        color: var(--accent-color);
+        opacity: 0.6;
+        transition: opacity var(--t-time);
+
+        & * {
+            color: var(--accent-color);
+        }
+    }
+
+    .docs-card:hover & {
+        background-color: var(--accent-color);
+
+        svg {
+            color: var(--theme-color);
+            opacity: 1;
+
+            & * {
+                color: var(--theme-color);
+            }
+        }
+    }
 }
 
 .docs-card-title {
-    font-size: 22px;
+    font-size: var(--fz-h4);
+    font-weight: var(--fw-bold);
+    color: rgba(65, 36, 92, 0.75);
     line-height: 1.25;
-    font-weight: 800;
-    color: #111111;
-    margin-bottom: 10px;
+    cursor: default;
+    transition: color var(--t-time);
 }
 
 .docs-card-text {
-    font-size: 15px;
-    line-height: 1.75;
-    color: #5f6368;
+    font-size: calc(var(--fz-text) - 1px);
+    line-height: 1.7;
+    color: var(--accent-color);
+    opacity: 0.5;
+    cursor: default;
+    flex: 1;
 }
+
+.docs-card-arrow {
+    align-self: flex-end;
+    font-size: calc(var(--fz-text) - 1px);
+    font-weight: var(--fw-smbold);
+    color: var(--accent-color);
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: var(--t-time);
+    margin-top: auto;
+}
+
+/* ═══════════════════════════════════════
+   LAYOUT — страница документа
+   ═══════════════════════════════════════ */
 
 .docs-layout {
     display: grid;
-    grid-template-columns: 280px minmax(0, 1fr);
+    grid-template-columns: 260px minmax(0, 1fr);
     gap: 0;
-    margin-top: 20px;
-    min-height: 700px;
-    border: 1px solid #ececec;
-    border-radius: 24px;
-    background: #ffffff;
+    margin-top: 24px;
+    border: 2px solid rgba(65, 36, 92, 0.1);
+    border-radius: 16px;
+    background: var(--theme-color);
     overflow: visible;
     align-items: start;
+    min-height: 600px;
 }
+
+/* ─── Сайдбар ─── */
 
 .docs-sidebar {
     position: sticky;
-    top: calc(var(--navbar-height) + 20px);
+    top: 90px;
     align-self: start;
-    height: fit-content;
-    border-right: 1px solid #ececec;
-    background: #ffffff;
-    border-top-left-radius: 24px;
-    border-bottom-left-radius: 24px;
+    border-right: 1px solid rgba(65, 36, 92, 0.09);
+    background: rgba(65, 36, 92, 0.02);
+    border-top-left-radius: 14px;
+    border-bottom-left-radius: 14px;
 }
 
 .docs-sidebar-inner {
-    padding: 20px 16px 24px;
-    max-height: calc(100vh - var(--navbar-height) - 40px);
+    padding: 20px 14px 28px;
+    max-height: calc(100vh - 130px);
     overflow-y: auto;
+
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: rgba(65, 36, 92, 0.15);
+        border-radius: 4px;
+    }
 }
 
 .docs-sidebar-mobile-close {
@@ -172,51 +310,98 @@
 }
 
 .docs-nav-group + .docs-nav-group {
-    margin-top: 28px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(65, 36, 92, 0.08);
 }
 
 .docs-nav-title {
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
+    font-size: calc(var(--fz-text) - 3px);
+    font-weight: var(--fw-bold);
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #777777;
-    margin-bottom: 10px;
+    color: var(--accent-color);
+    opacity: 0.35;
+    margin-bottom: 8px;
+    padding: 0 10px;
+    cursor: default;
 }
 
-.docs-nav-link,
-.docs-toc a {
-    display: block;
-    padding: 10px 12px;
-    border-radius: 12px;
-    color: #3c4043;
-    font-size: 14px;
-    font-weight: 500;
+.docs-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px;
+    border-radius: 8px;
+    color: var(--accent-color);
+    opacity: 0.6;
+    font-size: calc(var(--fz-text) - 1px);
+    font-weight: var(--fw-medium);
     text-decoration: none;
-    transition: background 0.2s ease, color 0.2s ease;
+    transition: background-color var(--t-time), opacity var(--t-time);
+
+    & svg {
+        & * {
+            color: var(--accent-color);
+        }
+    }
+
+    &:hover {
+        background-color: rgba(65, 36, 92, 0.07);
+        opacity: 1;
+    }
+
+    &.active {
+        background-color: var(--accent-color);
+        color: var(--theme-color);
+        opacity: 1;
+        font-weight: var(--fw-smbold);
+
+        & svg {
+            & * {
+                color: var(--theme-color);
+            }
+        }
+    }
 }
 
-    .docs-nav-link:hover,
-    .docs-toc a:hover {
-        background: #f6f6f6;
-        color: #111111;
-    }
-
-    .docs-nav-link.active,
-    .docs-toc a.active {
-        background: #111111;
-        color: #ffffff;
-    }
-
+/* TOC (оглавление документа) */
 .docs-toc {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
+
+    a {
+        display: block;
+        padding: 7px 12px;
+        border-radius: 7px;
+        color: var(--accent-color);
+        opacity: 0.5;
+        font-size: calc(var(--fz-text) - 2px);
+        font-weight: var(--fw-medium);
+        text-decoration: none;
+        transition: background-color var(--t-time), opacity var(--t-time);
+        border-left: 2px solid transparent;
+
+        &:hover {
+            background-color: rgba(65, 36, 92, 0.06);
+            opacity: 0.9;
+        }
+
+        &.active {
+            background-color: rgba(65, 36, 92, 0.07);
+            opacity: 1;
+            border-left-color: var(--accent-color);
+            color: var(--accent-color);
+            font-weight: var(--fw-smbold);
+        }
+    }
 }
+
+/* ─── Основной контент ─── */
 
 .docs-content-wrap {
     min-width: 0;
-    background: #ffffff;
 }
 
 .docs-content-topnav {
@@ -224,240 +409,337 @@
     align-items: center;
     justify-content: flex-end;
     gap: 14px;
-    padding: 18px 24px;
-    border-bottom: 1px solid #ececec;
+    padding: 16px 24px;
+    border-bottom: 1px solid rgba(65, 36, 92, 0.08);
 }
 
 .docs-sidebar-toggle {
     display: none;
-    padding: 10px 14px;
-    border: 1px solid #dddddd;
-    border-radius: 12px;
-    background: #ffffff;
-    color: #111111;
-    font-size: 14px;
-    font-weight: 600;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: 1.5px solid rgba(65, 36, 92, 0.18);
+    border-radius: 8px;
+    background: none;
+    color: var(--accent-color);
+    font-size: calc(var(--fz-text) - 1px);
+    font-weight: var(--fw-smbold);
+    cursor: pointer;
+    transition: var(--t-time);
+
+    &:hover {
+        background-color: rgba(65, 36, 92, 0.06);
+        border-color: var(--accent-color);
+    }
 }
 
 .docs-content {
-    padding: 28px 32px 40px;
-    max-width: 920px;
+    padding: 32px 36px 48px;
+    max-width: 860px;
 }
 
+/* Метка документа */
 .docs-meta {
-    margin-bottom: 18px;
+    margin-bottom: 24px;
 }
 
 .docs-meta-label {
     display: inline-flex;
     align-items: center;
-    padding: 6px 12px;
-    border-radius: 999px;
-    background: #f5f5f5;
-    color: #333333;
-    font-size: 13px;
-    font-weight: 600;
+    padding: 5px 14px;
+    border-radius: 50px;
+    background: rgba(65, 36, 92, 0.07);
+    border: 1.5px solid rgba(65, 36, 92, 0.12);
+    color: var(--accent-color);
+    font-size: calc(var(--fz-text) - 2px);
+    font-weight: var(--fw-bold);
+    cursor: default;
 }
+
+/* ─── Рендеренный контент документа ─── */
 
 .docs-rendered {
-    color: #111111;
-}
+    color: var(--accent-color);
+    /* Блоки секций */
+    .docs-section {
+        margin-bottom: 48px;
 
-    .docs-rendered h2 {
-        font-size: 32px;
-        font-weight: 800;
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    h2 {
+        font-size: var(--fz-h3);
+        font-weight: var(--fw-black);
+        color: var(--accent-color);
         line-height: 1.2;
-        color: #111111;
-        margin: 0 0 22px;
-        scroll-margin-top: 120px;
+        margin: 0 0 20px;
+        scroll-margin-top: 110px;
+        padding-top: 8px;
     }
+    /* Заголовок в скобках [Раздел] */
+    .docs-section-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 14px;
+        padding-bottom: 10px;
+        border-bottom: 1.5px solid rgba(65, 36, 92, 0.08);
 
-    .docs-rendered p {
-        font-size: 16px;
-        line-height: 1.9;
-        color: #333333;
-        margin: 0 0 16px;
-    }
-
-    .docs-rendered b {
-        color: #111111;
-        font-weight: 800;
-    }
-
-    .docs-rendered i {
-        color: #4f4f4f;
-    }
-
-    .docs-rendered strong.docs-mark {
-        color: #1a73e8;
-        font-weight: 800;
-    }
-
-    .docs-rendered a.docs-link {
-        color: #1a73e8;
-        font-weight: 700;
-        text-decoration: none;
-    }
-
-        .docs-rendered a.docs-link:hover {
-            text-decoration: underline;
+        h3 {
+            font-size: var(--fz-h4);
+            font-weight: var(--fw-bold);
+            color: var(--accent-color);
+            line-height: 1.25;
+            scroll-margin-top: 110px;
+            margin: 0;
         }
 
-    .docs-rendered ul {
-        margin: 0 0 18px 20px;
+        .docs-section-num {
+            font-size: calc(var(--fz-text) - 3px);
+            font-weight: var(--fw-black);
+            color: var(--accent-color);
+            opacity: 0.25;
+            flex-shrink: 0;
+            cursor: default;
+        }
+    }
+
+    p {
+        font-size: var(--fz-text);
+        line-height: 1.85;
+        color: var(--accent-color);
+        opacity: 0.75;
+        margin: 0 0 14px;
+        cursor: default;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    b {
+        color: var(--accent-color);
+        opacity: 1;
+        font-weight: var(--fw-bold);
+    }
+
+    i {
+        color: var(--accent-color);
+        opacity: 0.6;
+        font-style: italic;
+    }
+    /* Выделенный текст */
+    .docs-mark {
+        color: var(--role-color);
+        font-weight: var(--fw-bold);
+    }
+    /* Ссылка */
+    a.docs-link {
+        color: var(--role-color);
+        font-weight: var(--fw-smbold);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(171, 129, 229, 0.4);
+        transition: border-color var(--t-time), color var(--t-time);
+
+        &:hover {
+            color: var(--accent-color);
+            border-bottom-color: var(--accent-color);
+        }
+    }
+
+    ul {
+        margin: 0 0 16px;
         padding: 0;
-        list-style: disc;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
     }
 
-    .docs-rendered li {
-        font-size: 16px;
-        line-height: 1.8;
-        color: #333333;
-        margin-bottom: 8px;
-    }
+    li {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: var(--fz-text);
+        line-height: 1.7;
+        color: var(--accent-color);
+        opacity: 0.7;
+        cursor: default;
 
-.docs-overlay.hidden {
-    display: none;
+        &::before {
+            content: "—";
+            opacity: 0.35;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+    }
+    /* CTA-ссылка в конце документа */
+    .docs-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 32px;
+        padding: 12px 24px;
+        background-color: var(--accent-color);
+        color: var(--theme-color);
+        font-size: var(--fz-text);
+        font-weight: var(--fw-smbold);
+        border-radius: 8px;
+        text-decoration: none;
+        transition: var(--t-time);
+        transform: var(--default);
+
+        &:hover {
+            background-color: var(--role-color);
+            transform: var(--hover);
+        }
+    }
 }
 
-@media (max-width: 1100px) {
-    .docs-cards {
-        grid-template-columns: 1fr;
-    }
+/* Оверлей для мобильного сайдбара */
+.docs-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(65, 36, 92, 0.35);
+    backdrop-filter: blur(2px);
+    z-index: 99;
 
+    &.hidden {
+        display: none;
+    }
+}
+
+/* ═══════════════════════════════════════
+   АДАПТИВ
+   ═══════════════════════════════════════ */
+
+@media (max-width: 1100px) {
     .docs-layout {
-        grid-template-columns: 240px minmax(0, 1fr);
+        grid-template-columns: 220px minmax(0, 1fr);
     }
 
     .docs-content {
-        padding: 24px;
+        padding: 24px 26px 36px;
     }
 }
 
 @media (max-width: 900px) {
     .docs-layout {
         grid-template-columns: 1fr;
-        border-radius: 20px;
+        border-radius: 12px;
         overflow: hidden;
     }
 
     .docs-sidebar {
         position: fixed;
-        top: 60px;
-        height: calc(100% - 60px);
-        overflow-y: auto;
+        top: 0;
         right: 0;
+        bottom: 0;
         left: auto;
-        width: 340px;
-        max-width: 88vw;
-        z-index: 30;
-        transform: translateX(100%);
-        transition: transform 0.28s ease;
+        width: min(300px, 85vw);
+        height: 100%;
+        z-index: 100;
         border-right: none;
-        border-left: 1px solid #ececec;
+        border-left: 1px solid rgba(65, 36, 92, 0.12);
         border-radius: 0;
-        box-shadow: -10px 0 40px rgba(0, 0, 0, 0.08);
-        background: #ffffff;
-    }
+        box-shadow: -8px 0 32px rgba(65, 36, 92, 0.15);
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
 
-        .docs-sidebar.open {
+        &.open {
             transform: translateX(0);
         }
+    }
 
     .docs-sidebar-inner {
-        position: static;
-        height: 100%;
-        max-height: none;
-        overflow-y: auto;
-        padding: 18px 16px 24px;
+        max-height: 100%;
+        padding: 20px 14px 32px;
     }
 
     .docs-sidebar-mobile-close {
         display: inline-flex;
-        margin-bottom: 18px;
-        margin-left: auto;
-        padding: 8px 12px;
-        border: 1px solid #dddddd;
-        border-radius: 10px;
-        background: #ffffff;
-        color: #111111;
-        font-size: 14px;
-        font-weight: 600;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 20px;
+        padding: 8px 14px;
+        border: 1.5px solid rgba(65, 36, 92, 0.15);
+        border-radius: 8px;
+        background: none;
+        color: var(--accent-color);
+        font-size: calc(var(--fz-text) - 1px);
+        font-weight: var(--fw-smbold);
+        cursor: pointer;
+        transition: var(--t-time);
+
+        &:hover {
+            background-color: rgba(65, 36, 92, 0.06);
+        }
     }
 
     .docs-sidebar-toggle {
         display: inline-flex;
-        margin-left: auto;
-    }
-
-    .docs-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.28);
-        z-index: 20;
     }
 
     .docs-content-topnav {
-        padding: 14px 16px;
         justify-content: flex-end;
+        padding: 14px 16px;
     }
 
     .docs-content {
-        padding: 20px 16px 30px;
+        padding: 20px 18px 32px;
     }
 }
 
 @media (max-width: 768px) {
     .docs-page {
-        padding: 0 16px 56px;
+        padding: 0 14px 60px;
     }
 
     .docs-topbar {
         grid-template-columns: 1fr;
-        align-items: flex-start;
+        gap: 12px;
     }
 
     .docs-topbar-right {
         justify-content: flex-start;
     }
 
-    .docs-title {
-        font-size: 36px;
+    .docs-cards {
+        grid-template-columns: 1fr;
+        gap: 12px;
     }
 
-    .docs-subtitle {
-        font-size: 16px;
+    .docs-title {
+        font-size: clamp(24px, 6vw, 36px);
     }
 
     .docs-rendered h2 {
-        font-size: 28px;
+        font-size: var(--fz-h4);
     }
 
-    .docs-rendered p,
-    .docs-rendered li {
-        font-size: 15px;
+    .docs-rendered .docs-section-head h3 {
+        font-size: calc(var(--fz-text) + 1px);
     }
 }
 
 @media (max-width: 480px) {
     .docs-page {
-        padding: 0 12px 48px;
+        padding: 0 10px 48px;
     }
 
     .docs-card {
-        padding: 18px;
-        border-radius: 16px;
-    }
-
-    .docs-card-title {
-        font-size: 20px;
+        padding: 20px 18px;
+        border-radius: 12px;
     }
 
     .docs-content {
-        padding: 18px 14px 26px;
+        padding: 16px 14px 28px;
     }
 
-    .docs-rendered h2 {
-        font-size: 24px;
+    .docs-tab {
+        padding: 6px 12px;
+        font-size: calc(var(--fz-text) - 2px);
     }
 }

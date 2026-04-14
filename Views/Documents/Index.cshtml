@@ -14,86 +14,152 @@
 }
 
 <div class="docs-page" data-doc-slug="@slug">
+
+    <!-- ─── Топбар ─── -->
     <div class="docs-topbar">
         <div class="docs-topbar-left">
             <a asp-controller="Home" asp-action="Index" class="docs-top-link">Главная</a>
             <span class="docs-top-sep">/</span>
-            <a asp-controller="Documents" asp-action="Index" class="docs-top-link docs-top-link--active">Документация</a>
+            <a asp-controller="Documents" asp-action="Index" class="docs-top-link docs-top-link--active">
+                Документация
+            </a>
+            @if (!isOverview)
+            {
+                <span class="docs-top-sep">/</span>
+                <span class="docs-top-link docs-top-link--active">
+                    @(isPrivacy ? "Конфиденциальность" : isUseData ? "Использование данных" : "Руководство")
+                </span>
+            }
         </div>
 
         <div class="docs-topbar-right">
             <a asp-controller="Documents" asp-action="Index" asp-route-slug="privacy_policy"
-               class="docs-tab @(isPrivacy ? "active" : "")">Конфиденциальность</a>
-
+               class="docs-tab @(isPrivacy ? "active" : "")">
+                Конфиденциальность
+            </a>
             <a asp-controller="Documents" asp-action="Index" asp-route-slug="use_data_policy"
-               class="docs-tab @(isUseData ? "active" : "")">Использование данных</a>
-
+               class="docs-tab @(isUseData ? "active" : "")">
+                Использование данных
+            </a>
             <a asp-controller="Documents" asp-action="Index" asp-route-slug="user_guide"
-               class="docs-tab @(isGuide ? "active" : "")">Руководство</a>
+               class="docs-tab @(isGuide ? "active" : "")">
+                Руководство
+            </a>
         </div>
     </div>
 
     @if (isOverview)
     {
+        <!-- ─── Hero ─── -->
         <section class="docs-hero">
             <div class="docs-hero-content">
-                <p class="docs-kicker">Документация</p>
-                <h1 class="docs-title">Выберите, что хотите прочитать</h1>
+                <p class="docs-kicker">ШСО ПКИПТ · Документация</p>
+                <h1 class="docs-title">Документы и руководства</h1>
                 <p class="docs-subtitle">
-                    Здесь собраны основные документы ZooMag: политика конфиденциальности,
+                    Здесь собраны основные документы сайта: политика конфиденциальности,
                     политика использования данных и руководство пользователя.
                 </p>
             </div>
         </section>
 
+        <!-- ─── Карточки ─── -->
         <section class="docs-cards">
-            <a asp-controller="Documents" asp-action="Index" asp-route-slug="privacy_policy" class="docs-card">
-                <div class="docs-card-icon">🔒</div>
-                <h2 class="docs-card-title">Политика конфиденциальности</h2>
+
+            <a asp-controller="Documents" asp-action="Index" asp-route-slug="privacy_policy"
+               class="docs-card">
+                <div class="docs-card-icon-wrap">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                </div>
+                <p class="docs-card-title">Политика конфиденциальности</p>
                 <p class="docs-card-text">
-                    Информация о том, какие данные мы собираем, как храним и защищаем их.
+                    Порядок сбора, хранения и защиты персональных данных участников
+                    и пользователей сайта ШСО ПКИПТ.
                 </p>
+                <span class="docs-card-arrow">Читать →</span>
             </a>
 
-            <a asp-controller="Documents" asp-action="Index" asp-route-slug="use_data_policy" class="docs-card">
-                <div class="docs-card-icon">📊</div>
-                <h2 class="docs-card-title">Политика использования данных</h2>
+            <a asp-controller="Documents" asp-action="Index" asp-route-slug="use_data_policy"
+               class="docs-card">
+                <div class="docs-card-icon-wrap">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="8" x2="12" y2="12" />
+                        <line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                </div>
+                <p class="docs-card-title">Политика использования данных</p>
                 <p class="docs-card-text">
-                    Правила обработки, анализа и использования данных внутри сервиса.
+                    Как именно применяются собранные данные для обеспечения работы
+                    сайта и поддержки деятельности студенческих отрядов.
                 </p>
+                <span class="docs-card-arrow">Читать →</span>
             </a>
 
-            <a asp-controller="Documents" asp-action="Index" asp-route-slug="user_guide" class="docs-card">
-                <div class="docs-card-icon">📘</div>
-                <h2 class="docs-card-title">Руководство пользователя</h2>
+            <a asp-controller="Documents" asp-action="Index" asp-route-slug="user_guide"
+               class="docs-card">
+                <div class="docs-card-icon-wrap">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z" />
+                        <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z" />
+                    </svg>
+                </div>
+                <p class="docs-card-title">Руководство пользователя</p>
                 <p class="docs-card-text">
-                    Пошаговое описание основных возможностей сайта и сценариев использования.
+                    Подробное описание всех разделов и возможностей сайта:
+                    профиль, новости, проекты, мерч, события и администрирование.
                 </p>
+                <span class="docs-card-arrow">Читать →</span>
             </a>
+
         </section>
     }
     else
     {
+        <!-- ─── Layout документа ─── -->
         <div class="docs-layout">
+
+            <!-- Сайдбар -->
             <aside class="docs-sidebar" id="docsSidebar">
                 <div class="docs-sidebar-inner">
-                    <button class="docs-sidebar-mobile-close" id="docsSidebarClose" type="button">Закрыть</button>
+                    <button class="docs-sidebar-mobile-close" id="docsSidebarClose" type="button">
+                        ← Закрыть
+                    </button>
 
                     <div class="docs-nav-group">
                         <p class="docs-nav-title">Документы</p>
 
                         <a asp-controller="Documents" asp-action="Index" asp-route-slug="privacy_policy"
                            class="docs-nav-link @(isPrivacy ? "active" : "")">
-                            Политика конфиденциальности
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            </svg>
+                            Конфиденциальность
                         </a>
 
                         <a asp-controller="Documents" asp-action="Index" asp-route-slug="use_data_policy"
                            class="docs-nav-link @(isUseData ? "active" : "")">
-                            Политика использования данных
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="12" y1="8" x2="12" y2="12" />
+                                <line x1="12" y1="16" x2="12.01" y2="16" />
+                            </svg>
+                            Использование данных
                         </a>
 
                         <a asp-controller="Documents" asp-action="Index" asp-route-slug="user_guide"
                            class="docs-nav-link @(isGuide ? "active" : "")">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z" />
+                                <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z" />
+                            </svg>
                             Руководство пользователя
                         </a>
                     </div>
@@ -107,9 +173,18 @@
 
             <div class="docs-overlay hidden" id="docsOverlay"></div>
 
+            <!-- Контент -->
             <section class="docs-content-wrap">
                 <div class="docs-content-topnav">
-                    <button class="docs-sidebar-toggle" id="docsSidebarToggle" type="button">Разделы</button>
+                    <button class="docs-sidebar-toggle" id="docsSidebarToggle" type="button">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="3" y1="6" x2="21" y2="6" />
+                            <line x1="3" y1="12" x2="21" y2="12" />
+                            <line x1="3" y1="18" x2="21" y2="18" />
+                        </svg>
+                        Разделы
+                    </button>
                 </div>
 
                 <article class="docs-content">
@@ -117,15 +192,17 @@
                         <span class="docs-meta-label">
                             @(isPrivacy ? "Политика конфиденциальности" :
                                                     isUseData ? "Политика использования данных" :
-                                                                "Руководство пользователя")
+                                                                                        "Руководство пользователя")
                         </span>
                     </div>
 
                     <div id="docsRenderedContent" class="docs-rendered"></div>
                 </article>
             </section>
+
         </div>
     }
+
 </div>
 
 @section Scripts {
