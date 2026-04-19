@@ -1,4 +1,4 @@
-﻿using HsoPkipt.Identity;
+using HsoPkipt.Identity;
 using HsoPkipt.Repositories.Interfaces;
 using HsoPkipt.Services.Interfaces;
 using HsoPkipt.ViewModels.Profile;
@@ -6,13 +6,22 @@ using Microsoft.AspNetCore.Identity;
 
 namespace HsoPkipt.Services;
 
+// Сервис собирает личный кабинет пользователя.
 public class ProfileService : IProfileService
 {
+    // Репозиторий событий нужен для блока ближайших событий.
     private readonly IEventRepository _eventRepository;
+
+    // Репозиторий заказов нужен для истории покупок.
     private readonly IOrderRepository _orderRepository;
+
+    // Менеджер пользователей нужен для чтения и изменения данных аккаунта.
     private readonly UserManager<AppUser> _userManager;
+
+    // Часовой пояс Москвы используем для показа дат человеку.
     private static readonly TimeZoneInfo MoscowTz = GetMoscowTimeZone();
 
+    // Подбираем нужное имя часового пояса для текущей системы.
     private static TimeZoneInfo GetMoscowTimeZone()
     {
         try
@@ -24,6 +33,8 @@ public class ProfileService : IProfileService
             return TimeZoneInfo.FindSystemTimeZoneById("Russian Standard Time");
         }
     }
+
+    // Получаем зависимости через конструктор.
     public ProfileService(
         IEventRepository eventRepository,
         IOrderRepository orderRepository,
@@ -34,6 +45,7 @@ public class ProfileService : IProfileService
         _userManager = userManager;
     }
 
+    // Собирает всю страницу профиля.
     public async Task<ProfileVM?> GetProfileAsync(Guid userId)
     {
         var user = await _userManager.FindByIdAsync(userId.ToString());
@@ -65,6 +77,7 @@ public class ProfileService : IProfileService
         return vm;
     }
 
+    // Возвращает будущие события для блока в профиле.
     public async Task<List<EventVM>> GetUpcomingEventsAsync()
     {
         var events = await _eventRepository.GetAllAsync();
@@ -74,7 +87,7 @@ public class ProfileService : IProfileService
 
         var nowUtc = DateTime.UtcNow;
 
-        var vm = events
+        return events
             .Where(e => e.EventDate >= nowUtc)
             .OrderBy(e => e.EventDate)
             .Select(e => new EventVM
@@ -86,10 +99,9 @@ public class ProfileService : IProfileService
                 IsPublished = e.IsPublished
             })
             .ToList();
-
-        return vm;
     }
 
+    // Возвращает историю заказов пользователя.
     public async Task<List<OrderVM>> GetOrdersAsync(Guid userId)
     {
         var orders = await _orderRepository.GetByUserIdAsync(userId);
@@ -112,6 +124,7 @@ public class ProfileService : IProfileService
         }).ToList();
     }
 
+    // Обновляет основную информацию профиля.
     public async Task<bool> UpdateProfileInfoAsync(Guid userId, ProfileInfoVM model)
     {
         var user = await _userManager.FindByIdAsync(userId.ToString());
@@ -129,6 +142,7 @@ public class ProfileService : IProfileService
         return result.Succeeded;
     }
 
+    // Меняет пароль пользователя.
     public async Task<(bool Succeeded, List<string> Errors)> ChangePasswordAsync(Guid userId, ChangePasswordVM model)
     {
         var user = await _userManager.FindByIdAsync(userId.ToString());
@@ -151,6 +165,7 @@ public class ProfileService : IProfileService
         return (false, errors);
     }
 
+    // Загружает новое фото профиля и сохраняет ссылку на него.
     public async Task<string?> UpdateProfilePhotoAsync(Guid userId, IFormFile? photo, string webRootPath)
     {
         if (photo is null || photo.Length == 0)
@@ -186,12 +201,7 @@ public class ProfileService : IProfileService
         return photoUrl;
     }
 
-    private static DateTime ToUtc(DateTime date)
-    {
-        var unspecified = DateTime.SpecifyKind(date, DateTimeKind.Unspecified);
-        return TimeZoneInfo.ConvertTimeToUtc(unspecified, MoscowTz);
-    }
-
+    // Переводит дату из UTC в московское время.
     private static DateTime ToMoscow(DateTime dateUtc)
     {
         return TimeZoneInfo.ConvertTimeFromUtc(dateUtc, MoscowTz);

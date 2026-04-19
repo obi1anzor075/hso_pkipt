@@ -1,21 +1,25 @@
-﻿using HsoPkipt.Identity;
+using HsoPkipt.Identity;
 using HsoPkipt.Services.Interfaces;
 using HsoPkipt.ViewModels.Project;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HsoPkipt.Controllers;
+namespace HsoPkipt.Controllers.Admin;
 
+// Контроллер нужен для управления проектами в админке.
 [Authorize(Roles = Roles.Admin + "," + Roles.Moderator)]
 public class AdminProjectsController : Controller
 {
+    // Сервис проектов.
     private readonly IProjectService _projectService;
 
+    // Получаем сервис через конструктор.
     public AdminProjectsController(IProjectService projectService)
     {
         _projectService = projectService;
     }
 
+    // Показывает список проектов.
     [HttpGet]
     public async Task<IActionResult> Index(int page = 1)
     {
@@ -26,12 +30,14 @@ public class AdminProjectsController : Controller
         return View(result);
     }
 
+    // Открывает форму создания проекта.
     [HttpGet]
     public IActionResult Create()
     {
         return View(new CreateProjectVM());
     }
 
+    // Сохраняет новый проект.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CreateProjectVM model)
@@ -44,6 +50,7 @@ public class AdminProjectsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    // Открывает форму редактирования проекта.
     [HttpGet]
     public async Task<IActionResult> Edit(Guid id)
     {
@@ -55,6 +62,7 @@ public class AdminProjectsController : Controller
         return View(model);
     }
 
+    // Сохраняет изменения проекта.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid id, UpdateProjectVM model)
@@ -70,6 +78,7 @@ public class AdminProjectsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    // Показывает страницу удаления проекта.
     [HttpGet]
     public async Task<IActionResult> Delete(Guid id)
     {
@@ -81,6 +90,7 @@ public class AdminProjectsController : Controller
         return View(project);
     }
 
+    // Удаляет проект после подтверждения.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)

@@ -7,18 +7,24 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HsoPkipt.Controllers.Admin;
 
+// Контроллер управляет товарами мерча в админке.
 [Authorize(Roles = Roles.Admin)]
 public class AdminMerchController : Controller
 {
+    // Сервис товаров.
     private readonly IMerchService _merchService;
+
+    // Сервис категорий нужен для выпадающего списка.
     private readonly ITagService _tagService;
 
+    // Получаем сервисы через конструктор.
     public AdminMerchController(IMerchService merchService, ITagService tagService)
     {
         _merchService = merchService;
         _tagService = tagService;
     }
 
+    // Показывает список товаров.
     [HttpGet]
     public async Task<IActionResult> Index(int page = 1)
     {
@@ -29,6 +35,7 @@ public class AdminMerchController : Controller
         return View(result);
     }
 
+    // Открывает форму создания товара.
     [HttpGet]
     public async Task<IActionResult> Create()
     {
@@ -36,6 +43,7 @@ public class AdminMerchController : Controller
         return View(new CreateMerchItemVM());
     }
 
+    // Сохраняет новый товар.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CreateMerchItemVM model)
@@ -51,6 +59,7 @@ public class AdminMerchController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    // Открывает форму редактирования товара.
     [HttpGet]
     public async Task<IActionResult> Edit(Guid id)
     {
@@ -64,6 +73,7 @@ public class AdminMerchController : Controller
         return View(model);
     }
 
+    // Сохраняет изменения товара.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid id, UpdateMerchItemVM model)
@@ -82,6 +92,7 @@ public class AdminMerchController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    // Показывает страницу удаления товара.
     [HttpGet]
     public async Task<IActionResult> Delete(Guid id)
     {
@@ -93,6 +104,7 @@ public class AdminMerchController : Controller
         return View(item);
     }
 
+    // Удаляет товар после подтверждения.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
@@ -105,6 +117,7 @@ public class AdminMerchController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    // Готовит список категорий для формы.
     private async Task LoadTagsAsync(Guid? selectedTagId = null)
     {
         var tags = await _tagService.GetAllAsync();

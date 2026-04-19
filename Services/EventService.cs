@@ -1,4 +1,4 @@
-﻿using HsoPkipt.Common;
+using HsoPkipt.Common;
 using HsoPkipt.Mappers;
 using HsoPkipt.Models;
 using HsoPkipt.Repositories.Interfaces;
@@ -7,11 +7,16 @@ using HsoPkipt.ViewModels.Events;
 
 namespace HsoPkipt.Services;
 
+// Сервис собирает данные по событиям и переводит их в удобные модели для сайта.
 public class EventService : IEventService
 {
+    // Репозиторий нужен для работы с базой.
     private readonly IEventRepository _repository;
+
+    // Храним московский часовой пояс отдельно, чтобы не искать его каждый раз.
     private static readonly TimeZoneInfo MoscowTz = GetMoscowTimeZone();
 
+    // Здесь пытаемся найти правильное имя часового пояса для текущей системы.
     private static TimeZoneInfo GetMoscowTimeZone()
     {
         try
@@ -23,11 +28,14 @@ public class EventService : IEventService
             return TimeZoneInfo.FindSystemTimeZoneById("Russian Standard Time");
         }
     }
+
+    // Получаем репозиторий через конструктор.
     public EventService(IEventRepository repository)
     {
         _repository = repository;
     }
 
+    // Возвращает все будущие события.
     public async Task<List<EventItemVM>> GetAllAsync()
     {
         var events = await _repository.GetAllAsync();
@@ -40,23 +48,29 @@ public class EventService : IEventService
             IsPublished = e.IsPublished
         }).ToList();
     }
+
+    // Собирает одну страницу событий.
     public async Task<PagedResult<EventItemVM>> GetPageAsync(int pageNumber, int pageSize)
     {
-        if (pageNumber < 1) pageNumber = 1;
-        if (pageSize < 1) pageSize = 10;
+        if (pageNumber < 1)
+            pageNumber = 1;
+
+        if (pageSize < 1)
+            pageSize = 10;
 
         var (items, count) = await _repository.GetPagedAsync(pageNumber, pageSize);
+        var itemsVm = items.Select(i => i.ToViewModel()).ToList();
 
-        var itemsVM = items.Select(i => i.ToViewModel()).ToList();
-
-        return new PagedResult<EventItemVM>(itemsVM, count, pageNumber, pageSize);
+        return new PagedResult<EventItemVM>(itemsVm, count, pageNumber, pageSize);
     }
 
+    // Ищет одно событие по id.
     public async Task<EventDetailsVM?> GetByIdAsync(Guid id)
     {
         var e = await _repository.GetByIdAsync(id);
 
-        if (e == null) return null;
+        if (e == null)
+            return null;
 
         return new EventDetailsVM
         {
@@ -68,6 +82,7 @@ public class EventService : IEventService
         };
     }
 
+    // Создаёт новое событие.
     public async Task CreateAsync(EventCreateVM vm)
     {
         var entity = new Event
@@ -82,6 +97,7 @@ public class EventService : IEventService
         await _repository.AddAsync(entity);
     }
 
+    // Обновляет существующее событие.
     public async Task UpdateAsync(EventEditVM vm)
     {
         var entity = await _repository.GetByIdAsync(vm.Id);
@@ -90,15 +106,14 @@ public class EventService : IEventService
             throw new Exception("Событие не найдено");
 
         entity.Title = vm.Title;
-
         entity.EventDate = ToUtc(vm.EventDate);
-
         entity.Description = vm.Description;
         entity.IsPublished = vm.IsPublished;
 
         await _repository.UpdateAsync(entity);
     }
 
+    // Удаляет событие по id.
     public async Task DeleteAsync(Guid id)
     {
         var entity = await _repository.GetByIdAsync(id);
@@ -109,12 +124,14 @@ public class EventService : IEventService
         await _repository.DeleteAsync(entity);
     }
 
+    // Переводит время из Москвы в UTC для хранения в базе.
     private static DateTime ToUtc(DateTime date)
     {
         var unspecified = DateTime.SpecifyKind(date, DateTimeKind.Unspecified);
         return TimeZoneInfo.ConvertTimeToUtc(unspecified, MoscowTz);
     }
 
+    // Переводит время из UTC в московское.
     private static DateTime ToMoscow(DateTime dateUtc)
     {
         return TimeZoneInfo.ConvertTimeFromUtc(dateUtc, MoscowTz);

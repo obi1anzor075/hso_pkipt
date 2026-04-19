@@ -6,28 +6,34 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HsoPkipt.Controllers.Admin;
 
+// Контроллер для управления категориями товаров.
 [Authorize(Roles = Roles.Admin)]
 public class AdminTagController : Controller
 {
+    // Сервис категорий.
     private readonly ITagService _tagService;
 
+    // Получаем сервис через конструктор.
     public AdminTagController(ITagService tagService)
     {
         _tagService = tagService;
     }
 
+    // Показывает список категорий.
     public async Task<IActionResult> Tags()
     {
         var tags = await _tagService.GetAllAsync();
         return View(tags);
     }
 
+    // Открывает форму создания категории.
     [HttpGet]
     public IActionResult CreateTag()
     {
         return View(new TagCreateVM());
     }
 
+    // Сохраняет новую категорию.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> CreateTag(TagCreateVM vm)
@@ -48,6 +54,7 @@ public class AdminTagController : Controller
         return RedirectToAction(nameof(Tags));
     }
 
+    // Открывает форму редактирования категории.
     [HttpGet]
     public async Task<IActionResult> EditTag(Guid id)
     {
@@ -65,6 +72,7 @@ public class AdminTagController : Controller
         return View(vm);
     }
 
+    // Сохраняет изменения категории.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> EditTag(TagEditVM vm)
@@ -85,6 +93,7 @@ public class AdminTagController : Controller
         return RedirectToAction(nameof(Tags));
     }
 
+    // Удаляет категорию после подтверждения.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteTag(Guid id)

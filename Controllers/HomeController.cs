@@ -5,13 +5,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HsoPkipt.Controllers
 {
+    // Главный контроллер для стартовых страниц сайта.
     public class HomeController : Controller
     {
+        // Сервис новостей.
         private readonly INewsService _newsService;
+
+        // Сервис проектов.
         private readonly IProjectService _projectService;
 
+        // Сколько новостей показывать на одной странице.
         private const int PageSize = 9;
 
+        // Получаем зависимости через конструктор.
         public HomeController(
             INewsService newsService,
             IProjectService projectService)
@@ -20,6 +26,7 @@ namespace HsoPkipt.Controllers
             _projectService = projectService;
         }
 
+        // Показывает первую страницу новостей.
         [HttpGet]
         public async Task<IActionResult> News()
         {
@@ -33,6 +40,7 @@ namespace HsoPkipt.Controllers
             });
         }
 
+        // Догружает ещё новости для списка.
         [HttpGet]
         public async Task<IActionResult> LoadMoreNews(int page, int pageSize)
         {
@@ -40,6 +48,7 @@ namespace HsoPkipt.Controllers
             return PartialView("_NewsCardsPartial", result.Items);
         }
 
+        // Собирает данные для главной страницы.
         public async Task<IActionResult> Index()
         {
             var news = await _newsService.GetLatestAsync(5);
@@ -54,6 +63,7 @@ namespace HsoPkipt.Controllers
             return View(vm);
         }
 
+        // Показывает одну новость по id.
         [HttpGet]
         public async Task<IActionResult> NewsDetails(Guid id)
         {
@@ -65,6 +75,7 @@ namespace HsoPkipt.Controllers
             return View(newsItem);
         }
 
+        // Открывает страницу "О нас".
         public IActionResult About()
         {
             return View();
