@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HsoPkipt.Controllers.Admin;
 
-// Это простой контроллер-вход в разные разделы админки.
+// Вход в разные разделы админки.
 [Authorize(Roles = Roles.Admin + "," + Roles.Moderator)]
 public class AdminController : Controller
 {
