@@ -1,49 +1,48 @@
-﻿using HsoPkipt.Models;
+using HsoPkipt.Models;
 using HsoPkipt.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace HsoPkipt.Repositories;
 
+// Репозиторий работает с новостями напрямую через базу.
 public class NewsRepository : INewsRepository
 {
-    // контекст базы данных
+    // Контекст нужен, чтобы читать и сохранять данные.
     private readonly AppDbContext _context;
 
-    // сохраняем контекст для дальнейшей работы с новостями
+    // Получаем контекст через конструктор.
     public NewsRepository(AppDbContext context)
     {
         _context = context;
     }
 
-    // считаем общее количество новостей
+    // Возвращает общее число новостей.
     public async Task<int> CountAsync()
     {
         return await _context.News.CountAsync();
     }
 
-    // добавляем новую новость в базу
+    // Сохраняет новую новость.
     public async Task CreateAsync(NewsItem item)
     {
         _context.News.Add(item);
         await _context.SaveChangesAsync();
     }
 
-    // удаляем новость из базы
+    // Удаляет новость.
     public async Task DeleteAsync(NewsItem item)
     {
         _context.News.Remove(item);
         await _context.SaveChangesAsync();
     }
 
-    // получаем новость по id вместе с тегами
+    // Ищет новость по id.
     public async Task<NewsItem?> GetByIdAsync(Guid id)
     {
-        return await _context.News
-            .Include(n => n.Tags)
-            .FirstOrDefaultAsync(n => n.Id == id);
+        return await _context.News.FirstOrDefaultAsync(n => n.Id == id);
     }
 
-    // берём последние новости по дате создания
+    // Берёт несколько последних новостей.
     public async Task<List<NewsItem>> GetLatestAsync(int count = 1)
     {
         return await _context.News
@@ -52,7 +51,7 @@ public class NewsRepository : INewsRepository
             .ToListAsync();
     }
 
-    // берём часть новостей для пагинации или выборочной загрузки
+    // Возвращает кусок списка новостей.
     public async Task<List<NewsItem>> GetRangeAsync(int start, int take)
     {
         return await _context.News
@@ -62,19 +61,14 @@ public class NewsRepository : INewsRepository
             .ToListAsync();
     }
 
-    // получаем опубликованные новости для нужной страницы
+    // Возвращает страницу новостей и общее число записей.
     public async Task<(List<NewsItem> items, int count)> GetPagedAsync(int pageNumber, int pageSize)
     {
-        var query = _context.News
-            .AsNoTracking()
-            .Where(n => n.IsPublished);
+        var query = _context.News.AsNoTracking();
 
-        // считаем общее количество записей для пагинации
         int totalCount = query.Count();
 
-        // загружаем только новости текущей страницы
         var items = await query
-            .Include(n => n.Tags)
             .OrderByDescending(n => n.CreatedAt)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
@@ -83,7 +77,7 @@ public class NewsRepository : INewsRepository
         return (items, totalCount);
     }
 
-    // обновляем существующую новость
+    // Сохраняет изменения в уже существующей новости.
     public async Task UpdateAsync(NewsItem item)
     {
         _context.News.Update(item);

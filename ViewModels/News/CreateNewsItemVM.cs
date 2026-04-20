@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace HsoPkipt.ViewModels.News;
 
@@ -17,6 +17,4 @@ public class CreateNewsItemVM
     public string? ImageUrl { get; init; }
 
     public bool IsPublished { get; set; }
-
-    public IReadOnlyCollection<Guid>? TagIds { get; init; }
 }

@@ -1,4 +1,4 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
 using HsoPkipt.Services.Interfaces;
 using HsoPkipt.ViewModels.Profile;
 using Microsoft.AspNetCore.Authorization;
@@ -6,12 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HsoPkipt.Controllers;
 
+// Контроллер личного кабинета пользователя.
 [Authorize]
 public class ProfileController : Controller
 {
+    // Сервис профиля.
     private readonly IProfileService _profileService;
+
+    // Окружение нужно, чтобы знать путь к папке сайта.
     private readonly IWebHostEnvironment _environment;
 
+    // Получаем зависимости через конструктор.
     public ProfileController(
         IProfileService profileService,
         IWebHostEnvironment environment)
@@ -20,6 +25,7 @@ public class ProfileController : Controller
         _environment = environment;
     }
 
+    // Показывает страницу профиля текущего пользователя.
     [HttpGet]
     public async Task<IActionResult> Index()
     {
@@ -29,7 +35,6 @@ public class ProfileController : Controller
             return Unauthorized();
 
         var userId = Guid.Parse(userIdClaim);
-
         var model = await _profileService.GetProfileAsync(userId);
 
         if (model is null)
@@ -38,6 +43,7 @@ public class ProfileController : Controller
         return View(model);
     }
 
+    // Обновляет основную информацию профиля.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> UpdateInfo(ProfileVM model)
@@ -48,7 +54,6 @@ public class ProfileController : Controller
             return Unauthorized();
 
         var userId = Guid.Parse(userIdClaim);
-
         var result = await _profileService.UpdateProfileInfoAsync(userId, model.ProfileInfo);
 
         if (!result)
@@ -61,6 +66,7 @@ public class ProfileController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    // Меняет пароль пользователя.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> ChangePassword(ProfileVM model)
@@ -71,7 +77,6 @@ public class ProfileController : Controller
             return Unauthorized();
 
         var userId = Guid.Parse(userIdClaim);
-
         var result = await _profileService.ChangePasswordAsync(userId, model.ChangePassword);
 
         if (!result.Succeeded)
@@ -84,6 +89,7 @@ public class ProfileController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    // Загружает новую фотографию профиля.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> UploadPhoto(ProfileVM model)

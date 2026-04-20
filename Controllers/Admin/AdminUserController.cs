@@ -1,4 +1,4 @@
-﻿using HsoPkipt.Identity;
+using HsoPkipt.Identity;
 using HsoPkipt.Services.Interfaces;
 using HsoPkipt.ViewModels.Users;
 using Microsoft.AspNetCore.Authorization;
@@ -6,12 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HsoPkipt.Controllers.Admin;
 
+// Контроллер для управления пользователями в админке.
 [Authorize(Roles = Roles.Admin)]
 public class AdminUserController : Controller
 {
+    // Сервис списка и редактирования пользователей.
     private readonly IUserService _userService;
+
+    // Сервис регистрации нужен для создания новых пользователей.
     private readonly IIdentityService _identityService;
 
+    // Получаем зависимости через конструктор.
     public AdminUserController(
         IUserService userService,
         IIdentityService identityService)
@@ -20,6 +25,7 @@ public class AdminUserController : Controller
         _identityService = identityService;
     }
 
+    // Показывает страницу со списком пользователей.
     [HttpGet]
     public async Task<IActionResult> Index(int page = 1)
     {
@@ -30,12 +36,14 @@ public class AdminUserController : Controller
         return View(result);
     }
 
+    // Открывает форму создания пользователя.
     [HttpGet]
     public IActionResult Create()
     {
         return View(new CreateUserVM());
     }
 
+    // Сохраняет нового пользователя.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CreateUserVM model)
@@ -56,6 +64,7 @@ public class AdminUserController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    // Открывает форму редактирования пользователя.
     [HttpGet]
     public async Task<IActionResult> Edit(Guid id)
     {
@@ -67,6 +76,7 @@ public class AdminUserController : Controller
         return View(user);
     }
 
+    // Сохраняет изменения пользователя.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid id, UpdateUserVM model)
@@ -82,6 +92,7 @@ public class AdminUserController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    // Показывает страницу удаления пользователя.
     [HttpGet]
     public async Task<IActionResult> Delete(Guid id)
     {
@@ -93,6 +104,7 @@ public class AdminUserController : Controller
         return View(user);
     }
 
+    // Удаляет пользователя после подтверждения.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)

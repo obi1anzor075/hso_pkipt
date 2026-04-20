@@ -1,4 +1,4 @@
-﻿using HsoPkipt.Identity;
+using HsoPkipt.Identity;
 using HsoPkipt.Services.Interfaces;
 using HsoPkipt.ViewModels.News;
 using Microsoft.AspNetCore.Authorization;
@@ -6,16 +6,20 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HsoPkipt.Controllers.Admin;
 
+// Контроллер для управления новостями в админке.
 [Authorize(Roles = Roles.Admin + "," + Roles.Moderator)]
 public class AdminNewsController : Controller
 {
+    // Сервис новостей.
     private readonly INewsService _newsService;
 
+    // Получаем сервис через конструктор.
     public AdminNewsController(INewsService newsService)
     {
         _newsService = newsService;
     }
 
+    // Показывает список новостей.
     [HttpGet]
     public async Task<IActionResult> Index(int page = 1)
     {
@@ -26,12 +30,14 @@ public class AdminNewsController : Controller
         return View(result);
     }
 
+    // Открывает форму создания новости.
     [HttpGet]
     public IActionResult Create()
     {
         return View(new CreateNewsItemVM());
     }
 
+    // Сохраняет новую новость.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CreateNewsItemVM model)
@@ -44,6 +50,7 @@ public class AdminNewsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    // Открывает форму редактирования новости.
     [HttpGet]
     public async Task<IActionResult> Edit(Guid id)
     {
@@ -51,6 +58,7 @@ public class AdminNewsController : Controller
 
         if (news == null)
             return NotFound();
+
         var model = new UpdateNewsItemVM
         {
             Title = news.Title,
@@ -63,6 +71,7 @@ public class AdminNewsController : Controller
         return View(model);
     }
 
+    // Сохраняет изменения новости.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid id, UpdateNewsItemVM model)
@@ -78,6 +87,7 @@ public class AdminNewsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    // Показывает страницу удаления новости.
     [HttpGet]
     public async Task<IActionResult> Delete(Guid id)
     {
@@ -89,6 +99,7 @@ public class AdminNewsController : Controller
         return View(news);
     }
 
+    // Удаляет новость после подтверждения.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)

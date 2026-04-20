@@ -6,21 +6,26 @@ using HsoPkipt.ViewModels.Merch;
 
 namespace HsoPkipt.Services;
 
+// Сервис готовит товары мерча для каталога и админки.
 public class MerchService : IMerchService
 {
+    // Репозиторий товаров.
     private readonly IMerchRepository _repository;
 
+    // Получаем репозиторий через конструктор.
     public MerchService(IMerchRepository repository)
     {
         _repository = repository;
     }
 
+    // Возвращает все товары каталога.
     public async Task<List<MerchItemVM>> GetAllAsync()
     {
         var items = await _repository.GetAllAsync();
         return items.Select(ToViewModel).ToList();
     }
 
+    // Возвращает товары одной категории.
     public async Task<List<MerchItemVM>> GetByCategoryAsync(Guid tagId)
     {
         var items = await _repository.GetByTagIdAsync(tagId);
@@ -28,10 +33,14 @@ public class MerchService : IMerchService
         return items.Select(ToViewModel).ToList();
     }
 
+    // Собирает одну страницу товаров для админки.
     public async Task<PagedResult<MerchItemVM>> GetPageAsync(int pageNumber, int pageSize)
     {
-        if (pageNumber < 1) pageNumber = 1;
-        if (pageSize < 1) pageSize = 10;
+        if (pageNumber < 1)
+            pageNumber = 1;
+
+        if (pageSize < 1)
+            pageSize = 10;
 
         var items = await _repository.GetAllAsync();
         var count = items.Count;
@@ -46,6 +55,7 @@ public class MerchService : IMerchService
         return new PagedResult<MerchItemVM>(pageItems, count, pageNumber, pageSize);
     }
 
+    // Ищет один товар по id.
     public async Task<MerchItemVM?> GetByIdAsync(Guid id)
     {
         var item = await _repository.GetByIdAsync(id);
@@ -53,6 +63,7 @@ public class MerchService : IMerchService
         return item is null ? null : ToViewModel(item);
     }
 
+    // Готовит модель для формы редактирования товара.
     public async Task<UpdateMerchItemVM?> GetForUpdateAsync(Guid id)
     {
         var item = await _repository.GetByIdAsync(id);
@@ -70,6 +81,7 @@ public class MerchService : IMerchService
         };
     }
 
+    // Создаёт новый товар.
     public async Task CreateAsync(CreateMerchItemVM vm)
     {
         var item = new MerchItem(vm.Name, vm.Price, vm.TagId);
@@ -79,6 +91,7 @@ public class MerchService : IMerchService
         await _repository.CreateAsync(item);
     }
 
+    // Обновляет существующий товар.
     public async Task<bool> UpdateAsync(Guid id, UpdateMerchItemVM vm)
     {
         var item = await _repository.GetByIdAsync(id);
@@ -92,6 +105,7 @@ public class MerchService : IMerchService
         return true;
     }
 
+    // Удаляет товар.
     public async Task<bool> DeleteAsync(Guid id)
     {
         var item = await _repository.GetByIdAsync(id);
@@ -103,6 +117,7 @@ public class MerchService : IMerchService
         return true;
     }
 
+    // Ищет товары по строке поиска.
     public async Task<List<MerchItemVM>> SearchAsync(string query)
     {
         var items = await _repository.SearchAsync(query);
@@ -110,6 +125,7 @@ public class MerchService : IMerchService
         return items.Select(ToViewModel).ToList();
     }
 
+    // Переводит сущность товара в view model.
     private static MerchItemVM ToViewModel(MerchItem item)
     {
         return new MerchItemVM

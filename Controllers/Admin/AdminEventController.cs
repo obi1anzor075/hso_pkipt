@@ -1,5 +1,4 @@
-﻿using HsoPkipt.Identity;
-using HsoPkipt.Services;
+using HsoPkipt.Identity;
 using HsoPkipt.Services.Interfaces;
 using HsoPkipt.ViewModels.Events;
 using Microsoft.AspNetCore.Authorization;
@@ -7,16 +6,20 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HsoPkipt.Controllers.Admin;
 
+// Этот контроллер нужен для работы с событиями в админке.
 [Authorize(Roles = Roles.Admin + "," + Roles.Moderator)]
 public class AdminEventController : Controller
 {
+    // Сервис событий.
     private readonly IEventService _eventService;
 
+    // Получаем сервис через конструктор.
     public AdminEventController(IEventService eventService)
     {
         _eventService = eventService;
     }
 
+    // Показывает страницу со списком событий.
     [HttpGet]
     public async Task<IActionResult> Index(int page = 1)
     {
@@ -27,13 +30,14 @@ public class AdminEventController : Controller
         return View(result);
     }
 
-    // Создание
+    // Открывает форму создания события.
     [HttpGet]
     public IActionResult Create()
     {
         return View();
     }
 
+    // Сохраняет новое событие.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(EventCreateVM vm)
@@ -46,7 +50,7 @@ public class AdminEventController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    // Редактирование
+    // Открывает форму редактирования.
     [HttpGet]
     public async Task<IActionResult> Edit(Guid id)
     {
@@ -67,6 +71,7 @@ public class AdminEventController : Controller
         return View(editVm);
     }
 
+    // Сохраняет изменения события.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(EventEditVM vm)
@@ -79,11 +84,11 @@ public class AdminEventController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    // удаление
+    // Показывает страницу подтверждения удаления.
     [HttpGet]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var eventVm= await _eventService.GetByIdAsync(id);
+        var eventVm = await _eventService.GetByIdAsync(id);
 
         if (eventVm == null)
             return NotFound();
@@ -91,6 +96,7 @@ public class AdminEventController : Controller
         return View(eventVm);
     }
 
+    // Удаляет событие после подтверждения.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)

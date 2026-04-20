@@ -1,4 +1,4 @@
-﻿using HsoPkipt.Common;
+using HsoPkipt.Common;
 using HsoPkipt.Models;
 using HsoPkipt.Repositories.Interfaces;
 using HsoPkipt.Services.Interfaces;
@@ -6,15 +6,19 @@ using HsoPkipt.ViewModels.Project;
 
 namespace HsoPkipt.Services;
 
+// Сервис готовит проекты для сайта и админки.
 public class ProjectService : IProjectService
 {
+    // Репозиторий проектов.
     private readonly IProjectRepository _projectRepository;
 
+    // Получаем репозиторий через конструктор.
     public ProjectService(IProjectRepository projectRepository)
     {
         _projectRepository = projectRepository;
     }
 
+    // Возвращает последние проекты для главной страницы.
     public async Task<IReadOnlyList<ProjectItemVM>> GetLatestAsync(int count = 5)
     {
         var latestProjects = await _projectRepository.GetLatestAsync(count);
@@ -33,10 +37,14 @@ public class ProjectService : IProjectService
         }).ToList();
     }
 
+    // Собирает одну страницу проектов.
     public async Task<PagedResult<ProjectItemVM>> GetProjectPageAsync(int pageNumber, int pageSize)
     {
-        if (pageNumber < 1) pageNumber = 1;
-        if (pageSize < 1) pageSize = 10;
+        if (pageNumber < 1)
+            pageNumber = 1;
+
+        if (pageSize < 1)
+            pageSize = 10;
 
         var (items, count) = await _projectRepository.GetPagedAsync(pageNumber, pageSize);
 
@@ -53,6 +61,7 @@ public class ProjectService : IProjectService
         return new PagedResult<ProjectItemVM>(itemsVm, count, pageNumber, pageSize);
     }
 
+    // Ищет один проект по id.
     public async Task<ProjectDetailsVM?> GetByIdAsync(Guid id)
     {
         var project = await _projectRepository.GetByIdAsync(id);
@@ -72,6 +81,7 @@ public class ProjectService : IProjectService
         };
     }
 
+    // Готовит проект для формы редактирования.
     public async Task<UpdateProjectVM?> GetForUpdateAsync(Guid id)
     {
         var project = await _projectRepository.GetByIdAsync(id);
@@ -89,6 +99,7 @@ public class ProjectService : IProjectService
         };
     }
 
+    // Создаёт новый проект.
     public async Task<Guid> CreateAsync(CreateProjectVM model)
     {
         if (model is null)
@@ -98,14 +109,14 @@ public class ProjectService : IProjectService
             model.Title,
             model.ShortDescription ?? string.Empty,
             model.Content,
-            model.ImageUrl
-        );
+            model.ImageUrl);
 
         await _projectRepository.CreateAsync(project);
 
         return project.Id;
     }
 
+    // Обновляет существующий проект.
     public async Task<bool> UpdateAsync(Guid id, UpdateProjectVM model)
     {
         if (model is null)
@@ -121,8 +132,7 @@ public class ProjectService : IProjectService
             model.ShortDescription ?? string.Empty,
             model.Content,
             model.ImageUrl,
-            model.IsPublished
-        );
+            model.IsPublished);
 
         project.SetPublish(model.IsPublished);
 
@@ -131,6 +141,7 @@ public class ProjectService : IProjectService
         return true;
     }
 
+    // Удаляет проект.
     public async Task<bool> DeleteAsync(Guid id)
     {
         var project = await _projectRepository.GetByIdAsync(id);
@@ -143,6 +154,7 @@ public class ProjectService : IProjectService
         return true;
     }
 
+    // Возвращает только число проектов.
     public async Task<int> CountAsync()
     {
         return await _projectRepository.CountAsync();
